@@ -63,6 +63,7 @@ object StepsBuildForm: TStepsBuildForm
           Size.PlatformDefault = False
           TabOrder = 2
           Text = 'Load...'
+          OnClick = Button6Click
         end
         object Button7: TButton
           Align = Left
@@ -73,6 +74,7 @@ object StepsBuildForm: TStepsBuildForm
           Size.PlatformDefault = False
           TabOrder = 1
           Text = 'Save...'
+          OnClick = Button7Click
         end
         object Button8: TButton
           Align = Left
@@ -588,5 +590,17 @@ object StepsBuildForm: TStepsBuildForm
     Destination = <>
     Left = 824
     Top = 8
+  end
+  object SaveDialog1: TSaveDialog
+    DefaultExt = 'krdn'
+    Filter = 'Karate Dance Projects (*.krdn)|*.krdn'
+    Left = 672
+    Top = 64
+  end
+  object OpenDialog2: TOpenDialog
+    DefaultExt = 'krdn'
+    Filter = 'Karate Dance Projects (*.krdn)|*.krdn'
+    Left = 592
+    Top = 64
   end
 end
