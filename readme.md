@@ -48,10 +48,11 @@ The key points in a frame are tracked.  These are the outside edges of the frame
 
 Once you have frames, you can create animation steps on the Steps tab.  Add frames and play the sequence with a variety of options.
 
+You can save your changes on the Project tab or load a previous session.
+
 
 ## Future Development
 
-- StepsBuilder will load and save project files.
 - First pass animation builder will load animation projects and allow construction of final animation sequences.
 - Animation builder will build C64 launchable programs.
 - Animation builder will audition tune with animation.
