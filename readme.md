@@ -29,6 +29,8 @@ This tool can convert the optimised charsets output by Antonio's tool into fully
 
 You can also convert frame files into a "normalised" charset utilisation in order to reverse the optimisation on the frames.  The StepsBuilder app expects frames to be "normalised".
 
+The files supplied by Antonio are in the _data/org_ folder.
+
 
 ## StepsBuilder
 
@@ -40,7 +42,7 @@ On the Frames tab, you can duplicate frames and edit them to form an animation s
 
 Editing only has a simple pencil tool but there is full undo support.  You can also use an eraser to revert the selected cells to those in the background frame by using the right button.  Select the colour to draw from the toolbar.
 
-There is an example set of frames, as supplied by Antonio, in the _data_ folder which can be imported.
+There is an example set of frames which can be imported from the _data_ folder.  They were converted as required from those supplied by Antonio.
 
 The key points in a frame are tracked.  These are the outside edges of the frame's non-blank content and the mid point of this area.  These points are used to "link" animation sequences.
 
