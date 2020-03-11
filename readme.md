@@ -34,15 +34,19 @@ The files supplied by Antonio are in the _data/org_ folder.
 
 ## StepsBuilder
 
-With this tool, you can create animation frames and logical, repeatable sequences called steps.  The final animation app will allow you to link sequences of these steps or individual frames to form an animation.
+_**Note:**  Previously, the StepsBuilder created files called "projects" but now these files are known as "libraries"._
 
-You start with an empty project.  The blank frame is currently fixed to being the one used for the Karateka dance.  
+With this tool, you can create animation frames and logical, repeatable sequences called steps.  These frames and steps are saved together to form an animation "library".  The final animation app will allow you to link sequences of these steps or individual frames from a library to form an animation proper.
 
-On the Frames tab, you can duplicate frames and edit them to form an animation sequence or you can import existing frames from a file.  You can't edit frames that are being used in animation steps.
+You start with an empty library.  The blank frame is currently fixed to being the one used for the Karateka dance.  
 
-Editing only has a simple pencil tool but there is full undo support.  You can also use an eraser to revert the selected cells to those in the background frame by using the right button.  Select the colour to draw from the toolbar.
+On the Frames tab, you can duplicate frames and edit them to form an animation sequence or you can import existing frames from a file.  
 
-There is an example set of frames which can be imported from the _data_ folder.  They were converted as required from those supplied by Antonio.
+You can import frames from a set of screen snapshots or from suitable graphical images.  These graphic images must have four (4) colours or less and be of the correct size/proportion.
+
+Editing only has a simple pencil tool but there is full undo support.  You can also use an eraser to revert the selected cells to those in the background frame by using the right button.  Select the colour to draw from the toolbar.  You can't edit frames that are being used in animation steps.
+
+There is an example set of frame screens which can be imported from the _data_ folder.  They were converted as required from those supplied by Antonio.
 
 The key points in a frame are tracked.  These are the outside edges of the frame's non-blank content and the mid point of this area.  These points are used to "link" animation sequences.
 

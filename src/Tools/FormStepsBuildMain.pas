@@ -69,8 +69,11 @@ type
 		Button7: TButton;
 		Button8: TButton;
 		Button9: TButton;
-    SaveDialog1: TSaveDialog;
-    OpenDialog2: TOpenDialog;
+		SaveDialog1: TSaveDialog;
+		OpenDialog2: TOpenDialog;
+		Button10: TButton;
+    SaveDialog2: TSaveDialog;
+    Button11: TButton;
 		procedure Button2Click(Sender: TObject);
 		procedure ListBox1Change(Sender: TObject);
 		procedure FormCreate(Sender: TObject);
@@ -90,6 +93,8 @@ type
 		procedure Button4Click(Sender: TObject);
 		procedure Button7Click(Sender: TObject);
 		procedure Button6Click(Sender: TObject);
+		procedure Button10Click(Sender: TObject);
+    	procedure Button11Click(Sender: TObject);
 	private
 		FBkGrnd: TC64Screen;
 
@@ -106,11 +111,6 @@ type
 				const AListItem: Integer = -1);
 
 		procedure DoProjectNew(const ADefFrame: Boolean);
-
-		function  DoImageListAdd(AImgList: TImageList;
-				ABitmap: TBitmap): Integer;
-		procedure DoImageListReplace(AImgList: TImageList;
-				AIndex: Integer; ABitmap: TBitmap);
 
 		procedure DoCalcFrameExtents(AFrame: Integer);
 
@@ -129,12 +129,72 @@ implementation
 {$R *.fmx}
 
 uses
-	System.IOUtils, FMX.MultiResBitmap, FormStepsBuildStep, FormStepsBuildScreen;
+	System.IOUtils, KrDnceGraphTypes, FMX.MultiResBitmap, FormStepsBuildStep,
+	FormStepsBuildScreen, FormStepsBuildImages;
 
 const
 	VAL_SIZ_FRAMEMS: array[0..12] of Cardinal = (
 			1500, 1000, 750, 667, 500, 333, 250, 200, 150, 125, 100, 50, 25);
 
+
+procedure TStepsBuildForm.Button10Click(Sender: TObject);
+	var
+	i: Integer;
+	s: TC64Screen;
+	b2: TBitmap;
+
+	begin
+	if  StepsBuildImagesForm.ShowAddImages = mrOk then
+		begin
+		ListBox1.BeginUpdate;
+		b2:= TBitmap.Create;
+		try
+			b2.Width:= 320;
+			b2.Height:= 200;
+
+			for i:= 0 to StepsBuildImagesForm.ImageCount - 1 do
+				try
+					StepsBuildImagesForm.ImageToScreen(i, s);
+
+					SetLength(C64Frames, Length(C64Frames) + 1);
+
+					Move(s[0], C64Frames[High(C64Frames)].Screen[0], 1000);
+					DoUpdateFrame(High(C64Frames), b2);
+
+					ImageListAdd(ImageList1, b2.CreateThumbnail(32, 32));
+
+					except;
+					end;
+
+			finally
+			b2.Free;
+			ListBox1.EndUpdate;
+			end;
+		end;
+	end;
+
+procedure TStepsBuildForm.Button11Click(Sender: TObject);
+	var
+	b: TBitmap;
+
+	begin
+	if  Assigned(ListBox1.Selected) then
+		if  SaveDialog2.Execute then
+			begin
+			b:= TBitmap.Create;
+			try
+				b.Width:= 320;
+				b.Height:= 200;
+
+				C64ScreenPaint(C64Frames[ListBox1.Selected.Tag].Screen, b);
+
+				b.SaveToFile(SaveDialog2.FileName);
+
+				finally
+				b.Free;
+				end;
+			end;
+	end;
 
 procedure TStepsBuildForm.Button1Click(Sender: TObject);
 	var
@@ -194,7 +254,7 @@ procedure TStepsBuildForm.Button2Click(Sender: TObject);
 
 						DoUpdateFrame(i, b2);
 
-						DoImageListAdd(ImageList1, b2.CreateThumbnail(32, 32));
+						ImageListAdd(ImageList1, b2.CreateThumbnail(32, 32));
 						end;
 
 					finally
@@ -242,7 +302,7 @@ procedure TStepsBuildForm.Button4Click(Sender: TObject);
 
 			DoUpdateFrame(High(C64Frames), b2);
 
-			DoImageListAdd(ImageList1, b2.CreateThumbnail(32, 32));
+			ImageListAdd(ImageList1, b2.CreateThumbnail(32, 32));
 
 			finally
 			b2.Free;
@@ -269,7 +329,7 @@ procedure TStepsBuildForm.Button5Click(Sender: TObject);
 
 			DoUpdateFrame(ListBox1.Selected.Tag, b2, ListBox1.Selected.Tag);
 
-			DoImageListReplace(ImageList1, ListBox1.Selected.Tag,
+			ImageListReplace(ImageList1, ListBox1.Selected.Tag,
 					b2.CreateThumbnail(32, 32));
 
 			finally
@@ -305,7 +365,7 @@ procedure TStepsBuildForm.Button6Click(Sender: TObject);
 				begin
 				DoUpdateFrame(i, b2);
 
-				DoImageListAdd(ImageList1, b2.CreateThumbnail(32, 32));
+				ImageListAdd(ImageList1, b2.CreateThumbnail(32, 32));
 				end;
 
 			finally
@@ -431,7 +491,7 @@ procedure TStepsBuildForm.DoDisplayMove(AMove: Integer);
 
 		for i:= 0 to C64Steps[AMove].Count - 1 do
 			begin
-			DoImageListAdd(ImageList2,
+			ImageListAdd(ImageList2,
 					C64Steps[AMove].Items[i].View.CreateThumbnail(32, 32));
 
 			l:= TListBoxItem.Create(ListBox3);
@@ -493,83 +553,6 @@ procedure TStepsBuildForm.DoDrawC64MultiChar(ABitmap: TBitmap; AX, AY: Integer;
 		end;
 	end;
 
-function TStepsBuildForm.DoImageListAdd(AImgList: TImageList;
-		ABitmap: TBitmap): Integer;
-	const
-	SCALE = 1;
-
-	var
-	vSource: TCustomSourceItem;
-	vBitmapItem: TCustomBitmapItem;
-	vDest: TCustomDestinationItem;
-	vLayer: TLayer;
-
-	begin
-	Result := -1;
-	if (ABitmap.Width = 0)
-	or (ABitmap.Height = 0) then
-		Exit;
-
-//	add source bitmap
-	vSource:= AImgList.Source.Add;
-	vSource.MultiResBitmap.TransparentColor:= TColorRec.Fuchsia;
-	vSource.MultiResBitmap.SizeKind:= TSizeKind.Source;
-	vSource.MultiResBitmap.Width:= Round(aBitmap.Width / SCALE);
-	vSource.MultiResBitmap.Height:= Round(aBitmap.Height / SCALE);
-
-	vBitmapItem := vSource.MultiResBitmap.ItemByScale(SCALE, True, True);
-
-	if vBitmapItem = nil then
-		begin
-		vBitmapItem:= vSource.MultiResBitmap.Add;
-		vBitmapItem.Scale:= Scale;
-		end;
-
-	vBitmapItem.Bitmap.Assign(ABitmap);
-
-	vDest:= AImgList.Destination.Add;
-	vLayer:= vDest.Layers.Add;
-	vLayer.SourceRect.Rect:= TRectF.Create(TPoint.Zero, vSource.MultiResBitmap.Width,
-			vSource.MultiResBitmap.Height);
-	vLayer.Name:= vSource.Name;
-	Result:= vDest.Index;
-	end;
-
-procedure TStepsBuildForm.DoImageListReplace(AImgList: TImageList;
-		AIndex: Integer; ABitmap: TBitmap);
-	const
-	SCALE = 1;
-
-	var
-	vSource: TCustomSourceItem;
-	vBitmapItem: TCustomBitmapItem;
-	vDest: TCustomDestinationItem;
-	vLayer: TLayer;
-
-	begin
-	if (ABitmap.Width = 0)
-	or (ABitmap.Height = 0) then
-		Exit;
-
-//	replace source bitmap
-	vSource:= AImgList.Source.Items[AIndex];
-	vBitmapItem := vSource.MultiResBitmap.ItemByScale(SCALE, True, True);
-
-	if vBitmapItem = nil then
-		begin
-		vBitmapItem:= vSource.MultiResBitmap.Add;
-		vBitmapItem.Scale:= Scale;
-		end;
-
-	vBitmapItem.Bitmap.Assign(ABitmap);
-
-	vDest:= AImgList.Destination.Items[AIndex];
-	vLayer:= vDest.Layers.Items[0];
-	vLayer.SourceRect.Rect:= TRectF.Create(TPoint.Zero, vSource.MultiResBitmap.Width,
-			vSource.MultiResBitmap.Height);
-	vLayer.Name:= vSource.Name;
-	end;
-
 procedure TStepsBuildForm.DoProjectNew(const ADefFrame: Boolean);
 	var
 	b2: TBitmap;
@@ -594,7 +577,7 @@ procedure TStepsBuildForm.DoProjectNew(const ADefFrame: Boolean);
 			SetLength(C64Frames, 1);
 
 			DoUpdateFrame(0, b2);
-			DoImageListAdd(ImageList1, b2.CreateThumbnail(32, 32));
+			ImageListAdd(ImageList1, b2.CreateThumbnail(32, 32));
 			end;
 
 		finally
