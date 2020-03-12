@@ -72,8 +72,26 @@ type
 		SaveDialog1: TSaveDialog;
 		OpenDialog2: TOpenDialog;
 		Button10: TButton;
-    SaveDialog2: TSaveDialog;
-    Button11: TButton;
+		SaveDialog2: TSaveDialog;
+		Button11: TButton;
+		Label16: TLabel;
+		Label17: TLabel;
+		ComboBox1: TComboBox;
+		Button12: TButton;
+		Label18: TLabel;
+		Button13: TButton;
+		Button14: TButton;
+		Image3: TImage;
+		Label19: TLabel;
+		Label20: TLabel;
+		Label21: TLabel;
+		Label22: TLabel;
+		Label23: TLabel;
+		ComboBox2: TComboBox;
+		ComboBox3: TComboBox;
+		ComboBox4: TComboBox;
+		ComboBox5: TComboBox;
+		OpenDialog3: TOpenDialog;
 		procedure Button2Click(Sender: TObject);
 		procedure ListBox1Change(Sender: TObject);
 		procedure FormCreate(Sender: TObject);
@@ -94,8 +112,14 @@ type
 		procedure Button7Click(Sender: TObject);
 		procedure Button6Click(Sender: TObject);
 		procedure Button10Click(Sender: TObject);
-    	procedure Button11Click(Sender: TObject);
+		procedure Button11Click(Sender: TObject);
+		procedure FormDestroy(Sender: TObject);
+		procedure ComboBox2Change(Sender: TObject);
+		procedure Button12Click(Sender: TObject);
+		procedure Button13Click(Sender: TObject);
+		procedure Button14Click(Sender: TObject);
 	private
+		FLoading: Boolean;
 		FBkGrnd: TC64Screen;
 
 		FSelectedStep: Integer;
@@ -110,12 +134,16 @@ type
 		procedure DoUpdateFrame(AFrame: Integer; ABitmap: TBitmap;
 				const AListItem: Integer = -1);
 
-		procedure DoProjectNew(const ADefFrame: Boolean);
+		procedure DoRebuildCharset;
+		procedure DoGenerateBkgdFrame(const AIndex: Integer);
+		procedure DoRebuildBackgroundFrame;
+
+		procedure DoLibraryNew(const ADefFrame: Boolean);
 
 		procedure DoCalcFrameExtents(AFrame: Integer);
 
 		procedure DoDisplayFrame(AFrame: Integer);
-		procedure DoDisplayMove(AMove: Integer);
+		procedure DoDisplayStep(AStep: Integer);
 
 	public
 
@@ -141,6 +169,7 @@ procedure TStepsBuildForm.Button10Click(Sender: TObject);
 	var
 	i: Integer;
 	s: TC64Screen;
+	b1,
 	b2: TBitmap;
 
 	begin
@@ -161,7 +190,9 @@ procedure TStepsBuildForm.Button10Click(Sender: TObject);
 					Move(s[0], C64Frames[High(C64Frames)].Screen[0], 1000);
 					DoUpdateFrame(High(C64Frames), b2);
 
-					ImageListAdd(ImageList1, b2.CreateThumbnail(32, 32));
+					b1:= b2.CreateThumbnail(32, 32);
+					ImageListAdd(ImageList1, b1);
+					b1.Free;
 
 					except;
 					end;
@@ -196,6 +227,62 @@ procedure TStepsBuildForm.Button11Click(Sender: TObject);
 			end;
 	end;
 
+procedure TStepsBuildForm.Button12Click(Sender: TObject);
+	begin
+	DoGenerateBkgdFrame(ComboBox1.ItemIndex);
+	DoRebuildBackgroundFrame;
+	end;
+
+procedure TStepsBuildForm.Button13Click(Sender: TObject);
+	var
+	f: TMemoryStream;
+
+	begin
+	if  OpenDialog1.Execute then
+		begin
+		f:= TMemoryStream.Create;
+		try
+			f.LoadFromFile(OpenDialog1.FileName);
+
+			if  (f.Size mod 1000) <> 0 then
+				ShowMessage('Invalid Frames File!')
+			else
+				begin
+				Move(PByte(f.Memory)[0], FBkGrnd[0], SizeOf(TC64Screen));
+				DoRebuildBackgroundFrame;
+				end;
+
+			finally
+			f.Free;
+			end;
+		end;
+	end;
+
+procedure TStepsBuildForm.Button14Click(Sender: TObject);
+	var
+	b: TBitmap;
+
+	begin
+	if  OpenDialog3.Execute then
+		begin
+		b:= TBitmap.CreateFromFile(OpenDialog3.FileName);
+		try
+			StepsBuildImagesForm.Clear;
+			StepsBuildImagesForm.AddImage(TPath.GetFileName(OpenDialog3.FileName),
+					b);
+
+			finally
+			b.Free;
+			end;
+
+		if  StepsBuildImagesForm.ShowAddImages(True) = mrOk then
+			begin
+			StepsBuildImagesForm.ImageToScreen(0, FBkGrnd);
+			DoRebuildBackgroundFrame;
+			end;
+		end;
+	end;
+
 procedure TStepsBuildForm.Button1Click(Sender: TObject);
 	var
 	l: TListBoxItem;
@@ -221,6 +308,7 @@ procedure TStepsBuildForm.Button2Click(Sender: TObject);
 	f: TMemoryStream;
 	i,
 	s: Integer;
+	b1,
 	b2: TBitmap;
 
 	begin
@@ -254,7 +342,9 @@ procedure TStepsBuildForm.Button2Click(Sender: TObject);
 
 						DoUpdateFrame(i, b2);
 
-						ImageListAdd(ImageList1, b2.CreateThumbnail(32, 32));
+						b1:= b2.CreateThumbnail(32, 32);
+						ImageListAdd(ImageList1, b1);
+						b1.Free;
 						end;
 
 					finally
@@ -276,12 +366,13 @@ procedure TStepsBuildForm.Button3Click(Sender: TObject);
 	if  StepsBuildStepForm.ShowAddFrames(FSelectedStep) = mrOk then
 		begin
 		DoAddStepFrames(FSelectedStep);
-		DoDisplayMove(FSelectedStep);
+		DoDisplayStep(FSelectedStep);
 		end;
 	end;
 
 procedure TStepsBuildForm.Button4Click(Sender: TObject);
 	var
+	b1,
 	b2: TBitmap;
 
 	begin
@@ -302,7 +393,9 @@ procedure TStepsBuildForm.Button4Click(Sender: TObject);
 
 			DoUpdateFrame(High(C64Frames), b2);
 
-			ImageListAdd(ImageList1, b2.CreateThumbnail(32, 32));
+			b1:= b2.CreateThumbnail(32, 32);
+			ImageListAdd(ImageList1, b1);
+			b1.Free;
 
 			finally
 			b2.Free;
@@ -313,6 +406,7 @@ procedure TStepsBuildForm.Button4Click(Sender: TObject);
 
 procedure TStepsBuildForm.Button5Click(Sender: TObject);
 	var
+	b1,
 	b2: TBitmap;
 
 	begin
@@ -329,8 +423,9 @@ procedure TStepsBuildForm.Button5Click(Sender: TObject);
 
 			DoUpdateFrame(ListBox1.Selected.Tag, b2, ListBox1.Selected.Tag);
 
-			ImageListReplace(ImageList1, ListBox1.Selected.Tag,
-					b2.CreateThumbnail(32, 32));
+			b1:= b2.CreateThumbnail(32, 32);
+			ImageListReplace(ImageList1, ListBox1.Selected.Tag, b1);
+			b1.Free;
 
 			finally
 			b2.Free;
@@ -345,14 +440,28 @@ procedure TStepsBuildForm.Button6Click(Sender: TObject);
 	var
 	i,
 	j: Integer;
+	b1,
 	b2: TBitmap;
 	l: TListBoxItem;
 
 	begin
 	if  OpenDialog2.Execute then
 		begin
-		DoProjectNew(False);
-		LoadProject(OpenDialog2.FileName);
+		DoLibraryNew(False);
+
+		FLoading:= True;
+
+		LoadLibrary(OpenDialog2.FileName);
+
+		DoRebuildCharset;
+		Move(C64Frames[0].Screen[0], FBkGrnd[0], SizeOf(TC64Screen));
+
+		Panel2.Enabled:= Length(C64Frames) = 1;
+
+		ComboBox2.ItemIndex:= C64Palette[TC64Colour.Bkgrd0];
+		ComboBox3.ItemIndex:= C64Palette[TC64Colour.Multi1];
+		ComboBox4.ItemIndex:= C64Palette[TC64Colour.Multi2];
+		ComboBox5.ItemIndex:= C64Palette[TC64Colour.Frgrd3];
 
 		ListBox1.BeginUpdate;
 		b2:= TBitmap.Create;
@@ -365,7 +474,16 @@ procedure TStepsBuildForm.Button6Click(Sender: TObject);
 				begin
 				DoUpdateFrame(i, b2);
 
-				ImageListAdd(ImageList1, b2.CreateThumbnail(32, 32));
+				b1:= b2.CreateThumbnail(32, 32);
+				ImageListAdd(ImageList1, b1);
+				b1.Free;
+
+				if  i = 0 then
+					begin
+					Image3.Bitmap.Width:= 320;
+					Image3.Bitmap.Height:= 200;
+					Image3.Bitmap.CopyFromBitmap(b2);
+					end;
 				end;
 
 			finally
@@ -394,18 +512,20 @@ procedure TStepsBuildForm.Button6Click(Sender: TObject);
 			finally
 			ListBox2.Items.EndUpdate;
 			end;
+
+		FLoading:= False;
 		end;
 	end;
 
 procedure TStepsBuildForm.Button7Click(Sender: TObject);
 	begin
 	if  SaveDialog1.Execute then
-		SaveProject(SaveDialog1.FileName);
+		SaveLibrary(SaveDialog1.FileName);
 	end;
 
 procedure TStepsBuildForm.Button8Click(Sender: TObject);
 	begin
-	DoProjectNew(True);
+	DoLibraryNew(True);
 	end;
 
 procedure TStepsBuildForm.Button9Click(Sender: TObject);
@@ -423,7 +543,23 @@ procedure TStepsBuildForm.Button9Click(Sender: TObject);
 
 		c.Free;
 
-		DoDisplayMove(FSelectedStep);
+		DoDisplayStep(FSelectedStep);
+		end;
+	end;
+
+procedure TStepsBuildForm.ComboBox2Change(Sender: TObject);
+	var
+	c: TComboBox;
+
+	begin
+	if  not FLoading then
+		begin
+		c:= TComboBox(Sender);
+
+		C64Palette[TC64Colour(c.Tag)]:= c.ItemIndex;
+
+		DoRebuildCharset;
+		DoRebuildBackgroundFrame;
 		end;
 	end;
 
@@ -449,18 +585,19 @@ procedure TStepsBuildForm.DoDisplayFrame(AFrame: Integer);
 	Button5.Enabled:= (AFrame > 0) and (C64Frames[AFrame].RefCount <= 0);
 	end;
 
-procedure TStepsBuildForm.DoDisplayMove(AMove: Integer);
+procedure TStepsBuildForm.DoDisplayStep(AStep: Integer);
 	var
 	i: Integer;
 	l: TListBoxItem;
+	b1: TBitmap;
 
 	begin
 //	Switch1.IsChecked:= False;
 
-	FSelectedStep:= AMove;
+	FSelectedStep:= AStep;
 	FStpFrmDelta:= 1;
 
-	if  C64Steps[AMove].Count = 0 then
+	if  C64Steps[AStep].Count = 0 then
 		begin
 		FStepFrame:= -1;
 		Switch1.Enabled:= False;
@@ -474,10 +611,10 @@ procedure TStepsBuildForm.DoDisplayMove(AMove: Integer);
 
 		if  (not Switch3.IsChecked)
 		and (Switch2.IsChecked) then
-			Image2.Bitmap.Assign(C64Steps[AMove].Items[
-					C64Steps[AMove].Count - 1].View)
+			Image2.Bitmap.Assign(C64Steps[AStep].Items[
+					C64Steps[AStep].Count - 1].View)
 		else
-			Image2.Bitmap.Assign(C64Steps[AMove].Items[0].View);
+			Image2.Bitmap.Assign(C64Steps[AStep].Items[0].View);
 		end;
 
 	Switch1.IsChecked:= Switch1.IsChecked and Switch1.Enabled;
@@ -489,15 +626,16 @@ procedure TStepsBuildForm.DoDisplayMove(AMove: Integer);
 		ImageList2.Source.Clear;
 		ImageList2.ClearCache;
 
-		for i:= 0 to C64Steps[AMove].Count - 1 do
+		for i:= 0 to C64Steps[AStep].Count - 1 do
 			begin
-			ImageListAdd(ImageList2,
-					C64Steps[AMove].Items[i].View.CreateThumbnail(32, 32));
+			b1:= C64Steps[AStep].Items[i].View.CreateThumbnail(32, 32);
+			ImageListAdd(ImageList2, b1);
+			b1.Free;
 
 			l:= TListBoxItem.Create(ListBox3);
 			l.ImageIndex:= i;
 			l.ItemData.Text:= Format('%d (%3.3d)', [i + 1,
-					C64Steps[AMove].Items[i].Index]);
+					C64Steps[AStep].Items[i].Index]);
 			l.Tag:= i;
 
 			l.Parent:= ListBox3;
@@ -553,14 +691,45 @@ procedure TStepsBuildForm.DoDrawC64MultiChar(ABitmap: TBitmap; AX, AY: Integer;
 		end;
 	end;
 
-procedure TStepsBuildForm.DoProjectNew(const ADefFrame: Boolean);
+procedure TStepsBuildForm.DoGenerateBkgdFrame(const AIndex: Integer);
 	var
+	i,
+	j: Integer;
+
+	begin
+	FillChar(FBkGrnd[0], SizeOf(TC64Screen), 0);
+
+	if  AIndex = 1 then
+		begin
+		for i:= 0 to 39 do
+			FBkGrnd[17 * 40 + i]:= 5;
+
+		for i:= 0 to 6 do
+			for j:= 0 to 39 do
+				FBkGrnd[18 * 40 + i * 40 + j]:= 85;
+		end
+	else if  AIndex = 2 then
+		begin
+		for i:= 0 to 39 do
+			FBkGrnd[17 * 40 + i]:= 10;
+
+		for i:= 0 to 6 do
+			for j:= 0 to 39 do
+				FBkGrnd[18 * 40 + i * 40 + j]:= 170;
+		end;
+	end;
+
+procedure TStepsBuildForm.DoLibraryNew(const ADefFrame: Boolean);
+	var
+	b1,
 	b2: TBitmap;
 	i,
 	j: Integer;
 	c: TC64Cell;
 
 	begin
+	FLoading:= True;
+
 	ImageList1.Source.Clear;
 	ImageList1.Destination.Clear;
 
@@ -572,12 +741,26 @@ procedure TStepsBuildForm.DoProjectNew(const ADefFrame: Boolean);
 		b2.Width:= 320;
 		b2.Height:= 200;
 
+		Image3.Bitmap.Width:= 320;
+		Image3.Bitmap.Height:= 200;
+
 		if  ADefFrame then
 			begin
+			Move(ARR_VAL_CLR_DEFC64PALETTE[0], C64Palette[TC64Colour.Bkgrd0], 4);
+
+			DoRebuildCharset;
+
+			for i:= 0 to High(C64Frames) do
+				C64Frames[i].GridView.Free;
+
 			SetLength(C64Frames, 1);
 
 			DoUpdateFrame(0, b2);
-			ImageListAdd(ImageList1, b2.CreateThumbnail(32, 32));
+			b1:= b2.CreateThumbnail(32, 32);
+			ImageListAdd(ImageList1, b1);
+			b1.Free;
+
+			Image3.Bitmap.CopyFromBitmap(b2);
 			end;
 
 		finally
@@ -605,6 +788,62 @@ procedure TStepsBuildForm.DoProjectNew(const ADefFrame: Boolean);
 		end;
 
 	SetLength(C64Steps, 0);
+
+	ComboBox2.ItemIndex:= C64Palette[TC64Colour.Bkgrd0];
+	ComboBox3.ItemIndex:= C64Palette[TC64Colour.Multi1];
+	ComboBox4.ItemIndex:= C64Palette[TC64Colour.Multi2];
+	ComboBox5.ItemIndex:= C64Palette[TC64Colour.Frgrd3];
+
+	Panel2.Enabled:= Length(C64Frames) = 1;
+
+	FLoading:= False;
+	end;
+
+procedure TStepsBuildForm.DoRebuildBackgroundFrame;
+	var
+	b,
+	b1: TBitmap;
+
+	begin
+	b:= TBitmap.Create;
+	try
+		b.Width:= 320;
+		b.Height:= 200;
+
+		Image3.Bitmap.Width:= 320;
+		Image3.Bitmap.Height:= 200;
+
+		DoUpdateFrame(0, b, 0);
+//		C64ScreenPaint(C64Frames[0].Screen, b);
+
+		Image3.Bitmap.CopyFromBitmap(b);
+
+		b1:= b.CreateThumbnail(32, 32);
+		ImageListReplace(ImageList1, 0, b1);
+		b1.Free;
+
+		finally
+		b.Free;
+		end;
+	end;
+
+procedure TStepsBuildForm.DoRebuildCharset;
+	var
+	i: Integer;
+	c: TC64Colours;
+
+	begin
+	for i:= 0 to 255 do
+		begin
+		if  not Assigned(C64CharViews[i]) then
+			C64CharViews[i]:= TBitmap.Create;
+
+		C64CharViews[i].Width:= 8;
+		C64CharViews[i].Height:= 8;
+
+		IndexToC64Colours(i, c);
+		DoDrawC64MultiChar(C64CharViews[i], 0, 0, c);
+		end;
 	end;
 
 procedure TStepsBuildForm.DoUpdateFrame(AFrame: Integer; ABitmap: TBitmap;
@@ -703,35 +942,40 @@ procedure TStepsBuildForm.DoUpdateStepsViews(AStep: Integer; AStart: Integer);
 	end;
 
 procedure TStepsBuildForm.FormCreate(Sender: TObject);
-	var
-	c: TC64Colours;
-	i,
-	j: Integer;
-
 	begin
 	FSelectedStep:= -1;
 	FStpFrmDelta:= 1;
 
-	for i:= 0 to 255 do
-		begin
-		C64CharViews[i]:= TBitmap.Create;
-		C64CharViews[i].Width:= 8;
-		C64CharViews[i].Height:= 8;
+	DoRebuildCharset;
 
-		IndexToC64Colours(i, c);
-		DoDrawC64MultiChar(C64CharViews[i], 0, 0, c);
+	DoGenerateBkgdFrame(2);
+
+	DoLibraryNew(True);
+	end;
+
+procedure TStepsBuildForm.FormDestroy(Sender: TObject);
+	var
+	i,
+	j: Integer;
+
+	begin
+	for i:= 0 to High(C64Steps) do
+		begin
+		for j:= C64Steps[i].Count - 1 downto 0 do
+			C64Steps[i][j].Free;
+
+		C64Steps[i].Free;
 		end;
 
-	FillChar(FBkGrnd[0], SizeOf(TC64Screen), 0);
+	SetLength(C64Steps, 0);
 
-	for i:= 0 to 39 do
-		FBkGrnd[17 * 40 + i]:= 10;
+	for i:= 0 to High(C64Frames) do
+		C64Frames[i].GridView.Free;
 
-	for i:= 0 to 6 do
-		for j:= 0 to 39 do
-			FBkGrnd[18 * 40 + i * 40 + j]:= 170;
+	SetLength(C64Frames, 0);
 
-	Button8Click(Self);
+	for i:= 0 to 255 do
+		C64CharViews[i].Free;
 	end;
 
 procedure TStepsBuildForm.DoAddStepFrames(AStep: Integer);
@@ -806,8 +1050,11 @@ procedure TStepsBuildForm.DoCalcFrameExtents(AFrame: Integer);
 	x,
 	y: Integer;
 	i: Integer;
+	d: TC64ScreenDiff;
 
 	begin
+	C64ScreenDiff(C64Frames[0].Screen, C64Frames[AFrame].Screen, d);
+
 	C64Frames[AFrame].StartX:= 0;
 	f:= False;
 	for x:= 0 to 39 do
@@ -816,7 +1063,8 @@ procedure TStepsBuildForm.DoCalcFrameExtents(AFrame: Integer);
 			begin
 			i:= y * 40 + x;
 
-			if  not (C64Frames[AFrame].Screen[i] in [0, 10, 170]) then
+//			if  not (C64Frames[AFrame].Screen[i] in [0, 10, 170]) then
+			if  d[i] > -1 then
 				begin
 				C64Frames[AFrame].StartX:= x;
 				f:= True;
@@ -836,7 +1084,8 @@ procedure TStepsBuildForm.DoCalcFrameExtents(AFrame: Integer);
 			begin
 			i:= y * 40 + x;
 
-			if  not (C64Frames[AFrame].Screen[i] in [0, 10, 170]) then
+//			if  not (C64Frames[AFrame].Screen[i] in [0, 10, 170]) then
+			if  d[i] > -1 then
 				begin
 				C64Frames[AFrame].EndX:= x;
 				f:= True;
@@ -862,7 +1111,7 @@ procedure TStepsBuildForm.ListBox1Change(Sender: TObject);
 procedure TStepsBuildForm.ListBox2Change(Sender: TObject);
 	begin
 	if  Assigned(ListBox2.Selected) then
-		DoDisplayMove(ListBox2.Selected.Tag);
+		DoDisplayStep(ListBox2.Selected.Tag);
 	end;
 
 procedure TStepsBuildForm.ListBox3Change(Sender: TObject);
@@ -905,6 +1154,8 @@ procedure TStepsBuildForm.TabControl1Change(Sender: TObject);
 	and Assigned(ListBox1.Selected) then
 		DoDisplayFrame(ListBox1.Selected.Tag);
 
+	if  (TabControl1.ActiveTab = TabItem3) then
+		Panel2.Enabled:= Length(C64Frames) = 1;
 	end;
 
 procedure TStepsBuildForm.Timer1Timer(Sender: TObject);

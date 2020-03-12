@@ -8,6 +8,7 @@ object StepsBuildForm: TStepsBuildForm
   FormFactor.Height = 900
   FormFactor.Devices = [Desktop]
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   DesignerMasterStyle = 0
   object OpenDialog1: TOpenDialog
     Options = [ofPathMustExist, ofFileMustExist, ofEnableSizing]
@@ -20,7 +21,7 @@ object StepsBuildForm: TStepsBuildForm
     Size.Height = 561.000000000000000000
     Size.PlatformDefault = False
     TabHeight = 48.000000000000000000
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 2
     TabPosition = PlatformDefault
     OnChange = TabControl1Change
@@ -35,7 +36,7 @@ object StepsBuildForm: TStepsBuildForm
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      IsSelected = True
       Size.Width = 56.000000000000000000
       Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
@@ -48,6 +49,202 @@ object StepsBuildForm: TStepsBuildForm
         Size.Height = 473.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
+        object Label16: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 8.000000000000000000
+          Text = 'Background Frame'
+          TabOrder = 0
+        end
+        object Label17: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 32.000000000000000000
+          Text = 'Generate:'
+          TabOrder = 1
+        end
+        object ComboBox1: TComboBox
+          Items.Strings = (
+            'Blank'
+            'Floor 1'
+            'Floor 2')
+          ItemIndex = 0
+          Position.X = 144.000000000000000000
+          Position.Y = 32.000000000000000000
+          TabOrder = 2
+        end
+        object Button12: TButton
+          Position.X = 256.000000000000000000
+          Position.Y = 32.000000000000000000
+          TabOrder = 3
+          Text = 'Commit'
+          OnClick = Button12Click
+        end
+        object Label18: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 64.000000000000000000
+          Text = 'Import:'
+          TabOrder = 4
+        end
+        object Button13: TButton
+          Position.X = 144.000000000000000000
+          Position.Y = 64.000000000000000000
+          TabOrder = 5
+          Text = 'Screen...'
+          OnClick = Button13Click
+        end
+        object Button14: TButton
+          Position.X = 256.000000000000000000
+          Position.Y = 64.000000000000000000
+          TabOrder = 6
+          Text = 'Image...'
+          OnClick = Button14Click
+        end
+        object Image3: TImage
+          MultiResBitmap = <
+            item
+            end>
+          Position.X = 560.000000000000000000
+          Position.Y = 8.000000000000000000
+          Size.Width = 320.000000000000000000
+          Size.Height = 200.000000000000000000
+          Size.PlatformDefault = False
+        end
+        object Label19: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 112.000000000000000000
+          Text = 'Palette'
+          TabOrder = 8
+        end
+        object Label20: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 136.000000000000000000
+          Text = 'Background 0:'
+          TabOrder = 9
+        end
+        object Label21: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 168.000000000000000000
+          Text = 'MultiColour 1:'
+          TabOrder = 10
+        end
+        object Label22: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 200.000000000000000000
+          Text = 'MultiColour 2:'
+          TabOrder = 11
+        end
+        object Label23: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 232.000000000000000000
+          Text = 'Foreground 3:'
+          TabOrder = 12
+        end
+        object ComboBox2: TComboBox
+          Items.Strings = (
+            'Black'
+            'White'
+            'Red'
+            'Cyan'
+            'Purple'
+            'Green'
+            'Blue'
+            'Yellow'
+            'Orange'
+            'Brown'
+            'LtRed'
+            'DkGrey'
+            'MdGrey'
+            'LtGreen'
+            'LtBlue'
+            'LtGrey')
+          ItemIndex = 0
+          Position.X = 144.000000000000000000
+          Position.Y = 136.000000000000000000
+          TabOrder = 13
+          OnChange = ComboBox2Change
+        end
+        object ComboBox3: TComboBox
+          Tag = 1
+          Items.Strings = (
+            'Black'
+            'White'
+            'Red'
+            'Cyan'
+            'Purple'
+            'Green'
+            'Blue'
+            'Yellow'
+            'Orange'
+            'Brown'
+            'LtRed'
+            'DkGrey'
+            'MdGrey'
+            'LtGreen'
+            'LtBlue'
+            'LtGrey')
+          ItemIndex = 10
+          Position.X = 144.000000000000000000
+          Position.Y = 168.000000000000000000
+          TabOrder = 14
+          OnChange = ComboBox2Change
+        end
+        object ComboBox4: TComboBox
+          Tag = 2
+          Items.Strings = (
+            'Black'
+            'White'
+            'Red'
+            'Cyan'
+            'Purple'
+            'Green'
+            'Blue'
+            'Yellow'
+            'Orange'
+            'Brown'
+            'LtRed'
+            'DkGrey'
+            'MdGrey'
+            'LtGreen'
+            'LtBlue'
+            'LtGrey')
+          ItemIndex = 6
+          Position.X = 144.000000000000000000
+          Position.Y = 200.000000000000000000
+          TabOrder = 15
+          OnChange = ComboBox2Change
+        end
+        object ComboBox5: TComboBox
+          Tag = 3
+          Items.Strings = (
+            'Black'
+            'White'
+            'Red'
+            'Cyan'
+            'Purple'
+            'Green'
+            'Blue'
+            'Yellow'
+            'Orange'
+            'Brown'
+            'LtRed'
+            'DkGrey'
+            'MdGrey'
+            'LtGreen'
+            'LtBlue'
+            'LtGrey')
+          ItemIndex = 1
+          Position.X = 144.000000000000000000
+          Position.Y = 232.000000000000000000
+          TabOrder = 16
+          OnChange = ComboBox2Change
+        end
+        object OpenDialog3: TOpenDialog
+          DefaultExt = 'png'
+          Filter = 'Image Files (*.png; *.bmp; *.gif)|*.png;*.bmp;*.gif'
+          Options = [ofExtensionDifferent, ofPathMustExist, ofFileMustExist, ofEnableSizing]
+          Title = 'Add Images...'
+          Left = 504
+          Top = 120
+        end
       end
       object ToolBar4: TToolBar
         Size.Width = 885.000000000000000000
@@ -92,7 +289,7 @@ object StepsBuildForm: TStepsBuildForm
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 58.000000000000000000
       Size.Height = 48.000000000000000000
       Size.PlatformDefault = False

@@ -9,6 +9,7 @@ object StepsBuildScreenForm: TStepsBuildScreenForm
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   DesignerMasterStyle = 0
   object Image1: TImage
     MultiResBitmap = <

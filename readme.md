@@ -34,11 +34,13 @@ The files supplied by Antonio are in the _data/org_ folder.
 
 ## StepsBuilder
 
+_**Important:**  There has been a change in the file format used for libraries since the first version.  This notice will be removed at next milestone release and updated if necessary in between.  The change is quite simple and a fix is easy to apply.  Please contact me for further information._
+
 _**Note:**  Previously, the StepsBuilder created files called "projects" but now these files are known as "libraries"._
 
 With this tool, you can create animation frames and logical, repeatable sequences called steps.  These frames and steps are saved together to form an animation "library".  The final animation app will allow you to link sequences of these steps or individual frames from a library to form an animation proper.
 
-You start with an empty library.  The blank frame is currently fixed to being the one used for the Karateka dance.  
+You start with an empty library.  The blank frame and colour palette are defaulted the ones used in the Karateka dance.  You can change the colour palette and blank frame only while the background frame is the only frame in the library.
 
 On the Frames tab, you can duplicate frames and edit them to form an animation sequence or you can import existing frames from a file.  
 

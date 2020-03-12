@@ -147,6 +147,7 @@ type
 		procedure Image1MouseUp(Sender: TObject; Button: TMouseButton;
 				Shift: TShiftState; X, Y: Single);
 		procedure Button2Click(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
 	private
 		FCursorSink: TCursorSink;
 		FCurrTool: TCustomTool;
@@ -277,6 +278,16 @@ procedure TStepsBuildScreenForm.FormCreate(Sender: TObject);
 
 	FCurrTool:= TPencilTool.Create;
 	Image1.AutoCapture:= FCurrTool.AutoCapture;
+	end;
+
+procedure TStepsBuildScreenForm.FormDestroy(Sender: TObject);
+	begin
+	FCursorSink.Free;
+	FScreenSink.Free;
+	FUndoSink.Free;
+
+	if  Assigned(FCurrTool) then
+		FCurrTool.Free;
 	end;
 
 procedure TStepsBuildScreenForm.Image1MouseDown(Sender: TObject;

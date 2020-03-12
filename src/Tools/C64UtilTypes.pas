@@ -1,6 +1,6 @@
 unit C64UtilTypes;
 
-{$DEFINE LITTLE_ENDIAN}
+{$DEFINE DEF_LITTLE_ENDIAN}
 
 interface
 
@@ -12,6 +12,9 @@ const
 	LIT_4CC_KDNCEFRME: AnsiString = 'KDFR';
 	LIT_4CC_KDNCESTEP: AnsiString = 'KDST';
 
+	ARR_VAL_CLR_DEFC64PALETTE: array[0..3] of Byte = (
+			0, 10, 6, 1);
+
 type
 	TC64Char = array[0..7] of Byte;
 
@@ -21,13 +24,34 @@ type
 
 	TCharsetMatches = array[0..255] of Boolean;
 
+	TC64Palette = array[TC64Colour] of Byte;
 
 	TC64FrameClrs = record
 	const
-		Bkgrd0 = TAlphaColorRec.Alpha or TAlphaColor($000000);
-		Multi1 = TAlphaColorRec.Alpha or TAlphaColor($C77F75);
-		Multi2 = TAlphaColorRec.Alpha or TAlphaColor($4335AD);
-		Frgrd3 = TAlphaColorRec.Alpha or TAlphaColor($FFFFFF);
+		Black = TAlphaColorRec.Alpha or TAlphaColor($000000);
+		White =  TAlphaColorRec.Alpha or TAlphaColor($FFFFFF);
+		Red = TAlphaColorRec.Alpha or TAlphaColor($92453A);
+		Cyan = TAlphaColorRec.Alpha or TAlphaColor($7ECBD5);
+		Purple = TAlphaColorRec.Alpha or TAlphaColor($934CB9);
+		Green = TAlphaColorRec.Alpha or TAlphaColor($6FB446);
+		Blue = TAlphaColorRec.Alpha or TAlphaColor($4335AD);
+		Yellow = TAlphaColorRec.Alpha or TAlphaColor($DDE979);
+		Orange = TAlphaColorRec.Alpha or TAlphaColor($9A6628);
+		Brown = TAlphaColorRec.Alpha or TAlphaColor($634D00);
+		LtRed = TAlphaColorRec.Alpha or TAlphaColor($C77F75);
+		DkGrey = TAlphaColorRec.Alpha or TAlphaColor($5C5C5C);
+		MdGrey = TAlphaColorRec.Alpha or TAlphaColor($898989);
+		LtGreen = TAlphaColorRec.Alpha or TAlphaColor($B7F891);
+		LtBlue = TAlphaColorRec.Alpha or TAlphaColor($8478E7);
+		LtGrey = TAlphaColorRec.Alpha or TAlphaColor($B7B7B7);
+
+	public
+		class function  ColourByC64Index(const AIndex: Byte): TAlphaColor; static;
+
+		class function  Bkgrd0: TAlphaColor; static;
+		class function  Multi1: TAlphaColor; static;
+		class function  Multi2: TAlphaColor; static;
+		class function  Frgrd3: TAlphaColor; static;
 	end;
 
 	TC64CharViews = array[0..255] of TBitmap;
@@ -69,10 +93,11 @@ type
 
 	TC64Bytes = array of Byte;
 
-	TKarateDanceProj = packed record
+	TKarateDanceLib = packed record
 		VerHi: Byte;
 		VerLo: Byte;
 		Reserved: Word;
+		Palette: array[0..3] of Byte;
 		Screen: TC64Screen;
 	end;
 
@@ -102,6 +127,7 @@ var
 	C64CharViews: TC64CharViews;
 	C64Frames: TC64Frames;
 	C64Steps: TC64Steps;
+	C64Palette: TC64Palette;
 
 
 function  C64ColorsToIndex(const AColours: TC64Colours): Byte;
@@ -126,14 +152,23 @@ procedure C64ScreenDiffRLEEncode(ADiff: TC64ScreenDiff; out AData: TC64Bytes);
 procedure C64ScreenDiffRLEDecode(ASource: TC64Screen; AData: TC64Bytes;
 		const AOffset: Integer; var AScreen: TC64Screen);
 
-procedure SaveProject(const AFileName: string);
-procedure LoadProject(const AFileName: string);
+procedure SaveLibrary(const AFileName: string);
+procedure LoadLibrary(const AFileName: string);
 
 
 implementation
 
 uses
 	System.Classes, System.SysUtils;
+
+const
+	ARR_VAL_CLR_DEFVICPALETTE: array[0..15] of TAlphaColor = (
+			TC64FrameClrs.Black, TC64FrameClrs.White, TC64FrameClrs.Red,
+			TC64FrameClrs.Cyan, TC64FrameClrs.Purple, TC64FrameClrs.Green,
+			TC64FrameClrs.Blue, TC64FrameClrs.Yellow, TC64FrameClrs.Orange,
+			TC64FrameClrs.Brown, TC64FrameClrs.LtRed, TC64FrameClrs.DkGrey,
+			TC64FrameClrs.MdGrey, TC64FrameClrs.LtGreen, TC64FrameClrs.LtBlue,
+			TC64FrameClrs.LtGrey);
 
 type
 	TNetCardinal = packed record
@@ -167,7 +202,7 @@ type
 
 
 function ToNetworkCardinal(const AValue: Cardinal): Cardinal;
-{$IFDEF LITTLE_ENDIAN}
+{$IFDEF DEF_LITTLE_ENDIAN}
 	var
 	n: TNetCardinal;
 
@@ -185,7 +220,7 @@ function ToNetworkCardinal(const AValue: Cardinal): Cardinal;
 	end;
 
 function ToNetworkWord(const AValue: Word): Word;
-{$IFDEF LITTLE_ENDIAN}
+{$IFDEF DEF_LITTLE_ENDIAN}
 	var
 	n: TNetWord;
 
@@ -201,7 +236,7 @@ function ToNetworkWord(const AValue: Word): Word;
 	end;
 
 function ToNetworkSmallInt(const AValue: SmallInt): SmallInt;
-{$IFDEF LITTLE_ENDIAN}
+{$IFDEF DEF_LITTLE_ENDIAN}
 	var
 	n: TNetSmallInt;
 
@@ -217,7 +252,7 @@ function ToNetworkSmallInt(const AValue: SmallInt): SmallInt;
 	end;
 
 function ToLocalCardinal(const AValue: Cardinal): Cardinal;
-{$IFDEF LITTLE_ENDIAN}
+{$IFDEF DEF_LITTLE_ENDIAN}
 	var
 	n: TNetCardinal;
 
@@ -235,7 +270,7 @@ function ToLocalCardinal(const AValue: Cardinal): Cardinal;
 	end;
 
 function ToLocalWord(const AValue: Word): Word;
-{$IFDEF LITTLE_ENDIAN}
+{$IFDEF DEF_LITTLE_ENDIAN}
 	var
 	n: TNetWord;
 
@@ -251,7 +286,7 @@ function ToLocalWord(const AValue: Word): Word;
 	end;
 
 function ToLocalSmallInt(const AValue: SmallInt): SmallInt;
-{$IFDEF LITTLE_ENDIAN}
+{$IFDEF DEF_LITTLE_ENDIAN}
 	var
 	n: TNetSmallInt;
 
@@ -297,10 +332,10 @@ procedure ReadChunk(AFile: TFileStream; var AChunk: TKarateDanceChnk);
 	end;
 
 
-procedure SaveProject(const AFileName: string);
+procedure SaveLibrary(const AFileName: string);
 	var
 	f: TFileStream;
-	p: TKarateDanceProj;
+	p: TKarateDanceLib;
 	i,
 	j: Integer;
 	r: TKarateDanceFrme;
@@ -316,9 +351,11 @@ procedure SaveProject(const AFileName: string);
 		p.VerLo:= 0;
 		p.Reserved:= 0;
 
+		Move(C64Palette[TC64Colour.Bkgrd0], p.Palette[0], 4);
+
 		Move(C64Frames[0].Screen[0], p.Screen[0], SizeOf(TC64Screen));
 
-		WriteChunk(f, LIT_4CC_KDNCEPROJ, PByte(@p), SizeOf(TKarateDanceProj));
+		WriteChunk(f, LIT_4CC_KDNCEPROJ, PByte(@p), SizeOf(TKarateDanceLib));
 
 		for i:= 1 to High(C64Frames) do
 			begin
@@ -360,14 +397,14 @@ procedure SaveProject(const AFileName: string);
 		end;
 	end;
 
-procedure LoadProject(const AFileName: string);
+procedure LoadLibrary(const AFileName: string);
 	var
 	f: TFileStream;
 	b: Byte;
 	i: Integer;
 	c: TKarateDanceChnk;
 	d: TC64Bytes;
-	p: TKarateDanceProj;
+	p: TKarateDanceLib;
 	r: TKarateDanceFrme;
 	s: TKarateDanceStep;
 	l: TC64Cell;
@@ -377,13 +414,15 @@ procedure LoadProject(const AFileName: string);
 	try
 		ReadChunk(f, c);
 
-		if  (c.Size <> SizeOf(TKarateDanceProj))
+		if  (c.Size <> SizeOf(TKarateDanceLib))
 		or  (CompareText(string(c.Ident), string(LIT_4CC_KDNCEPROJ)) <> 0)  then
 			raise Exception.Create('Invalid Project File!');
 
-		f.ReadBuffer(p, SizeOf(TKarateDanceProj));
+		f.ReadBuffer(p, SizeOf(TKarateDanceLib));
 		if  (c.Size mod 2) > 0 then
 			f.Read(b, 1);
+
+		Move(p.Palette[0], C64Palette[TC64Colour.Bkgrd0], 4);
 
 		SetLength(C64Frames, 1);
 		Move(p.Screen[0], C64Frames[0].Screen[0], SizeOf(TC64Screen));
@@ -663,6 +702,38 @@ destructor TC64Cell.Destroy;
 	inherited;
 	end;
 
+
+
+{ TC64FrameClrs }
+
+class function TC64FrameClrs.Bkgrd0: TAlphaColor;
+	begin
+	Result:= ColourByC64Index(C64Palette[TC64Colour.Bkgrd0]);
+	end;
+
+class function TC64FrameClrs.ColourByC64Index(const AIndex: Byte): TAlphaColor;
+	begin
+	Result:= ARR_VAL_CLR_DEFVICPALETTE[AIndex and $0F];
+	end;
+
+class function TC64FrameClrs.Frgrd3: TAlphaColor;
+	begin
+	Result:= ColourByC64Index(C64Palette[TC64Colour.Frgrd3]);
+	end;
+
+class function TC64FrameClrs.Multi1: TAlphaColor;
+	begin
+	Result:= ColourByC64Index(C64Palette[TC64Colour.Multi1]);;
+	end;
+
+class function TC64FrameClrs.Multi2: TAlphaColor;
+	begin
+	Result:= ColourByC64Index(C64Palette[TC64Colour.Multi2]);;
+	end;
+
+
+initialization
+	Move(ARR_VAL_CLR_DEFC64PALETTE[0], C64Palette[TC64Colour.Bkgrd0], 4);
 
 
 end.

@@ -1,7 +1,7 @@
 object StepsBuildImagesForm: TStepsBuildImagesForm
   Left = 0
   Top = 0
-  Caption = 'Form2'
+  Caption = 'Image Import'
   ClientHeight = 492
   ClientWidth = 683
   Position = MainFormCenter

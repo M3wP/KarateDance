@@ -143,6 +143,7 @@ destructor TImgImport.Destroy;
 procedure TStepsBuildImagesForm.AddImage(const AFileName: string;
 		ABitmap: TBitmap);
 	var
+	b1: TBitmap;
 	l: TListBoxItem;
 	img: TImgImport;
 	i,
@@ -162,7 +163,9 @@ procedure TStepsBuildImagesForm.AddImage(const AFileName: string;
 
 	FImportImgs.Add(img);
 
-	ImageListAdd(ImageList1, ABitmap.CreateThumbnail(32, 32));
+	b1:= ABitmap.CreateThumbnail(32, 32);
+	ImageListAdd(ImageList1, b1);
+	b1.Free;
 
 	l:= TListBoxItem.Create(ListBox1);
 	l.ItemData.Text:= AFileName;
@@ -183,8 +186,10 @@ procedure TStepsBuildImagesForm.AddImage(const AFileName: string;
 	if  Trunc(ABitmap.Height / 50) <> i then
 		Exit;
 
-	img.ImportView:= ABitmap.CreateThumbnail(80, 50);
-	img.MapView.Assign(img.ImportView);
+	b1:= ABitmap.CreateThumbnail(80, 50);
+	img.ImportView.CopyFromBitmap(b1);
+	img.MapView.CopyFromBitmap(b1);
+	b1.Free;
 
 	img.ColourCnt:= 0;
 
@@ -245,9 +250,8 @@ procedure TStepsBuildImagesForm.Button2Click(Sender: TObject);
 		begin
 		for i:= 0 to OpenDialog1.Files.Count - 1 do
 			begin
-			b:= TBitmap.Create;
+			b:= TBitmap.CreateFromFile(OpenDialog1.Files[i]);
 			try
-				b:= TBitmap.CreateFromFile(OpenDialog1.Files[i]);
 
 				AddImage(TPath.GetFileName(OpenDialog1.Files[i]), b);
 
@@ -291,6 +295,8 @@ procedure TStepsBuildImagesForm.Clear;
 	img: TImgImport;
 
 	begin
+	FSelectedImage:= -1;
+
 	ImageList1.Source.Clear;
 	ImageList1.Destination.Clear;
 	ImageList1.ClearCache;
@@ -303,6 +309,9 @@ procedure TStepsBuildImagesForm.Clear;
 		FImportImgs.Delete(i);
 		img.Free;
 		end;
+
+	for i:= 0 to 3 do
+		FCombos[i].ItemIndex:= 0;
 	end;
 
 function TStepsBuildImagesForm.ColourForMap(const AMap: Integer;
@@ -541,7 +550,9 @@ function TStepsBuildImagesForm.ShowAddImages(
 	FFixed:= AFixed;
 
 	if  not FFixed then
-		Clear;
+		Clear
+	else
+		ListBox1.SelectRange(ListBox1.ListItems[0], ListBox1.ListItems[0]);
 
 	Button2.Enabled:= not FFixed;
 
