@@ -1,0 +1,2026 @@
+object StepsLibMainForm: TStepsLibMainForm
+  Left = 0
+  Top = 0
+  Caption = 'C64 Animation Steps Librarian'
+  ClientHeight = 561
+  ClientWidth = 885
+  StyleBook = StyleBook1
+  FormFactor.Width = 1440
+  FormFactor.Height = 900
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  DesignerMasterStyle = 0
+  object OpenDialog1: TOpenDialog
+    Options = [ofPathMustExist, ofFileMustExist, ofEnableSizing]
+    Left = 504
+    Top = 8
+  end
+  object TabControl1: TTabControl
+    Align = Client
+    Images = ImageList3
+    Size.Width = 885.000000000000000000
+    Size.Height = 561.000000000000000000
+    Size.PlatformDefault = False
+    TabHeight = 48.000000000000000000
+    TabIndex = 0
+    TabOrder = 2
+    TabPosition = PlatformDefault
+    OnChange = TabControl1Change
+    Sizes = (
+      885s
+      513s
+      885s
+      513s
+      885s
+      513s)
+    object TabItem3: TTabItem
+      CustomIcon = <
+        item
+          FileName = 
+            'E:\Images\Icons\_Oil Pastels\CRGB_AC_32\Med, Small\Folder Docume' +
+            'nt - 32.png'
+        end>
+      IsSelected = True
+      ImageIndex = 0
+      Size.Width = 88.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'TabItem3Style1'
+      TabOrder = 0
+      Text = 'Library'
+      ExplicitSize.cx = 56.000000000000000000
+      ExplicitSize.cy = 48.000000000000000000
+      object Panel2: TPanel
+        Align = Client
+        Size.Width = 885.000000000000000000
+        Size.Height = 473.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        object Label16: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 8.000000000000000000
+          Text = 'Background Frame'
+          TabOrder = 0
+        end
+        object Label17: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 32.000000000000000000
+          Text = 'Generate:'
+          TabOrder = 1
+        end
+        object ComboBox1: TComboBox
+          Items.Strings = (
+            'Blank'
+            'Floor 1'
+            'Floor 2')
+          ItemIndex = 0
+          Position.X = 144.000000000000000000
+          Position.Y = 32.000000000000000000
+          TabOrder = 2
+        end
+        object Button12: TButton
+          Images = ImageList4
+          ImageIndex = 11
+          Position.X = 256.000000000000000000
+          Position.Y = 32.000000000000000000
+          TabOrder = 3
+          Text = 'Commit'
+          OnClick = Button12Click
+        end
+        object Label18: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 64.000000000000000000
+          Text = 'Import:'
+          TabOrder = 4
+        end
+        object Button13: TButton
+          Images = ImageList4
+          ImageIndex = 3
+          Position.X = 144.000000000000000000
+          Position.Y = 64.000000000000000000
+          TabOrder = 5
+          Text = 'Screen...'
+          OnClick = Button13Click
+        end
+        object Button14: TButton
+          Images = ImageList4
+          ImageIndex = 4
+          Position.X = 256.000000000000000000
+          Position.Y = 64.000000000000000000
+          TabOrder = 6
+          Text = 'Image...'
+          OnClick = Button14Click
+        end
+        object Image3: TImage
+          MultiResBitmap = <
+            item
+            end>
+          Position.X = 560.000000000000000000
+          Position.Y = 8.000000000000000000
+          Size.Width = 320.000000000000000000
+          Size.Height = 200.000000000000000000
+          Size.PlatformDefault = False
+        end
+        object Label19: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 112.000000000000000000
+          Text = 'Palette'
+          TabOrder = 8
+        end
+        object Label20: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 136.000000000000000000
+          Text = 'Background 0:'
+          TabOrder = 9
+        end
+        object Label21: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 168.000000000000000000
+          Text = 'MultiColour 1:'
+          TabOrder = 10
+        end
+        object Label22: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 200.000000000000000000
+          Text = 'MultiColour 2:'
+          TabOrder = 11
+        end
+        object Label23: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 232.000000000000000000
+          Text = 'Foreground 3:'
+          TabOrder = 12
+        end
+        object ComboBox2: TComboBox
+          Items.Strings = (
+            'Black'
+            'White'
+            'Red'
+            'Cyan'
+            'Purple'
+            'Green'
+            'Blue'
+            'Yellow'
+            'Orange'
+            'Brown'
+            'LtRed'
+            'DkGrey'
+            'MdGrey'
+            'LtGreen'
+            'LtBlue'
+            'LtGrey')
+          ItemIndex = 0
+          Position.X = 144.000000000000000000
+          Position.Y = 136.000000000000000000
+          TabOrder = 13
+          OnChange = ComboBox2Change
+        end
+        object ComboBox3: TComboBox
+          Tag = 1
+          Items.Strings = (
+            'Black'
+            'White'
+            'Red'
+            'Cyan'
+            'Purple'
+            'Green'
+            'Blue'
+            'Yellow'
+            'Orange'
+            'Brown'
+            'LtRed'
+            'DkGrey'
+            'MdGrey'
+            'LtGreen'
+            'LtBlue'
+            'LtGrey')
+          ItemIndex = 10
+          Position.X = 144.000000000000000000
+          Position.Y = 168.000000000000000000
+          TabOrder = 14
+          OnChange = ComboBox2Change
+        end
+        object ComboBox4: TComboBox
+          Tag = 2
+          Items.Strings = (
+            'Black'
+            'White'
+            'Red'
+            'Cyan'
+            'Purple'
+            'Green'
+            'Blue'
+            'Yellow'
+            'Orange'
+            'Brown'
+            'LtRed'
+            'DkGrey'
+            'MdGrey'
+            'LtGreen'
+            'LtBlue'
+            'LtGrey')
+          ItemIndex = 6
+          Position.X = 144.000000000000000000
+          Position.Y = 200.000000000000000000
+          TabOrder = 15
+          OnChange = ComboBox2Change
+        end
+        object ComboBox5: TComboBox
+          Tag = 3
+          Items.Strings = (
+            'Black'
+            'White'
+            'Red'
+            'Cyan'
+            'Purple'
+            'Green'
+            'Blue'
+            'Yellow'
+            'Orange'
+            'Brown'
+            'LtRed'
+            'DkGrey'
+            'MdGrey'
+            'LtGreen'
+            'LtBlue'
+            'LtGrey')
+          ItemIndex = 1
+          Position.X = 144.000000000000000000
+          Position.Y = 232.000000000000000000
+          TabOrder = 16
+          OnChange = ComboBox2Change
+        end
+        object OpenDialog3: TOpenDialog
+          DefaultExt = 'png'
+          Filter = 'Image Files (*.png; *.bmp; *.gif)|*.png;*.bmp;*.gif'
+          Options = [ofExtensionDifferent, ofPathMustExist, ofFileMustExist, ofEnableSizing]
+          Title = 'Add Images...'
+          Left = 504
+          Top = 120
+        end
+      end
+      object ToolBar4: TToolBar
+        Size.Width = 885.000000000000000000
+        Size.Height = 40.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        object Button6: TButton
+          Align = Left
+          Images = ImageList4
+          ImageIndex = 1
+          Margins.Right = 5.000000000000000000
+          Position.X = 85.000000000000000000
+          Size.Width = 80.000000000000000000
+          Size.Height = 40.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 2
+          Text = 'Load...'
+          OnClick = Button6Click
+        end
+        object Button7: TButton
+          Align = Left
+          Images = ImageList4
+          ImageIndex = 2
+          Margins.Right = 5.000000000000000000
+          Position.X = 170.000000000000000000
+          Size.Width = 80.000000000000000000
+          Size.Height = 40.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          Text = 'Save...'
+          OnClick = Button7Click
+        end
+        object Button8: TButton
+          Align = Left
+          Images = ImageList4
+          ImageIndex = 0
+          Margins.Right = 5.000000000000000000
+          Size.Width = 80.000000000000000000
+          Size.Height = 40.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          Text = 'New'
+          OnClick = Button8Click
+        end
+      end
+    end
+    object TabItem1: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = False
+      ImageIndex = 1
+      Size.Width = 90.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'TabItem3Style1'
+      TabOrder = 0
+      Text = 'Frames'
+      ExplicitSize.cx = 58.000000000000000000
+      ExplicitSize.cy = 48.000000000000000000
+      object Footer: TToolBar
+        Align = Bottom
+        Position.Y = 465.000000000000000000
+        Size.Width = 885.000000000000000000
+        Size.Height = 48.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = 'bottomtoolbar'
+        TabOrder = 1
+        object Label1: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 16.000000000000000000
+          Text = 'Label1'
+          TabOrder = 0
+        end
+        object Label2: TLabel
+          Position.X = 144.000000000000000000
+          Position.Y = 16.000000000000000000
+          Text = 'Label2'
+          TabOrder = 1
+        end
+        object Label3: TLabel
+          Position.X = 280.000000000000000000
+          Position.Y = 16.000000000000000000
+          Text = 'Label3'
+          TabOrder = 2
+        end
+      end
+      object Image1: TImage
+        MultiResBitmap = <
+          item
+          end>
+        MarginWrapMode = Center
+        Position.Y = 40.000000000000000000
+        Size.Width = 680.000000000000000000
+        Size.Height = 425.000000000000000000
+        Size.PlatformDefault = False
+        WrapMode = Center
+      end
+      object ListBox1: TListBox
+        Align = Right
+        Position.X = 684.000000000000000000
+        Position.Y = 40.000000000000000000
+        Size.Width = 201.000000000000000000
+        Size.Height = 425.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 5
+        DisableFocusEffect = True
+        ItemHeight = 36.000000000000000000
+        Images = ImageList1
+        DefaultItemStyles.ItemStyle = ''
+        DefaultItemStyles.GroupHeaderStyle = ''
+        DefaultItemStyles.GroupFooterStyle = ''
+        OnChange = ListBox1Change
+        Viewport.Width = 201.000000000000000000
+        Viewport.Height = 425.000000000000000000
+      end
+      object Rectangle1: TRectangle
+        Fill.Kind = Gradient
+        Fill.Gradient.Points = <
+          item
+            Color = claGold
+            Offset = 0.633540391921997100
+          end
+          item
+            Color = claNull
+            Offset = 1.000000000000000000
+          end>
+        Fill.Gradient.StartPosition.Y = 0.500000000000000000
+        Fill.Gradient.StopPosition.X = 1.000000000000000000
+        Fill.Gradient.StopPosition.Y = 0.500000000000000000
+        Opacity = 0.500000000000000000
+        Position.X = 144.000000000000000000
+        Position.Y = 40.000000000000000000
+        Size.Width = 16.000000000000000000
+        Size.Height = 433.000000000000000000
+        Size.PlatformDefault = False
+        Stroke.Color = claNull
+        Visible = False
+        object Line1: TLine
+          LineType = Left
+          Size.Width = 9.000000000000000000
+          Size.Height = 425.000000000000000000
+          Size.PlatformDefault = False
+          Stroke.Color = claGold
+          Stroke.Thickness = 2.000000000000000000
+        end
+        object Line4: TLine
+          LineType = Diagonal
+          Position.Y = 424.000000000000000000
+          Size.Width = 9.000000000000000000
+          Size.Height = 9.000000000000000000
+          Size.PlatformDefault = False
+          Stroke.Color = claGold
+          Stroke.Thickness = 2.000000000000000000
+        end
+      end
+      object Rectangle2: TRectangle
+        Fill.Kind = Gradient
+        Fill.Gradient.Points = <
+          item
+            Color = claGold
+            Offset = 0.633540391921997100
+          end
+          item
+            Color = claNull
+            Offset = 1.000000000000000000
+          end>
+        Fill.Gradient.StartPosition.X = 1.000000000000000000
+        Fill.Gradient.StartPosition.Y = 0.499999970197677600
+        Fill.Gradient.StopPosition.Y = 0.500000059604644800
+        Opacity = 0.500000000000000000
+        Position.X = 320.000000000000000000
+        Position.Y = 40.000000000000000000
+        Size.Width = 16.000000000000000000
+        Size.Height = 433.000000000000000000
+        Size.PlatformDefault = False
+        Stroke.Color = claNull
+        Visible = False
+        object Line2: TLine
+          LineType = Right
+          Position.X = 12.000000000000000000
+          Size.Width = 4.000000000000000000
+          Size.Height = 425.000000000000000000
+          Size.PlatformDefault = False
+          Stroke.Color = claGold
+          Stroke.Thickness = 2.000000000000000000
+        end
+        object Line5: TLine
+          LineType = Diagonal
+          Position.X = 7.000000000000000000
+          Position.Y = 424.000000000000000000
+          RotationAngle = 90.000000000000000000
+          Size.Width = 9.000000000000000000
+          Size.Height = 9.000000000000000000
+          Size.PlatformDefault = False
+          Stroke.Color = claGold
+          Stroke.Thickness = 2.000000000000000000
+        end
+      end
+      object Rectangle3: TRectangle
+        Fill.Kind = Gradient
+        Fill.Gradient.Points = <
+          item
+            Color = claNull
+            Offset = 0.000000000000000000
+          end
+          item
+            Color = xFF3C993C
+            Offset = 0.198757767677307100
+          end
+          item
+            Color = claForestgreen
+            Offset = 0.481366455554962200
+          end
+          item
+            Color = claForestgreen
+            Offset = 0.798136651515960700
+          end
+          item
+            Color = claNull
+            Offset = 1.000000000000000000
+          end>
+        Fill.Gradient.StartPosition.Y = 0.500000000000000000
+        Fill.Gradient.StopPosition.X = 1.000000000000000000
+        Fill.Gradient.StopPosition.Y = 0.500000000000000000
+        Opacity = 0.500000000000000000
+        Position.X = 432.000000000000000000
+        Position.Y = 40.000000000000000000
+        Size.Width = 16.000000000000000000
+        Size.Height = 433.000000000000000000
+        Size.PlatformDefault = False
+        Stroke.Color = claNull
+        Visible = False
+        object Line3: TLine
+          LineType = Left
+          Position.X = 7.000000000000000000
+          Size.Width = 17.000000000000000000
+          Size.Height = 425.000000000000000000
+          Size.PlatformDefault = False
+          Stroke.Color = claForestgreen
+          Stroke.Thickness = 2.000000000000000000
+        end
+        object Line6: TLine
+          LineType = Diagonal
+          Position.Y = 424.000000000000000000
+          RotationAngle = 90.000000000000000000
+          Size.Width = 8.000000000000000000
+          Size.Height = 9.000000000000000000
+          Size.PlatformDefault = False
+          Stroke.Color = claForestgreen
+          Stroke.Thickness = 2.000000000000000000
+        end
+        object Line7: TLine
+          LineType = Diagonal
+          Position.X = 7.000000000000000000
+          Position.Y = 424.000000000000000000
+          Size.Width = 8.000000000000000000
+          Size.Height = 9.000000000000000000
+          Size.PlatformDefault = False
+          Stroke.Color = claForestgreen
+          Stroke.Thickness = 2.000000000000000000
+        end
+      end
+      object ToolBar1: TToolBar
+        Size.Width = 885.000000000000000000
+        Size.Height = 40.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        object Button2: TButton
+          Align = Left
+          Images = ImageList4
+          ImageIndex = 3
+          Margins.Right = 5.000000000000000000
+          Size.Width = 80.000000000000000000
+          Size.Height = 40.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 4
+          Text = 'Screens...'
+          OnClick = Button2Click
+        end
+        object Button4: TButton
+          Align = Left
+          Images = ImageList4
+          ImageIndex = 5
+          Margins.Right = 5.000000000000000000
+          Position.X = 170.000000000000000000
+          Size.Width = 80.000000000000000000
+          Size.Height = 40.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 2
+          Text = 'Duplicate'
+          OnClick = Button4Click
+        end
+        object Button5: TButton
+          Align = Left
+          Images = ImageList4
+          ImageIndex = 6
+          Margins.Right = 5.000000000000000000
+          Position.X = 255.000000000000000000
+          Size.Width = 80.000000000000000000
+          Size.Height = 40.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          Text = 'Edit...'
+          OnClick = Button5Click
+        end
+        object Button10: TButton
+          Align = Left
+          Images = ImageList4
+          ImageIndex = 4
+          Margins.Right = 5.000000000000000000
+          Position.X = 85.000000000000000000
+          Size.Width = 80.000000000000000000
+          Size.Height = 40.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 3
+          Text = 'Images...'
+          OnClick = Button10Click
+        end
+        object Button11: TButton
+          Align = Left
+          Images = ImageList4
+          ImageIndex = 7
+          Margins.Right = 5.000000000000000000
+          Position.X = 340.000000000000000000
+          Size.Width = 80.000000000000000000
+          Size.Height = 40.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          Text = 'Export...'
+          OnClick = Button11Click
+        end
+      end
+    end
+    object TabItem2: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = False
+      ImageIndex = 2
+      Size.Width = 81.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'TabItem3Style1'
+      TabOrder = 0
+      Text = 'Steps'
+      ExplicitSize.cx = 49.000000000000000000
+      ExplicitSize.cy = 48.000000000000000000
+      object ToolBar2: TToolBar
+        Size.Width = 885.000000000000000000
+        Size.Height = 40.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        object Button1: TButton
+          Align = Left
+          Images = ImageList4
+          ImageIndex = 8
+          Margins.Right = 5.000000000000000000
+          Size.Width = 80.000000000000000000
+          Size.Height = 40.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 2
+          Text = 'New...'
+          OnClick = Button1Click
+        end
+        object Button3: TButton
+          Align = Left
+          Images = ImageList4
+          ImageIndex = 9
+          Margins.Right = 5.000000000000000000
+          Position.X = 85.000000000000000000
+          Size.Width = 80.000000000000000000
+          Size.Height = 40.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          Text = 'Add...'
+          OnClick = Button3Click
+        end
+        object Button9: TButton
+          Align = Left
+          Images = ImageList4
+          ImageIndex = 10
+          Margins.Right = 5.000000000000000000
+          Position.X = 170.000000000000000000
+          Size.Width = 80.000000000000000000
+          Size.Height = 40.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          Text = 'Remove'
+          OnClick = Button9Click
+        end
+      end
+      object ListBox2: TListBox
+        Align = Right
+        Position.X = 684.000000000000000000
+        Position.Y = 40.000000000000000000
+        Size.Width = 201.000000000000000000
+        Size.Height = 425.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 4
+        DisableFocusEffect = True
+        ItemHeight = 36.000000000000000000
+        Images = ImageList1
+        DefaultItemStyles.ItemStyle = ''
+        DefaultItemStyles.GroupHeaderStyle = ''
+        DefaultItemStyles.GroupFooterStyle = ''
+        OnChange = ListBox2Change
+        Viewport.Width = 201.000000000000000000
+        Viewport.Height = 425.000000000000000000
+      end
+      object ToolBar3: TToolBar
+        Align = Bottom
+        Position.Y = 465.000000000000000000
+        Size.Width = 885.000000000000000000
+        Size.Height = 48.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = 'bottomtoolbar'
+        TabOrder = 1
+        object Label4: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 16.000000000000000000
+          Text = 'Label1'
+          TabOrder = 0
+        end
+        object Label5: TLabel
+          Position.X = 144.000000000000000000
+          Position.Y = 16.000000000000000000
+          Text = 'Label2'
+          TabOrder = 1
+        end
+        object Label6: TLabel
+          Position.X = 280.000000000000000000
+          Position.Y = 16.000000000000000000
+          Text = 'Label3'
+          TabOrder = 2
+        end
+      end
+      object Panel1: TPanel
+        Align = Client
+        Size.Width = 684.000000000000000000
+        Size.Height = 425.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 5
+        object Image2: TImage
+          MultiResBitmap = <
+            item
+            end>
+          Position.X = 360.000000000000000000
+          Position.Y = 144.000000000000000000
+          Size.Width = 320.000000000000000000
+          Size.Height = 200.000000000000000000
+          Size.PlatformDefault = False
+        end
+        object ListBox3: TListBox
+          Position.X = 8.000000000000000000
+          Position.Y = 32.000000000000000000
+          Size.Width = 672.000000000000000000
+          Size.Height = 65.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          DisableFocusEffect = True
+          ItemWidth = 80.000000000000000000
+          Images = ImageList2
+          DefaultItemStyles.ItemStyle = ''
+          DefaultItemStyles.GroupHeaderStyle = ''
+          DefaultItemStyles.GroupFooterStyle = ''
+          ListStyle = Horizontal
+          OnChange = ListBox3Change
+          Viewport.Width = 672.000000000000000000
+          Viewport.Height = 65.000000000000000000
+        end
+        object TrackBar1: TTrackBar
+          CanParentFocus = True
+          Max = 12.000000000000000000
+          Orientation = Horizontal
+          Position.X = 144.000000000000000000
+          Position.Y = 144.000000000000000000
+          Size.Width = 129.000000000000000000
+          Size.Height = 19.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 2
+          Value = 8.000000000000000000
+          OnChange = TrackBar1Change
+        end
+        object Label7: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 8.000000000000000000
+          Text = 'Frames:'
+          TabOrder = 3
+        end
+        object Label8: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 120.000000000000000000
+          Text = 'Playback:'
+          TabOrder = 4
+        end
+        object Label9: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 144.000000000000000000
+          Text = 'Speed:'
+          TabOrder = 5
+        end
+        object Switch1: TSwitch
+          IsChecked = False
+          Position.X = 144.000000000000000000
+          Position.Y = 176.000000000000000000
+          TabOrder = 6
+          OnSwitch = Switch1Switch
+        end
+        object Label10: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 176.000000000000000000
+          Text = 'Play:'
+          TabOrder = 7
+        end
+        object Switch2: TSwitch
+          IsChecked = False
+          Position.X = 144.000000000000000000
+          Position.Y = 208.000000000000000000
+          TabOrder = 8
+        end
+        object Label11: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 208.000000000000000000
+          Text = 'Reverse:'
+          TabOrder = 9
+        end
+        object Switch3: TSwitch
+          IsChecked = False
+          Position.X = 144.000000000000000000
+          Position.Y = 240.000000000000000000
+          TabOrder = 10
+          OnSwitch = Switch3Switch
+        end
+        object Label12: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 240.000000000000000000
+          Text = 'Bounce:'
+          TabOrder = 11
+        end
+        object Label13: TLabel
+          Position.X = 288.000000000000000000
+          Position.Y = 144.000000000000000000
+          Size.Width = 65.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          Text = '150'
+          TabOrder = 12
+        end
+        object Label14: TLabel
+          Position.X = 360.000000000000000000
+          Position.Y = 352.000000000000000000
+          Size.Width = 321.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          Text = 'Label14'
+          TabOrder = 13
+        end
+        object Switch4: TSwitch
+          IsChecked = False
+          Position.X = 144.000000000000000000
+          Position.Y = 272.000000000000000000
+          TabOrder = 14
+          OnSwitch = Switch4Switch
+        end
+        object Label15: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 272.000000000000000000
+          Text = 'One Shot:'
+          TabOrder = 15
+        end
+      end
+    end
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 150
+    OnTimer = Timer1Timer
+    Left = 752
+    Top = 8
+  end
+  object SaveDialog1: TSaveDialog
+    DefaultExt = 'krdn'
+    Filter = 'Karate Dance Projects (*.krdn)|*.krdn'
+    Left = 592
+    Top = 8
+  end
+  object OpenDialog2: TOpenDialog
+    DefaultExt = 'krdn'
+    Filter = 'Karate Dance Projects (*.krdn)|*.krdn'
+    Left = 504
+    Top = 64
+  end
+  object SaveDialog2: TSaveDialog
+    DefaultExt = 'png'
+    Filter = 'Image Files (*.png;*.bmp;*.gif)|*.png;*.bmp;*.gif'
+    Title = 'Export Frame...'
+    Left = 593
+    Top = 64
+  end
+  object ImageList1: TImageList
+    Source = <>
+    Destination = <>
+    Left = 672
+    Top = 8
+  end
+  object ImageList2: TImageList
+    Source = <>
+    Destination = <>
+    Left = 672
+    Top = 64
+  end
+  object ImageList3: TImageList
+    Source = <
+      item
+        MultiResBitmap.Height = 32
+        MultiResBitmap.Width = 32
+        MultiResBitmap = <
+          item
+            Width = 32
+            Height = 32
+            PNG = {
+              89504E470D0A1A0A0000000D4948445200000020000000200806000000737A7A
+              F4000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+              06A3494441545847C5974D6F1C4510866B67D776EC6CBE4C70E280F8C8056101
+              113970010921710147B9A080F803FC084410E29803173820C48D1B4151C235A0
+              485C41484888134A940808D86BAF37F67ECC4CF70CCF5B33EBB51DC285449453
+              DB33D3DD556FBD555D33B1072CCD7ABCA724F57897B45AADF30CE57FD0DF9696
+              966619A7D07B4AA31E2597D0E7513D8BE8C9B2949D8914527E4A7E628C5C1796
+              876821E41643E03A58C8730BCCF53787B74F9F7E66B1DD6E9FEBF57A5FB175EC
+              6B975131D0422F5CBDFCC24BB177F689D87DFDF1D85D3E19BBAF596F63B5DCDC
+              DC945FDF15B90AA1B0511E6D38CAAD3F1CD96038B4C160645B836A1C0C53EB73
+              DD3E387BF4FB1F7FB253A7963E9A9E6E7CFEC3D78BB3E5CF4B77B1314675E9AF
+              9B2F2F1F6D1D9C765791C765B4E4D18B443D6349D2B4C0A2C84F5094681531D1
+              D60CF848F4191AB96EEF9FB1DE9D8165596AD7BEF964E5F2952FE73A6B45EBC6
+              F5D18798BA207372BC0DE0F75BAF9E399ECC4C2522453C47803C260060E23770
+              1BF8C9321CE024CF83A5E9C87250A569E660F25106FDB98DB83FD4DE679DB59E
+              031B6599B5FB172DED7F17CEBE73F32A06CFA103B49C14E1D8291B9C6BCF4E93
+              E85B3CEA58CCBA96671D88E912658768D7D9B241B477E06C8B71932D7DB66E5A
+              596E32B7856EB2761D371BB6522E5B3238D948926409C3CFBA7164C2C0AFAF9C
+              39DE989A4A12D2E400983A7190A16FD60714545AD9B44200A903FE7974191705
+              C0430E3BCE0CF7CCE5D449284AD862C4DEDA4AD3D60F7F606FBFF986FCBD855E
+              41D30903AA3211A2CC14385FC44AAF6B762333FB13A39D96E52BD1D24E69FDB5
+              860D5629C455B351072ED1FE1AF78C43021E48D70AAE0BEBA3A36E62DD3BA58D
+              28D85A0EA362A03101A090400F7F66C7B8DF62C4BFD8288AC8D12B5176C082E9
+              BA6E2185E63976025EC29AFE4A986930DF20108D3AAECE68634CB8CDA33A7DB5
+              15891649E7A05A4088D09DE350066341E5B35C67BC04B7C008044905005B3121
+              904A877C0922B7F8246D8C11DBB2538B478FEE2C42292BDBCCDD0E6E34CA201B
+              23CB22D19472CEBE821320E7DE8000993401C4F6521136992F59EBAA3AE1EC32
+              02957AD161DE2D3B5240847374B75B8185141586A346A1AFAFAB11560402464A
+              45C7B5A27302B1A1D13BA52B804151A0BA17885AB62F2600BAA2A8C959866E22
+              55C773E50C0736338B1191C40895CE10552FE6044AEC1530A553E2442B4DDC37
+              38C6F227E6CA8678DA2D13008A86C6A27A0AD480E8579F8FA42BE828E1C401C8
+              11DB44ADD210550C74CA420EFD8FE04857204D05735AA73D624529DB2B130074
+              B89C82CB70AA4DF87487EA6E1E19460548E75C2D5720546F513D404CA905E328
+              3ADD55010A9BAED52FF0FF8FB2A3067A74BBAAA74780E42920E40C1419687239
+              90332D154B0EB402E469614E918A2DA7DC732FC3A2BE4E79F560976C03504EB5
+              57FD3ECF78E1A8E0441B8615A94078340E52AF61455D39D77A4558C292A78E3C
+              8ED91048D12FD762778738AA0900FEE4D4B5369E6518C29803C2A0BF749CF2BA
+              48059251B520A7953380E04780BC4961DB6BC5A3FF17065452E3BE8D6F8A0F47
+              3853A4DED7339CC9B09E891501C56846B109A01C3B083DE7A64A895819D74355
+              88B5DC7D0C55EFB99F7F1CE8A5A2A889281BE758A044B783D19C98124C4E0486
+              55A0BAD65ACDC995335483F5FA90913DB223056CC0901F410C68AD9C29EA4C0E
+              79CFCB98BE03F4BD329EF3232A073C549BD63E45EC470F9B5235B18A8D5D35E0
+              B28301E5B436CCB1CB957F8C78F7C3B19811900A8422D25A7D1555472CD01905
+              5EAC78B754C4D8526AD4CE21063082B35B26004495D348248C9E4B39F57E2F63
+              523D93132857B4EEA8A25ACFE44441BA73EE397F3EE72C30A9E77B65470A1465
+              61A9285551B1590C14D0A7978803742030A2C8D8CA2D7B00C23ED9DE76062A39
+              E354562358F4A306B757B601AC89FA541B31C2DB4DDF78EAEB8EDA8D0382F0AA
+              5BB55AE66BE7A500B823D54FF0D7BE9F7D2991AB5DA730E8E8F6C8F8385CBAF6
+              D9E272921C9E5EE5CB6530C4450203D0D8C09AF6E94C379B74488F5E51624F9C
+              4B58E3E960069FCE8072AF9C94D80921B13FB2176DE1C4D376FEBD77B5E37DF4
+              637463CC40D94F5BE968B49ED9DC30EC3B3C0AD307188FA4619AEB994323AEB3
+              D06C0FC32CE30C3A379F85879BFD5CFA50B2951F9B1EE40BD3C3FCD8BE61BE38
+              97E68BED345F3890E50BFBD37C3E8961FEC8F538D5F996EFBBCA5FADCE80BE4E
+              9E44F5AD7E1C7D0AD57FA9EE97F02AE0C38C2F27C6923AB8CEB34FD12FD0AD71
+              0A0442F208FA1C3A878EE7EEB7F0CD67BFA00212F63A1190F1F7DA83122FA15A
+              FF6F31FB1B61DB1D22A31301D40000000049454E44AE426082}
+            FileName = 
+              'E:\Images\Icons\_Oil Pastels\CRGB_AC_32\Med, Small\Folder Docume' +
+              'nt - 32.png'
+          end>
+        Name = 'Item 0'
+      end
+      item
+        MultiResBitmap.Height = 32
+        MultiResBitmap.Width = 32
+        MultiResBitmap = <
+          item
+            Width = 32
+            Height = 32
+            PNG = {
+              89504E470D0A1A0A0000000D4948445200000020000000200806000000737A7A
+              F4000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+              091F494441545847D557FD8F5467157EEEBD73677686FD62BFF86631D5884BA8
+              09B0A9B516839AB4D2B4B1C6A4557F90C4B4D584864424DA1F2A362D1AA546AD
+              444880A4C1566D82184540DA52C002C252DADD2D2C02DB651776F67B66E77BE6
+              7EBDD7E7DCD95966A9FF80677372DFB9F77DCF79CE39CF7BDE7735CC1583AA53
+              7DAA9AD1FF25324FB422DE8CDE2D625F54EC54EC8ACE4A350019AF6A6DD4D7E8
+              0A765B5DE4CC87F1E230DF85A8954562C459DE14EE48E6ECAFE56C84C23A9CB6
+              C6D089E1A4DBC56F32B7E2D4EEE840B8AF0F3B396E92DFD467A8027416C42C80
+              EDDBA1BFF002BC4D0FB7C373158E744D2099B18E2E9C6FEC8A46B429CD432453
+              526BA6B2EA07ED0B62ED8FAE6B8419D250B4140EBF97427CAA18D734FCA931AA
+              4F58AE8A146CACA4D96F3FB5A1050D51E09F7D963F38917D3A57C001BE173081
+              CC02B8BCBD23DCF9F3FF5857F63F82A2EDC3530A47CFDDC2A90F2750B2154CC6
+              BEB4358C87D73461796B0C99824BE70E2C4F41392E12E9123EB85942BEE8C3E0
+              DCE65A60DD0A8574C143AE04BCD6E5637034BD236FF9AFD0DD2435C842058046
+              00E6177E75C3EADAF510F204E0CB67E5729662463C789E8F121D391CDBB6C7B1
+              0797BF6DFE569E0BD77583F996A382B1E73A7C3A41F1B3051F7FEF05AE0DA74E
+              DB0E9EE5AB3E6AC0998F95E0E2EE471032343A6254591F430913CA8FC26146C4
+              B9EF2BF86E3170ECD184C372B9761980E3D7C0D3EBE0F343A930898EE601142C
+              8FA504F6BF9B47B6E89C66605BE9AE9B3A1700C5A88B1A3FDB78DFD26D3F7A62
+              A556624023D30A99C5879905133A33E2B3C80C1A9A46670CC553161C3A3334E6
+              C9F539B6E1FA04465EB8761C0BC61E67693C9CEFD771B42721393D487D9E7A83
+              1AEC30617545D463AB1B76BC7969946ECA256079110A19D0095323BF7D3AD1E8
+              ACFFE22E7C70620B7A4E6C839BBBCD74BBCC9223C89812871CE06FAF408B3E5C
+              EAB5291BA68109FAB84495E7ECF6AE06E0BFD695CC4E67ED202256964698F299
+              193679C13718B972084F3EFD15EC3DB407ABD67C0E572EFC86259332D139B9A0
+              095A9150094A426120257286C1C4F9F63C35177C9F916A00B3E2D2B1272423F1
+              326D4790AE3D09440A08693AA6464FA38114BF7AB91BF76DF80C34A56178F06D
+              1A2237626978460256FB5BC8CDEB099C8B1A5C671848D2B4443FA7615503D04E
+              6D87C18C43316D1ED521004B1F825B7F19E945FB5008C703B2AD58D48C901943
+              3AC934D3C2F4E825718FF4E2D7916EFB0BB2F6207FCF1096D90CCB1E2E37A939
+              CE45AA01184FFCD6D8F8F9952DDC4AC26A0F966A80EF181CF3AB6BC2366EC28C
+              34E0972FBD0A9DA9CE674B74E2F31967845C930DD813382EFBD298350D8B6A4D
+              A9CE12BE101073A41A803B91F2B67EE3C156325C0048064C98D995884C77424F
+              DC0BA3B084DFD2E8EFEBC5B2654BD0F9C0A78308CD5004DDA776223AFC101A47
+              BF8EE8E846D4251E80CF2C120F3A579094C0A7E8631EB57AE7CD02D03BDB630B
+              6BA3C6FA75F7D4B2BB9579E0A205D1E9FB11CBAC462CB7161397DF650C61EC39
+              B89B7D40216246F0C39F3E0B45C09E93C58D337BA1796CD14E2BE3278D991DC9
+              8594F59EC575A8AFC197F9938DF98E5400187DA3A56F7EEB8B6DC8143DB65866
+              8065F0D8D994CF6EC7BDED3A458CDD3A8BCDCF7D1F99C904A626A790CA64E031
+              DD3AF7A8CF46A5087CA0EF0D84581E497D4042FEB139723B2AD0EC6AFA6AA4CE
+              66A10240CBDBAAA6B6268442499CD94127946DE8062DB784C4ADF31213F6FEFA
+              0FF8DD2FDEC05FFF781287FF7C0E2F3FF70A6C25670B89CB5E9019BF1C8092B5
+              E4B0D41E9685C02E01D673624CFC8953910A00B5A4D1E87DA737C73DCBE8A581
+              D0808090A7CE66904D8FF06920951CC5C0F56E74FFFB2C7ADE3F4B0B5A90A5C0
+              88709FE44D4D5E836BC5D99209803A4E724EA64A6CD548739A4C26B4B25400B8
+              F19477A47B60DA4DE72CD6D39969B536D3287113041D791C4B9FB76D61BFB45C
+              CEA1739DFB5C1C4B4F50B458CA8E70EFCBC1C58B05015C1A76495424E867802A
+              203E0640C48C85F1D2F1F7338CDAE142A6546F2E939139D48C18BB2C1D4A4678
+              DE2E5CBC30A8AF88A223219DF0C6679819B667E98CD2CA1907265245DAC1754E
+              3D43CD068B66A41A806AAE0FBD339262ED592C87B5F7542CA8BFCF69E337DF62
+              6978BCB2BE9BB67C075B9EFF1E76EC7E116B1F5C4B92F13D4168423C4DA1C872
+              790E094A00D2D404271D0DD2C7475442BA23D5003476BE7926F7B54BD8E21866
+              0B2F7E2EE2D78FC192506622DEB7733FDE3C7E0AA954028B1637975F4B079506
+              C4F5852CB3ED4EB32CC20FBE92438A3CA4D2E85CA906A0E78ADE67173484B8C7
+              CBE4F36C8B11F0FA32F82F76C71281F19C2FD978F1F73B70EED849ECD8FA320E
+              1EF84710A54B96CBC125678870A2582CD006FB0001CCAF0BB384984F1F739A90
+              C8DD2F8E6E7BB4EDAB4B1954C1D290AADF8CAC351FE38317A0B19FB3CA3C56A3
+              EC45F5C19E8FC41A832D67461A495472C62AD05198C9D0D1A4BD076DFA180ABC
+              A25D8A6BE8FA282525D840BD45655865A90090A7F4697BDF779B315DE2F5CB35
+              50C40A34B7DDCB748E30B3F4C8CE22BB40F72782D2E8DE18992FA9E7D598D192
+              06BC1F8A75B99681F7463FB80F1678941FB890453484FB8B2E2ED20F8D95A53A
+              03879EF952CBE31D4B15A3A709B2B826CC1ACAD6621AA5BCD258A4BFCB530A2F
+              B767219A743C7128633945A56CF224D6606C7367FCEDAACDED6B6FCE5BC1AD78
+              762754FF73B16BD3FA70ACC8084A446CB3B9659909D17CB10CCAE6012597D3E0
+              1E48A32CB75C8040A348E67C0C27750C526F273564F21AB9C0FDC310B905D19F
+              207F2C6F88CBE552922FBB9C9B01B5F3C9062D53D091A3B3644EC3F9DB3E5239
+              2798142107626CD5ABDB345EB9A54B324A1A2E922BBD531AFA8652624372237D
+              59B64C846BCC4F2EA90D32383496E74EF25E25809FF0DB6D6A20D500FCA7D637
+              A19F37F63112E7EAE0B4DCE3324CE130C92DD729C5689A896D15C7D5279A3895
+              94DEA4F6CCE808B510D1B180CE1FF334ACA01DB98A1DA7EEA18E5383425603F8
+              31554EABE56C748B58CF518E799BC7DBD47E6A912A443579BD5A464E76B0BC95
+              7FB9C4B8CC91FBFE189545091C48891BA86DD43AAAFC43324495EF815403909E
+              200EE4E2F009AAE454B68CDCE3CAC75D59648DCCAB9979CA7B39602AA997DF95
+              B91511DBB24EDE13F71DA9065011412D0B2A93E72CB84BAAD7DFEDF4FF4180FF
+              0202BB556FDCDAC5740000000049454E44AE426082}
+            FileName = 
+              'E:\Images\Icons\_Oil Pastels\CRGB_AC_32\Med, Small\Image - 32.pn' +
+              'g'
+          end>
+        Name = 'Item 1'
+      end
+      item
+        MultiResBitmap.Height = 32
+        MultiResBitmap.Width = 32
+        MultiResBitmap = <
+          item
+            Width = 32
+            Height = 32
+            PNG = {
+              89504E470D0A1A0A0000000D4948445200000020000000200806000000737A7A
+              F4000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+              075A494441545847ED57796C546510FFBDB7DBEE6E5B69E9961E548B0792B612
+              A1C821C60BEF5850EE6021A21842421449B12A123006A351A3A0080A5E890AE2
+              0DA21CB55D5B6AAC50C1037A538AB4D04A0BB847BBDDDDF7DE3A33BBDDB2ABFF
+              292626CE66FAEDFBDEF7CDFCE6F7CDCCB7C5FF1216353CFE1B12E54B213591DC
+              6C18C6B3F1F1F1A1D918F1F97C46F8EBDF15957C3DA1EB7A197DD7798201C06C
+              366FAEAAAA2ABAE28A9184269A8C603008BFDF0F06A7D0C7D0090BED0A1A4104
+              0201903168BA2623AFD5357A36E89946594BC2EF5D2E17EAEBEAB170D1C20F68
+              EA5E9EE67766FEC3A2280A9E7CFD635C9896048D36070D43548DB761FEE46B91
+              9C9C0C4557D076FC3832B3B208BE8E96634718219C4E27727286212131110123
+              00CDAFA1FE502DECF63464646542092AB0911D8FDBC3AE2E26BD84F428A91E15
+              AE85A25F3A7F068A17CCC6638B8A50505080388A5C55691905D3DBDB8B552B97
+              C3DBEB95884DAA09CF3EB31AB979F95856BC049D1D1D38DA72048F3F5A8C7C62
+              B3839E8FB5B646D8094B2E693EA9891FA200048306DEF8D4013301295EB30579
+              17A5C2A08DBC95E93FF4CBCF983A7D2676EEDC21065999B9DAC387604FB5233D
+              23030E471926DD748BD82B183346985154856C84D69358C32AC71F05C0307464
+              A52660E9736F63C9CC1B3034335D28E6E8F93C9B9A1A909498849D5FED90F56C
+              D46C3261D4E8020CB6DBF1F59EDDB05AAD64878E8FF6F1D8DBD383A01E721E06
+              C022CE59A201909391F9B9983B65123C0115CDEDDD42BF42FBBEFAF20B144EBE
+              1B37DC3809365B02CACA4A71A2BD8D124C47437D1DCE7477237FE448CC9C3507
+              7575B5686E6EC2A71F7F88788B85F05304648301C74AA40A6A6A6A8ADA4E3929
+              8343992B4BE94F92D584D179B9484D4915BA390AAE0A1E39D3FD81D077564DD3
+              246ACE7A2A5D981413027A402A86F3E7FBFDDFE3A1871FF292E505A49F93FA24
+              1168F3345555AEBCF3D65B83D919694AA67D30B258D306232D2519890989829E
+              0D8B13CA155676CAE7CB61708E30407E66D6B86C2930C4C5C5C11C67E67DC6A6
+              B736294D4D4D5C7EDB491B48A9AE489881CA8ACAA2FDA6AD70BB7A68264C95A1
+              6278463EAE4B998D547B2AB480260E244A02C28EFD3EBF2C1506E87D9FAF4F00
+              F4AF61B61898D7EB85A3C281152B57443110C901DEE472B9B1ECEA7528B96603
+              4A266EC094B1F7C0AD74410FEA387BF62C1E5CBC105D5D5DF8E4A3AD38F0430D
+              DC4E17962E598CC6C606293597CB8947A81CBFDCB15D1C9795EE46C9B287D1EB
+              ED95F7CC48AC440030C53A75B083A7CBE57997F755343637D31C754C2224919A
+              0C4775A0661FEE9C723746178C81D56693C8B38766CB39DB1212307DC62C94EE
+              D9256BC1E547EFAD16AA3AE6FACF39784E159001AE8213678E634DE322B4FFE4
+              4461DE3C426E08088E807BC22962E09D37374668E66E69F05ECE0B5ACB593F22
+              370F6F6E7A0DE3C74F1400A2B4863FB11201C0341B54AFB7E7CCC5B09EF1983F
+              B624E494329D47A694C7A9D366E0547717B66FFB4C325D27E3ECBCA3B3037DFE
+              3E5937B9F02E01211542B63979FB41C44A24094BF7EC2EAAF26D86292D10A18A
+              A3CCD44660826DAA3897D2A2C6C37701D73A67388BDBEDA692D4903664083A4E
+              9E94D6CCA08E1D6D1510830625C362B5A0B2B212AB9E5A1595840280B2F4BDFB
+              EFBB6FDEDCD9738296788BCCF5A3E008B32FCC1167FD11A8D4AA39E385D47328
+              66E1E362E0FC1CD0423D80C3A48BC858F9D44AB5DC51FEE72AA0A8D407163C80
+              CB0CA792ED6C4348DB91ED6AC7B038BF94131B554C0A4C66939CBD6A2627DCE3
+              E8E8D801D3ECD7FCE2944BCEDDE386CFEF13E52AF0057CEA1DB7DFC1EEA22492
+              039E1E0F5A3FDF8293F12968D3E3715C8BC3B11E035DA5DBC4407D5D1D2A1C0E
+              747676A2FABB6FE55A769495A3AA72AFB051B9F71B9A6BA32AA9C14F3F1EC4B7
+              557BD14DB9C280F8F858FBBC7D616F031201C019CCE73634E762E48C1A874BEC
+              8330B8BE1A668A8CDF5D367C382A2ACAA91F9C41F7E9D3484FCFC0F01197E3A3
+              0FB7C0E3F120CE44F94047C11753724A8ADC15C9C92991E3E9EF9CB13250055C
+              6A44EDEF5BD743DF578ACE77D7C2326789D0CDEFF8181E29598E975E7C1ED75F
+              7FA34494919E892B4715E0D557D6E0AA71E390963E44E85FFBD20B28A1B57C57
+              88732957C998B0B7011960205CCF89F38AD158598A4125EBA88F50B285E9E3F2
+              FAA1663F0A0BA760E3EBEBE56CF927D9D871E311A41C6096F82836AC7F19D367
+              CE169BBC4FEC86A397848C91010618ADD783E0076B312C9DFAFEFBCF43DFBA06
+              3E3EBBBE3E6A40BFE1D75F5B3161E23538F55B27F655574B89B51E6D9116FBBB
+              F32C1A1AEAE9D6F32229E902D4D61EC6919666E90D013FFD4C2306A5ABC68894
+              1C55C1E68DAF6D2C4AB05925621146CC15442BACD604B9DD42D33C1FA2D3D0A8
+              DDD27BA1993EFCC3A33F5A1999765E4B232763DB8936AC7E7A752F99E132DC46
+              EA639BE4DF741B8D3534B6907AA92A755155D5293A46F44FA9463DA796C669A4
+              12913040C247C1DF2F259D407A41F8F99F164E02BEEFAB49E55771AC13BE2FB9
+              BF4672E33C08FFE4A27E1FFABFE0AFE47C447EAE9C6FFBFF2901FE00B3F26A93
+              76B27E950000000049454E44AE426082}
+            FileName = 'E:\Images\Icons\_Oil Pastels\CRGB_AC_32\Med, Small\List - 32.png'
+          end>
+        Name = 'Item 2'
+      end>
+    Destination = <
+      item
+        Layers = <
+          item
+            Name = 'Item 0'
+            SourceRect.Right = 32.000000000000000000
+            SourceRect.Bottom = 32.000000000000000000
+          end>
+      end
+      item
+        Layers = <
+          item
+            Name = 'Item 1'
+            SourceRect.Right = 32.000000000000000000
+            SourceRect.Bottom = 32.000000000000000000
+          end>
+      end
+      item
+        Layers = <
+          item
+            Name = 'Item 2'
+            SourceRect.Right = 32.000000000000000000
+            SourceRect.Bottom = 32.000000000000000000
+          end>
+      end>
+    Left = 672
+    Top = 120
+  end
+  object ImageList4: TImageList
+    Source = <
+      item
+        MultiResBitmap = <
+          item
+            Width = 16
+            Height = 16
+            PNG = {
+              89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+              61000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+              02F049444154384F95534D485451183DEF8ED338FEF4038959DA845153A93458
+              9025929B5AB40B69D1B6458B90A0286A55D02A8A822608DAB42983A808A23413
+              FB2123DAA5182196E938334D69E6BCF7C6F773EF7DB7EFBE095AB5E883C3E57E
+              EF7EE79E732ECF00C0D4F8B62A5AB1B273E254B128D7EA5E6BEB966443435353
+              3E9FB7161616542AD55A353CFCFA5D4FCF41393A3AF6ABA363C7EA5BB7EE1CD1
+              735B4EF76ECE5EBB98CA7C19BFF9455149423A9D564110A86C36A34C739E30A7
+              869E0FC8E9E9093539F9515DBE74DEACADAD4D3222D877F1DCA675BD87D73735
+              AF319B03E942700E9AC593278F515F5F07463A03F91E2D2D1B9910025671110F
+              1EF633CBB2A63401C0A53E01889F80791CC6FC5108FB2D0E1CD80FCE97108F9D
+              46CCB88B183B4BE77288C662A8ACAC8A47A3D1B6BF043200221F80D91918853C
+              F5382CD384E77E0477BCB22A11807BCFE07B3EBABBF71AF1783C5226F0687885
+              409017508A66498D5FFC84A1C1A770BD0658960BC7E1B04B3EA4DA0B18060606
+              FA619A669EC5E3AC4228629F15F0FC001EA91142A16A791376EDE9826D7B283A
+              67F0CBEA84C38FA0E4ACC0926DA3BD3D45362ACB0A84A3E0B8321C763D01D797
+              B01673701DBA79A944DF22B09D4E94DC7AB2222048210588C6C6C6C50A4DE07A
+              1CD263248FA250061439AA59D58C91372F90BE761DBB777720B12181972F5EA1
+              A5AD15994C0EC9E456F4F5DDEBA220D889CF833BAFCA9241DE158823CCD3A55C
+              C6264BD89AA884B524909FF7516104E1F316FC369CBAF0C84E249A1BC902F976
+              39C92678B26C852C045220B97E193825AF8DD6AD64A8A966A88E1B1052528E86
+              989A9A72C30CB4677DA3B6E2FB940125EED0DE0BF320509F533E9C0790442803
+              92F8A7CA048E0E504052083E0DE95B857E0D92AB57DDD7D2A1F704CEFD705817
+              731C60645CA84CC1C7D7BC8FE98240A6E021F3CDC30C61F607C7EC778E1C213B
+              A711A0C4B6874F4D6518C70ED5D5DCB83F779231E3203522BAFB8F0A27F4420E
+              8C0A86DB24F48AFE9D35C2E7FCCF1200D46F5A27D8C0F3411187000000004945
+              4E44AE426082}
+            FileName = 
+              'E:\Images\Icons\_Oil Pastels\CRGB_AC_32\Tiny\Folder Document, Ne' +
+              'w - 16.png'
+          end>
+        Name = 'Item 0'
+      end
+      item
+        MultiResBitmap = <
+          item
+            Width = 16
+            Height = 16
+            PNG = {
+              89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+              61000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+              029949444154384F6D523B4F9441143DF3ED4278E8822624462CD0C21083C158
+              110D626CFD0176D252A0B1500B7F80312616DAD94841626361A795858585A289
+              26142E6663105C5916977D7DCF7979EEB7080D377B72BF99BDF7CC3977460108
+              FCEAB921668C5E2EDF6DB5EC49D993F521F1DA7BFF46296983CF771893F716CF
+              6E3E7D74E15765F5798505DE1249667DAB13F95A7DD7AF6F547DF947C57FF8F4
+              B9CCFA97737373477AAD8050DDB2DBD79F212E20189E851B5D847105C4718624
+              8E10E58811764394BF7FF3E3E313AAB272B3BDF0E0CF7DE7DC8B624EA32DE098
+              CD5FA07D1B2AD118E09E4A0C7C9441A51A01F7A64F181587098E8ECD97E01F2E
+              B063A9E755082C190A5F818D75A8AD2A0CA16BCCDB5B3DD4B7A109D368206AAF
+              A35850A7A4B54790B279C4C055792247A39D85E38788920A274615D7FC4F0628
+              67F127EA55F1FCE4E0ECF2DB1AEAD51863A5FE9C4049316158D9170498992AC1
+              F2DB90C15A16B89C3A8FE29599E353F3374EC3861AED9D188676A22443181AC4
+              CCAFDE35307566381FB73516C6383AA6E55EF8406BABC16115FA8112150C0C15
+              51EC0B10141555285C9A2EE1FD9726B466230F3654E0FCBE0215D8D409276CD3
+              22ED38A491471629E83C7B042AC04E2385669521835830D9BE02041927963444
+              B246946964190BA5987EE53469E0C491B249730E39D181055E6F625CAB9DA1D9
+              49D1E90811414B714A456C92415A0E8D56731B9604B2FE1F416C9DEDB2A9D325
+              41975908F878629264524C05F2F49DDCA1A822B4CEF6DA496053E3BA5D8D9C24
+              478A30A69D586E4160B1DBB6F85DD3D8AC0B1CC2609A364928373E7B71F0CEB5
+              ABA38F47D6060B9DD0E1A3330839D489BAF12BB0F05B5DB3D6343FA963EF58DE
+              82E3030AB04C814FF237461C23FA084D18428A0F267578B00EFE1F31BADEA91E
+              DA47FE0000000049454E44AE426082}
+            FileName = 
+              'E:\Images\Icons\_Oil Pastels\CRGB_AC_32\Tiny\Folder Document, Fo' +
+              'lder Open - 16.png'
+          end>
+        Name = 'Item 1'
+      end
+      item
+        MultiResBitmap = <
+          item
+            Width = 16
+            Height = 16
+            PNG = {
+              89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+              61000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+              02AB49444154384F6D533B4C535118FE4E7B73A1B4D492A006234C6A8CC1E84E
+              0C0983838FC9C5495706745207778D8B036E86A02626AE6E0EC69598A8030612
+              41D29852285002D2D2DE9E7BCFCBEFDC828FC43FFD727A1EFFF77FFFE30A0019
+              B778AE8F2B4A63CBF71A0D73C29FF9FD7FECAD73EE9D10DE0D2E3DA19DBD3F75
+              666DFAC9C5D5F2E2F3321F3843C8C4B8C67EE4B6B67FBA4AB5E69657CA6EEED3
+              9765BE7F333E3E5EE8BA029EEA8EA95F7D864E1699FC25D8D214B4CDA2D34920
+              3B11A2141DB45B6DAC7C5F70434323A2FCF95673F2E1C6036BED8B20A55106B0
+              5CF50ED0BC0B21157A7926A4868B12885821C3B3F3C7B4E8B425FA8FDE2EC23D
+              9EA4C7CB6EAE9EC090213B0F542B109B3568426D71AD6F76B15D8722F4EE2EA2
+              660541569CF4AE5D8298CE47346C8D11591A650D2CFF7851FE85F5890AEE79E7
+              0BE863F1E7D58B209FEF197A347B1CA128405308EBC7D5C01089CAA0182EE1C6
+              84E3DEB2367E258B4DA9530B84C89D1ABB3C83D1D11C9244218E59B028828A23
+              AC565B989D99C195B18F6954C3085A5B66CC485D73196AB1F942805C9F45B1A8
+              098362BF416FCEA05412484818270E4AD191249A0AACFBAD40A43530894EDB16
+              4586B090D2A2231D15F95474AA4C31B226834F41F3FCD05282E6BE844A24FB2D
+              21E30431DB678C22A9496BA2B4A30A43E954E189FEA480C08B99FFDAC6B7A590
+              8F79C93C7DE4246173D81D2F57720EFCF47A224712F35711530549EC23EFA074
+              E40706072B1819A921D7BB8A56AB4E876EE5ADEF21E13BA114D90F2C433542E9
+              18D634B0B727D1134A12EDA0509008827EF8AEADD515D6B714D6B63D2CDA990B
+              54CA0B3F16C5FCC0CD6BD7A75F9506AAE1F0F0A8C8F3BB0CC308EB3587CD8D7E
+              BCFF30A5ABD5CA12DF1EE8F66A384019BC66399EFA19F31335419C260EAB93D2
+              D3426281984B77FF9A06E07E012275C00ED9CBBBA80000000049454E44AE4260
+              82}
+            FileName = 
+              'E:\Images\Icons\_Oil Pastels\CRGB_AC_32\Tiny\Folder Document, Di' +
+              'sk - 16.png'
+          end>
+        Name = 'Item 2'
+      end
+      item
+        MultiResBitmap = <
+          item
+            Width = 16
+            Height = 16
+            PNG = {
+              89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+              61000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+              025849444154384F8D533D6B1451143D6F329348620C7E8098149616A20117D1
+              408820568262151B3BB14921E23F109434D6622508411B4B1B9B681AB5096441
+              4234455858301B12C966667767DEA7E7CEAE712322DEE1CC9D3B73EF79E7DDB9
+              4F552A95B1E5E5E51B499268FCA7196306272727DF56ABD5A6627CE7FAECE397
+              A74FC07A045E9E57038E1F3C21DEF1266858791980DA6ABCB4B4F480D17370E5
+              D9B9B92745E8371F822B5CE8A49DD0DC6986ADEF5BA15EAB878DF58DB0F6652D
+              5CB97DB788A2E81309928837AE44D67E63481A90E8B727BC6726E3A1564394C7
+              92DA2310B13D132E8692EC03D12B92E7D24BDCCD2CAD47B0B95F289BB6D67609
+              7E158BEF2910F45B7CF6CCE0B5F1B195E4E9FC3D9C9AB85C2628E42CCCE14C0B
+              43C32731337313CEBB122559AF582C9E9E3A76F1D1FDE3CAB5EAD8DB790DAB0D
+              DA798156CBA243FFE683C385CA550C4403F0CE972407B7A04381DC6260103832
+              1AE1D07084385188D822AF14A6CE292CBE5F8475B684E3FF3C4060726F3C0CDC
+              AE43917A14ED00DD5630A50F5C41617B7B1BD6B0D8721B7F12E4C6BAFC87A664
+              4AA77CAD3D9B48B069D6051604C4710C634DD95C21E96F63640AE39A7B1ABB69
+              81341522825BEA1454A41D49BAE9A2E0AF5BD036D88C456946828C5E08DA9A0D
+              B4D054220AC438FF258978A423FB1C71AE5D9465946E2899B32E2B16EC4A5178
+              E49A4A748485570BEEDDE78FDD09480F078BCD98BFB39C2175E9FCC8C35BD3C3
+              F3438DD1386D79AC742CC6276C48AB16D9B80DABEB99FD5A73DF9452FBA7558A
+              D99717ECC9339969C1512221A80F72E624590EE2BF8C79083F018E29CCBD8DE9
+              CD0A0000000049454E44AE426082}
+            FileName = 
+              'E:\Images\Icons\_Oil Pastels\CRGB_AC_32\Tiny\Frame, Folder Open ' +
+              '- 16.png'
+          end>
+        Name = 'Item 3'
+      end
+      item
+        MultiResBitmap = <
+          item
+            Width = 16
+            Height = 16
+            PNG = {
+              89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+              61000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+              02B249444154384F6553DD4B14511C3D73E7EE97A29505AEC16E2C1605260892
+              0B820642F62A44F4DE4324D45BD0832FBE06FD07BDD443241546D05320948195
+              9551D8A6F665BBEE2E7E6CEACEECEC7CDC99DB6F66D75DC1331CEE9DCB3D67CE
+              EF77E72A68A29F98AA4D0F407675756D140A85394551DCFA5A1352CAE8D0D0D0
+              3A8D52D72B72BBACCB8DD2B6CCAD15E58F5F7FE46266493E7E322D39E753C562
+              B1B52E0BC0EA23C83948138945C179182AE350540E95733055456FEF59CCBE79
+              7725954ABDDF6FD230F0E1115DC9A0D0E34949C968F43CB8C243A56260ABB489
+              A7D3CF7B1289C47D0AABFA9A86012D405075B995CF109E13BC67973F209FCB05
+              F3B5BF4BE46E513A8E64327961727232423285D7E434235A968DFCCB092C573D
+              940D86683882CDCD75E4B604E2A1DFD0BAC7D1973EEFA7E2994C2644922A1B1D
+              3E74EDCE44CFAB56EB5BFBA387F7309B6DC7EBD504E64B1731BFD5818FFA25B4
+              F4CE21BF1BC2C0F06890861A167CD4071FE83F3676FB6677FAD6D524764BCF20
+              CE58304C9B6A5E8049891EBC9841BE730347990A41BDF0B91F0C9E6BC01450C3
+              C0A13686582B4728CCA086A881F4A591740BB2535144B88385B733706CCBD735
+              223061BB960707EE8E0B4BF3601912B6A1C0094609954C0AC54F2895054EF79C
+              A3D3F11B5E571398308563FEF3233B306C07B65D8B2968A770255C62D5D050A9
+              0AD0A9D29A43B2A603B38410BB651B3B9A054DF38D885452D5A244B64B020FA7
+              8EAC20C63C2C67BEC2B682121A60B4D1D649A4E964A0D3E81B1836AA64625312
+              3FC1F1F4651C1EBC81B6F68EC0705F055482909EAE3B084C025A1497CAA1C8BE
+              894925F91D8B9F38498D0D4150991E99EC4119EC8B8D8F8DC4EF864D9D972B2D
+              EC4B56B0785C486D5140EF7465E6A72E965605FD86B06B92C0EF3BF13AD1DC3B
+              8E366294E85F5541F4371FBCB64D04D70600FE03DF528EC4ABE792DE00000000
+              49454E44AE426082}
+            FileName = 
+              'E:\Images\Icons\_Oil Pastels\CRGB_AC_32\Tiny\Document, Image !Fo' +
+              'lder Open - 16.png'
+          end>
+        Name = 'Item 4'
+      end
+      item
+        MultiResBitmap = <
+          item
+            Width = 16
+            Height = 16
+            PNG = {
+              89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+              61000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+              029B49444154384F6D53CB4B545118FFDDEB9D49C78A197BB82825CA4D466E02
+              4550B195B408DAB86FE1DF502B1109DAB40E8A248A6A914420BA68119411D628
+              3D183292C657BEBB8EC33CEFE33C6EDF397766B4E807BF7BE6DEF9BEDFF9BEDF
+              774E1D429841A0961133994CB64AC9074C13EDC40B15B65B16ACE161D8FDFD30
+              A6A7A1A3150CF508C607EBBA47DFF02B5DA72148E9FAED579052C2F33CB8BE8F
+              52A18089BB3750C8AC622753C6C4CCF6394A5B250A53097CCA26CCB653710CF4
+              B579D77A5BD862EA7D90CBE791A7C47C2E87ED8D5574B638ECF2D923EEA51309
+              975286549E825559619A069CC08E448263A6B5348EDD85E7F03807A30AB8EB23
+              6220B2D2C84C23BE2B28FC6498457995954AA6B6E82F41A5470D0F0D750E62A6
+              ABD960F9D4ACA11BAF34AF5B57D81708243D002E240212D182E447686EB841E5
+              D35FD05378972EDD6A6DEBE8FDB51737BE6D5A98DF8A20B5267126E151450104
+              892A668417C84239789B2AA7286D9218680F9A9B9B871E3D7B81B2275024E30A
+              C53C3CD7C3D3278FD17D740E822B2112A1DD7F539507A15B608CC9ACBD8EF5EF
+              AF91FE308EF4DC147ECE4EA2A7A70F371FCCEB2AB81090CABEFF0928F85E095F
+              663690DEEEC4ECC2557C9C1AC3A1FA7A201203E30C9C2B832AC1075013C86C2C
+              22E79670BEC3C0F28FFBA837258AC5220C329731110AA80A36C3F82A6A02450F
+              C8DA0DB877670C7B5B36ECAC138E8E6C57C96A3A5AE01F840214646FADC05FBF
+              87966812EDF124A49B43B954D27367CB42F2255258CB561DA80D534F41D23646
+              632B2E0E8EC0778A30A331BA072E04637AEEF671AE0F8115440D2EAC08A5542F
+              6128E0384E79EE6B2A684A341942702A798746C761D1152C947C3EFA70E9B38E
+              DEC74BA26EA87A240F13BB883162ED9812D4EF45E2827EDB070B17E00FAD9768
+              D98DDAD8380000000049454E44AE426082}
+            FileName = 
+              'E:\Images\Icons\_Oil Pastels\CRGB_AC_32\Tiny\Clipboard !Document' +
+              ', Image - 16.png'
+          end>
+        Name = 'Item 5'
+      end
+      item
+        MultiResBitmap = <
+          item
+            Width = 16
+            Height = 16
+            PNG = {
+              89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+              61000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+              02C449444154384F7D53DD4B145114FFCDCCDD0F4BA514CAF56365D58A50A990
+              3224951023E8A95E7AE8412448235FCA7A925082A0BF20107A8828A80C2B7C09
+              C10435359204B555B30F7375975D775BF7D31977676E67C6D55D0AFA0D67EE99
+              73EFF9DDDFB9E78E80346AC81CDBEE3FE0369BCDE776BBC705415053B13438E7
+              D6FAFA7A2F8D3C1A8DF16038CA7D812077AD7AF8D2F79F7CCEB9C05FF6F573C6
+              D8738FC7B3379566404C8D2066438D25CB0AC6CC90440641629018832849A8AE
+              AEC2C8E8E46587C3F131936497408746A67211023D1AE7A48C464D839AD4108B
+              C5E10FACE355FFDBCA929292C72456D273760928802455E7FA3A8DA49630BE57
+              163F61CDE532FCD55F0BC4AE903A06BBDDDEDCD3D363A134816DA79347A6285B
+              581BECC2E2A686705C84D56CC1FABA172E7F1205A61F88945FC7F1DA465D1573
+              3A9D264AD94C974047202B71584A9B11CD6D81DBFA087D1341AC663FC49EAA31
+              AC854C38D570CE50A3AFDD8141B0ACBF68429113086FB8E1524631F7BE16B75B
+              5A31F8BA193EFB3D984409493A0BDD32B1AD80186445413C1E4178690889E931
+              7476DC872F1282898E2AFAEE282C2C81CF1334B7A5E819BB125225181A1009C7
+              F174D88BBA2686A9E107589C9984AA9522145C40209CC491CA93D41D43EC2E0C
+              82D9D959315B9284AEF60BB8D15A046D338981E910469665D86C1508F85711A3
+              1875953A95A08C34834E2094E5C8E2A17C6FFE9DB603300B0A9E0C6C2014064E
+              64AFA0B6701EA76DE3C812352C3A67B045A566429CEABDC66ACE5FE93E537B4C
+              707F53D0FB228019F77E345DBA8ADFE642F8F31B5071F12EF6D5752027378F14
+              6819FB03EC836C11CBCB736FE695D5E3CDB32F58D974E056671BC995603F5C85
+              842243555514945650FFE9B26D25A011C90E6819CE9A24694856D52013849124
+              E74514CFDCE46FE81D98276B2793F5807EA30E76B7345A8B8B9145BE3915FB9F
+              19FF0100FC01128E3E7C0B51242F0000000049454E44AE426082}
+            FileName = 
+              'E:\Images\Icons\_Oil Pastels\CRGB_AC_32\Tiny\Document, Image !Pe' +
+              'ncil - 16.png'
+          end>
+        Name = 'Item 6'
+      end
+      item
+        MultiResBitmap = <
+          item
+            Width = 16
+            Height = 16
+            PNG = {
+              89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+              61000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+              02B849444154384F65534B681351143D9379F9F513430968944443C5166A4128
+              AD20D622A46E5D76DD9514ECC6A522D4BDB8D0A59B2E2595825BC18D5AB5082A
+              2AB1B1D8DAA449DAE6D39A4EE63FEF7967D22415CF7079F73DDE3DF7BE7BEE48
+              E8628C2CD572FF8388C7E37BA552E99D2449CED159174288D0E4E4E42EAD4251
+              9A62BFA188BDDABE286C97C5FAAF4DF13DBB26324BCB8231F6AC5C2EF71E8579
+              F01DAD2066AF9A603804C602907D0C92CC2033069F2C6374F4225EBFF930934A
+              A5568F9374085C703247F820D1C785A0CA68E51C8ECDD16CAAA8D62A78BEFC62
+              2491482C52B1B21BD321A003D8F4BAC2CFCFB0B9E5EDF3B98F28160A9EBFBDB5
+              46EC0655C7904C26A7171616821426B1563879648661A2F8F21E721A4743F521
+              1408A252D945A16AE3947F03878373B87479CAAD8A65B3593F85682C163B7D61
+              3A3DFF40379291470F3368EC4CE0B01982C113545E917C3FC626E6515C4D207D
+              ED060C5D771BE62575C14C53BA3E3B7B67269D3E2799A645556868AA2A2C4345
+              BEA0E0C9E34594E2F731E09361532F5C3B0E1FE792DDDBC710EEE188446C3207
+              917E07A1B083685482656990DE5E459059F8F4FE152CD370E33A25784D742C1B
+              9A6642551D320E5DE7D07401D37428C044A9B8825AC3C6D0C838A9E336DC8BF5
+              E011341A3A5DD4A16A3A746AA4A1DB701C8B484916CA55AF15D1D46C90AAA494
+              45115D064F85DF79CE33195316C27DA3E365A6C4D40F0E2699183FB90A53E1C8
+              65BFE24CF2DF69EFCC816ED4103DB189586C8B742E211CCA4351F6E0C08FC19B
+              7711BD721BFD9101AA801FCBDF22908ADB15893B7F7070A02318D089A886BE3E
+              9D86A61FB2DF0FEED01C9C3DEFF93629C589A40D9251AB1AF51D65DDD67B8687
+              0658BD0ECA6CA25215D0D4436C6CE4ACB95B4FBFD0DD766257811F4B853C3DB2
+              B5A19996A7488B61F2DBD4EDCB01B26F642BDEAE0BEFB70180BF4DF46FDA429A
+              B3E00000000049454E44AE426082}
+            FileName = 
+              'E:\Images\Icons\_Oil Pastels\CRGB_AC_32\Tiny\Document, Image !Di' +
+              'sk - 16.png'
+          end>
+        Name = 'Item 7'
+      end
+      item
+        MultiResBitmap = <
+          item
+            Width = 16
+            Height = 16
+            PNG = {
+              89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+              61000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+              031949444154384F95535D4B1451187ECEECCCCE8EEBE7AA24952EA1B858998A
+              5B5666444B515E6D09115D78511751D45D8178DF4D7F208A12C2BEA3AC2EBAC8
+              522BFAB0AD742B5AB455B372D9CDDD3E6667E77B663B23140445F4C07B3887C3
+              79DEE779CFFB12004E7034F2347E211C0EEFF37ABDDBE6E6E666E6E7535630D8
+              BAF4E2C52BB1AE9DE1DAB1F157DFD6AF0F96F5F59DDBCBD6D7D7974F4E4E7683
+              6134D80E89ED10D90C43F6F7F7F737CFCECEE882C0710505020987BBD49696E5
+              1EC3303170FD865458E83E461886EB8EC5A7CFC6673FC1344D34D4D6A0D65F8D
+              93274EA0BA6629B66DDF0A4DCDD1BBA790E57AC88A01F17B16070E1E96474723
+              A58CCBED36DFBDFF88F6E02AA879161F9219688A86D7AFC7B1BD730B0C4381C0
+              1F054F2E80677AA8B61438378B0DED6B798EE356328E5F5D3770E7D138426D8D
+              B06D1B91D1A770B12CB2A248B3BF8141094DC3806DDA30B4DBD0351D85453E08
+              82E0620C5531E5CC5CDE2710BC1C8BA2CAEBC68AE58DA85AB41883834350B56A
+              64B32A142A5DCAE9B04988969DE0DAB5AB104531C1788AC1563613629726A017
+              4DE32B3F8368F405DC1C87B6B54148520EA2DA8B2F620714F300251120E76474
+              74B4C3E3F1B8162C28B2028DFB0E8515A1183252A91462B1185445A5859369E1
+              809CBA0E39A50C866EC1B40C249349DBEFF77F73B13C69DCB1A7B3ABB8A4143C
+              E7862513A8E93C3C028FCFF3291C3DD28B24254C67323873E62CD2F3698C0C3F
+              44205087811BB71E132A61D7F9BED39756549610424FCCA21A542EF143D3356A
+              258AE6A666AA40462291006D2CC7773EF23C92EFE9ED990804026D4C31C7B0D5
+              7286B89735827E30A4E8135CBE74019167CF50E42DC483072318191A424E9270
+              77F00E789E270D8106C7BA343131A12ED4C0A4CD971DE8037C55B06C0B9B3787
+              303C740FE51515B83F328CD6E06ADCBA791D1B376E8265590B5FFD138C6A81B5
+              2BAA80F272C89363C816F8F036F616A1D016EA3D89A6A61664A8FFD6E01A4C4D
+              C52165A5057B142E67217575759553F1F821BADF4DA7CA45B97F1B2A0A47A593
+              D219BA9F770CCBB2A768EB1FFFEB34FE03CE1B83C6FFBCF913801FF13F6E18CE
+              2C6B980000000049454E44AE426082}
+            FileName = 'E:\Images\Icons\_Oil Pastels\CRGB_AC_32\Tiny\List !New - 16.png'
+          end>
+        Name = 'Item 8'
+      end
+      item
+        MultiResBitmap = <
+          item
+            Width = 16
+            Height = 16
+            PNG = {
+              89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+              61000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+              02DB49444154384F6553CF4F1341187D3B3B6D818A2D05DAA26DB5912011488C
+              0649806A3CE8453C7930FE071A3D7AD20B37E3D5BF404E021A12131312101110
+              154C3441A81428440A54CA96C5A5F4E776D76F178446DFE665BE99ECFBE6CDF7
+              CD0838C24562703FFC0F7A5D5D5D626363E3A32008C583B523E8BA5E160A8536
+              69D453A93D5D56527A2229EBB1B5B8BE185DD167C3F37AFFCB019D73DE1B8FC7
+              ED073213EC60046536DDD8CACBC0B91522E310440E91733051444B4B33C6273E
+              DF0E068353A5490E1318D088459D41A04FD3757246A3A6A1A86AD8DB4B434A6E
+              E1D5C0EB26BFDFFF9CCC8A86E630012D40A5D3C516BE41D50AE67C35F205EBB1
+              9819AFFD9CA7EC3972C7110804AE757777DB4826F07D3945C45C2E8FF5A1C788
+              643428698632AB0D5B5B9B88492ABC9665EC9EB987F36D570C573C1C0E5B4892
+              311C5436343707775329713E128664BB8068E106968567586137B1C89FA2A265
+              12EBBF2DB874F9BAE9860A66EC69827775750DDF7FF8A8CD223238ED76F0D65B
+              A8511488E22FECECB8214F0F61C1D6870013A1522D0C9682B93D018FC3E9C231
+              4715D24A0A8ABC83A9C90F78373C0CFF091F828120E4612F6CBC80AF9F4650C8
+              E70CDDA105BE109989677793A745C6D0507F163E9F86C6C673C8D38FC5A286B1
+              89316C4B792475159D4DADD425A33B076A02AB6FF67979CD0EE04A6070F00D32
+              D90CC6C747D1DBF702A3A36F11EA0C415124EC65545057A95305921D6560D286
+              ACA47332B2D92C6A6BDD884697C02D56747484E070B8105D5A42435518E54C43
+              243C837CCE3CC221985714ED5EC98DEA5905DBF23659CF9B9429664C40ADDB8D
+              93ED77E06C7F80CAE32E72A095EC4F0994749115D65750A0BAB85CD5B058AD90
+              B612989BFB0E87D3890A7B05DDC422BCA7EA215A2C50F3056894E42F8C6A5E25
+              3E2156115DC40A62298C0D17897973B6AFF941BC4BCC0A743184587F7FD9FBD5
+              6936322B994F35994C9A575C55D5A2C7E3117A7A7AFE7DC2E6B301803F7A4E51
+              5453A0D5790000000049454E44AE426082}
+            FileName = 
+              'E:\Images\Icons\_Oil Pastels\CRGB_AC_32\Tiny\Document, Image !Li' +
+              'st - 16.png'
+          end>
+        Name = 'Item 9'
+      end
+      item
+        MultiResBitmap = <
+          item
+            Width = 16
+            Height = 16
+            PNG = {
+              89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+              61000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+              02C449444154384F6D534B4F1351183DF3A2AD80940AA1188A29E521F208C608
+              C6585949306A84B870E152179AB876830B7E8A71659490B833262E84201A8D26
+              442A14E4615FD052DA299D96766EE7FACD006D133D93937BE74EBF73CFF7A880
+              0A2E11BD47DB7FC05B5B5BE3D168F4932008A5E3B30A38E776BFDFBF4B2BCF66
+              359ECA64793C99E2A1708CAFFDDEE43F032BFCF59B592ECBF2AB582C567B1C66
+              413C5E41CA961B9BC30E59AE8124CA102419922C4394240C0CF4636EFEF37DAF
+              D7FBA55AA42C60C22096B808811E83737246AB61A0C40C685A0E7BC9046666DF
+              F6793C9E1764563263CA02740046D985823FC00CDD7AFFB3FA159150C8DA87B7
+              5748BD40EE64B4B7B7DF989E9EB65198201F85D38E58281411793F85D5BC814C
+              4E84BDC686446217A13D06B7B28103DF130C8D8C9AAEE44020A05048BEEC4067
+              4CD84FED81BB4791743CC0BE730699A687889F790947FF0222AA82E1EB63961B
+              2AD87114603AF0363536066B14451A1DB90CA3C4E8479492F00C7AB188B6968B
+              F04F5D41C337098C6A61B21A62ADC3F1A8CBE34974F7F6F2A1C141DC1C1F4357
+              470F7C6D1DB8D0DD85E0D62230770D3659C7F7C50F245A30E3CA16446618EB5C
+              2A3A7A3B7DC2EDBB93E8E83C8F5B77C6E17237E2E040B3BA1109CF239961E8E9
+              2387A63BE209C442A1B021CA0ADBD989415555B22E622FA5C2E56A86BDD66EB5
+              763F198596A7D4E85E56D2E9A4A2601631AA6675A5BEC1099BCD463DD7A95502
+              0D5413F49C4645D231E25E804334B01A5842B160A5508629B0ADA6D375AB8165
+              1E0947B0BEA6219D6A46706513878CA1A9E52C7C13CFE1BCFA14F5A75DE4C0A8
+              BAFF488025F65329C64AC2C2FC47EC449748E41D72D930D2190D1393F7C0691A
+              DDE73A21290A5851A74E553A7152CDB6BA538E6D97B3D110042E954A1C295515
+              B47C3E47DF9689D5979A31BF888F8987958900CCC91A263A8969E216314EFC1F
+              ACBF0D00FC059FBB4DF0E7BC30C30000000049454E44AE426082}
+            FileName = 
+              'E:\Images\Icons\_Oil Pastels\CRGB_AC_32\Tiny\Document, Image !Li' +
+              'tter Bin, Litter - 16.png'
+          end>
+        Name = 'Item 10'
+      end
+      item
+        MultiResBitmap = <
+          item
+            Width = 16
+            Height = 16
+            PNG = {
+              89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+              61000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+              02DE49444154384F65534B4C1351143DF3A165B020E94620B6D0286151F9D86A
+              4513203120311057607565226E4CD8BA52818D1B1223C6C49D892C30284A42D8
+              695C00012C359810D2508CF229502820505ACA74A6F3BC3320543D9393F7E6CD
+              3B67CEDC3B8FC331DC44C7C1F43FB0FCFCFCC8CACACA18C771A9C3B56330C632
+              ABAAAAD66864B1589C6D45632CB2B9C5424B61F6FDC71C9B0ECCB0777DFD4C14
+              C5DE70387CE25066803F1C41CE461AB39409513441E0457082084114C10B024A
+              4BCF6178E48BD7E170F8D24D8E0C7468C414E3C1D1A53146C968D434A4540DF1
+              F81E3636D7F1BE7FC069B3D95E535841D71C19D00254FABAD0EC37A89A62DC2F
+              06FD580E858CF9D2C20CB9CB944E84DD6EAFEBE8E830938C130FE43423CA7212
+              CB1F1F2298D010DDE3916932637D7D0DA10D1579193FB17BE63E2A2ED5E8A9C4
+              4020904192846140D5A5DC1CDEF47423103C8593663B98F9064A6C1144B46264
+              E51761D967436DF535C8FBFB7AC1749901C3C0E57279789EB79CB615A0B6FE11
+              3CE73DE8E9BD8C17CF9EC3CABB60BDC521D72F40A55AE84C875E036B5B5BDB27
+              DFA44F72B95D547D01436343B0645B8C2E98CC2B10466B6016154C8E7F869294
+              75DD51045E92A4E285E50541CA94A0A80A64DA20CBB251B80B9E0B08EF47105A
+              1CC666544589F32275472FF8A19AC0575656DE73D81DA9583C864422819BD7AF
+              E2435F3F455551565E0667A9130B8B538827545057A9530AC98E1D7841144C2E
+              8F4BDCDEDEC61EF5FA6EEB0334373719C51A1C18C4DB572F515D1484C46B0806
+              A690A474E9E0FD13FEAEC6FAC6AFA323A388EE465156518ED5B555FCDADA425D
+              7D1D92A205CEE6C7C8BDD28AEC1C2B25D0D2DE4F069D9D9DD3D4D7F1424721E6
+              E7E6311B9CC5CECE0E5AEEB4A0EB6917BCDEDB501505798567216464404D2AD0
+              C8E42FB4B7B7F374149E58ADD6FD266F53AAA1B18159722CB2C964F2D363DF3F
+              9C20761325E2513738B7DBADFF593A0B88C5C42CA2BEE9CF7A3A8D730000BF01
+              249E4025C501EACA0000000049454E44AE426082}
+            FileName = 
+              'E:\Images\Icons\_Oil Pastels\CRGB_AC_32\Tiny\Document, Image !Pr' +
+              'ocess - 16.png'
+          end>
+        Name = 'Item 11'
+      end>
+    Destination = <
+      item
+        Layers = <
+          item
+            Name = 'Item 0'
+          end>
+      end
+      item
+        Layers = <
+          item
+            Name = 'Item 1'
+          end>
+      end
+      item
+        Layers = <
+          item
+            Name = 'Item 2'
+          end>
+      end
+      item
+        Layers = <
+          item
+            Name = 'Item 3'
+          end>
+      end
+      item
+        Layers = <
+          item
+            Name = 'Item 4'
+          end>
+      end
+      item
+        Layers = <
+          item
+            Name = 'Item 5'
+          end>
+      end
+      item
+        Layers = <
+          item
+            Name = 'Item 6'
+          end>
+      end
+      item
+        Layers = <
+          item
+            Name = 'Item 7'
+          end>
+      end
+      item
+        Layers = <
+          item
+            Name = 'Item 8'
+          end>
+      end
+      item
+        Layers = <
+          item
+            Name = 'Item 9'
+          end>
+      end
+      item
+        Layers = <
+          item
+            Name = 'Item 10'
+          end>
+      end
+      item
+        Layers = <
+          item
+            Name = 'Item 11'
+          end>
+      end>
+    Left = 672
+    Top = 176
+  end
+  object StyleBook1: TStyleBook
+    Styles = <
+      item
+      end
+      item
+        Platform = 'Windows 10 Desktop'
+        ResourcesBin = {
+          464D585F5354594C4520322E3501060E5461624974656D335374796C6531033E
+          2C005450463007544C61796F757400095374796C654E616D65060E5461624974
+          656D335374796C653105416C69676E070643656E7465720A53697A652E576964
+          746805000000000000009005400B53697A652E48656967687405000000000000
+          00C004401453697A652E506C6174666F726D44656661756C7408085461624F72
+          6465720200000F545461625374796C654F626A65637400095374796C654E616D
+          650603746F7005416C69676E0708436F6E74656E74730C436C69704368696C64
+          72656E09064C6F636B6564090C536F757263654C6F6F6B7570061B57696E646F
+          7773203130204465736B746F707374796C652E706E670A53697A652E57696474
+          6805000000000000009005400B53697A652E4865696768740500000000000000
+          C004401453697A652E506C6174666F726D44656661756C74080D416374697665
+          54726967676572070853656C65637465640A4163746976654C696E6B0E010E43
+          6170496E736574732E4C65667405000000000000008001400D436170496E7365
+          74732E546F7005000000000000008001400F436170496E736574732E52696768
+          74050000000000000080014010436170496E736574732E426F74746F6D050000
+          00000000008001400F536F75726365526563742E4C6566740500000000000000
+          DC04400E536F75726365526563742E546F700500000000000000B4054010536F
+          75726365526563742E52696768740500000000000000C2054011536F75726365
+          526563742E426F74746F6D0500000000000000E4054000010E436170496E7365
+          74732E4C6566740500000000000000C001400D436170496E736574732E546F70
+          0500000000000000C001400F436170496E736574732E52696768740500000000
+          000000C0014010436170496E736574732E426F74746F6D0500000000000000C0
+          0140055363616C650500000000000000C0FF3F0F536F75726365526563742E4C
+          6566740500000000000000A405400E536F75726365526563742E546F70050000
+          000000000087064010536F75726365526563742E526967687405000000000000
+          0091064011536F75726365526563742E426F74746F6D0500000000000000AA06
+          4000010E436170496E736574732E4C65667405000000000000008002400D4361
+          70496E736574732E546F7005000000000000008002400F436170496E73657473
+          2E5269676874050000000000000080024010436170496E736574732E426F7474
+          6F6D0500000000000000800240055363616C6505000000000000008000400F53
+          6F75726365526563742E4C6566740500000000000000DC05400E536F75726365
+          526563742E546F700500000000000000B4064010536F75726365526563742E52
+          696768740500000000000000C2064011536F75726365526563742E426F74746F
+          6D0500000000000000E4064000000A536F757263654C696E6B0E010E43617049
+          6E736574732E4C65667405000000000000008001400D436170496E736574732E
+          546F7005000000000000008001400F436170496E736574732E52696768740500
+          00000000000080014010436170496E736574732E426F74746F6D050000000000
+          00008001400F536F75726365526563742E4C6566740500000000000000A00140
+          0E536F75726365526563742E546F700500000000000000B4054010536F757263
+          65526563742E52696768740500000000000000BC044011536F75726365526563
+          742E426F74746F6D0500000000000000E2054000010E436170496E736574732E
+          4C6566740500000000000000C001400D436170496E736574732E546F70050000
+          0000000000C001400F436170496E736574732E52696768740500000000000000
+          C0014010436170496E736574732E426F74746F6D0500000000000000C0014005
+          5363616C650500000000000000C0FF3F0F536F75726365526563742E4C656674
+          0500000000000000E001400E536F75726365526563742E546F70050000000000
+          000087064010536F75726365526563742E526967687405000000000000008C05
+          4011536F75726365526563742E426F74746F6D0500000000000000A906400001
+          0E436170496E736574732E4C65667405000000000000008002400D436170496E
+          736574732E546F7005000000000000008002400F436170496E736574732E5269
+          676874050000000000000080024010436170496E736574732E426F74746F6D05
+          00000000000000800240055363616C6505000000000000008000400F536F7572
+          6365526563742E4C6566740500000000000000A002400E536F75726365526563
+          742E546F700500000000000000B4064010536F75726365526563742E52696768
+          740500000000000000BC054011536F75726365526563742E426F74746F6D0500
+          000000000000E20640000007486F744C696E6B0E010E436170496E736574732E
+          4C65667405000000000000008001400D436170496E736574732E546F70050000
+          00000000008001400F436170496E736574732E52696768740500000000000000
+          80014010436170496E736574732E426F74746F6D05000000000000008001400F
+          536F75726365526563742E4C6566740500000000000000D205400E536F757263
+          65526563742E546F700500000000000000B4054010536F75726365526563742E
+          5269676874050000000000000093064011536F75726365526563742E426F7474
+          6F6D0500000000000000E2054000010E436170496E736574732E4C6566740500
+          000000000000C001400D436170496E736574732E546F700500000000000000C0
+          01400F436170496E736574732E52696768740500000000000000C00140104361
+          70496E736574732E426F74746F6D0500000000000000C00140055363616C6505
+          00000000000000C0FF3F0F536F75726365526563742E4C656674050000000000
+          00009D06400E536F75726365526563742E546F70050000000000000087064010
+          536F75726365526563742E52696768740500000000000000DC064011536F7572
+          6365526563742E426F74746F6D0500000000000000A9064000010E436170496E
+          736574732E4C65667405000000000000008002400D436170496E736574732E54
+          6F7005000000000000008002400F436170496E736574732E5269676874050000
+          000000000080024010436170496E736574732E426F74746F6D05000000000000
+          00800240055363616C6505000000000000008000400F536F7572636552656374
+          2E4C6566740500000000000000D206400E536F75726365526563742E546F7005
+          00000000000000B4064010536F75726365526563742E52696768740500000000
+          00000093074011536F75726365526563742E426F74746F6D0500000000000000
+          E2064000000D416374697665486F744C696E6B0E010E436170496E736574732E
+          4C65667405000000000000008001400D436170496E736574732E546F70050000
+          00000000008001400F436170496E736574732E52696768740500000000000000
+          80014010436170496E736574732E426F74746F6D05000000000000008001400F
+          536F75726365526563742E4C6566740500000000000000DC04400E536F757263
+          65526563742E546F700500000000000000B4054010536F75726365526563742E
+          52696768740500000000000000C2054011536F75726365526563742E426F7474
+          6F6D0500000000000000E4054000010E436170496E736574732E4C6566740500
+          000000000000C001400D436170496E736574732E546F700500000000000000C0
+          01400F436170496E736574732E52696768740500000000000000C00140104361
+          70496E736574732E426F74746F6D0500000000000000C00140055363616C6505
+          00000000000000C0FF3F0F536F75726365526563742E4C656674050000000000
+          0000A405400E536F75726365526563742E546F70050000000000000087064010
+          536F75726365526563742E5269676874050000000000000091064011536F7572
+          6365526563742E426F74746F6D0500000000000000AA064000010E436170496E
+          736574732E4C65667405000000000000008002400D436170496E736574732E54
+          6F7005000000000000008002400F436170496E736574732E5269676874050000
+          000000000080024010436170496E736574732E426F74746F6D05000000000000
+          00800240055363616C6505000000000000008000400F536F7572636552656374
+          2E4C6566740500000000000000DC05400E536F75726365526563742E546F7005
+          00000000000000B4064010536F75726365526563742E52696768740500000000
+          000000C2064011536F75726365526563742E426F74746F6D0500000000000000
+          E4064000000B466F63757365644C696E6B0E010E436170496E736574732E4C65
+          667405000000000000008001400D436170496E736574732E546F700500000000
+          0000008001400F436170496E736574732E526967687405000000000000008001
+          4010436170496E736574732E426F74746F6D05000000000000008001400F536F
+          75726365526563742E4C6566740500000000000000A001400E536F7572636552
+          6563742E546F700500000000000000B4054010536F75726365526563742E5269
+          6768740500000000000000BC044011536F75726365526563742E426F74746F6D
+          0500000000000000E2054000010E436170496E736574732E4C65667405000000
+          00000000C001400D436170496E736574732E546F700500000000000000C00140
+          0F436170496E736574732E52696768740500000000000000C001401043617049
+          6E736574732E426F74746F6D0500000000000000C00140055363616C65050000
+          0000000000C0FF3F0F536F75726365526563742E4C6566740500000000000000
+          E001400E536F75726365526563742E546F70050000000000000087064010536F
+          75726365526563742E526967687405000000000000008C054011536F75726365
+          526563742E426F74746F6D0500000000000000A9064000010E436170496E7365
+          74732E4C65667405000000000000008002400D436170496E736574732E546F70
+          05000000000000008002400F436170496E736574732E52696768740500000000
+          00000080024010436170496E736574732E426F74746F6D050000000000000080
+          0240055363616C6505000000000000008000400F536F75726365526563742E4C
+          6566740500000000000000A002400E536F75726365526563742E546F70050000
+          0000000000B4064010536F75726365526563742E526967687405000000000000
+          00BC054011536F75726365526563742E426F74746F6D0500000000000000E206
+          40000011416374697665466F63757365644C696E6B0E010E436170496E736574
+          732E4C65667405000000000000008001400D436170496E736574732E546F7005
+          000000000000008001400F436170496E736574732E5269676874050000000000
+          000080014010436170496E736574732E426F74746F6D05000000000000008001
+          400F536F75726365526563742E4C6566740500000000000000D205400E536F75
+          726365526563742E546F700500000000000000EC054010536F75726365526563
+          742E5269676874050000000000000093064011536F75726365526563742E426F
+          74746F6D05000000000000008E064000010E436170496E736574732E4C656674
+          0500000000000000C001400D436170496E736574732E546F7005000000000000
+          00C001400F436170496E736574732E52696768740500000000000000C0014010
+          436170496E736574732E426F74746F6D0500000000000000C00140055363616C
+          650500000000000000C0FF3F0F536F75726365526563742E4C65667405000000
+          000000009D06400E536F75726365526563742E546F700500000000000000B106
+          4010536F75726365526563742E52696768740500000000000000DC064011536F
+          75726365526563742E426F74746F6D0500000000000000D4064000010E436170
+          496E736574732E4C65667405000000000000008002400D436170496E73657473
+          2E546F7005000000000000008002400F436170496E736574732E526967687405
+          0000000000000080024010436170496E736574732E426F74746F6D0500000000
+          000000800240055363616C6505000000000000008000400F536F757263655265
+          63742E4C6566740500000000000000D206400E536F75726365526563742E546F
+          700500000000000000EC064010536F75726365526563742E5269676874050000
+          000000000093074011536F75726365526563742E426F74746F6D050000000000
+          00008E07400000000E5452656374416E696D6174696F6E00084475726174696F
+          6E050000000000ACC5A7EE3F0C50726F70657274794E616D6506074D61726769
+          6E730F537461727456616C75652E4C656674050000000000000080FFBF0E5374
+          61727456616C75652E546F70050000000000000080004010537461727456616C
+          75652E5269676874050000000000000080FFBF0E53746F7056616C75652E4C65
+          6674050000000000000080FFBF0F53746F7056616C75652E5269676874050000
+          000000000080FFBF1053746F7056616C75652E426F74746F6D05000000000000
+          008000C00754726967676572060F497353656C65637465643D547275650E5472
+          6967676572496E76657273650610497353656C65637465643D66616C73650000
+          07544C61796F757400095374796C654E616D65060B6C61796F75747374796C65
+          05416C69676E070A486F727A43656E7465720A506F736974696F6E2E58050000
+          0000000000B002400A53697A652E57696474680500000000000000C804400B53
+          697A652E4865696768740500000000000000C004401453697A652E506C617466
+          6F726D44656661756C7408000654496D61676500095374796C654E616D650604
+          69636F6E0E4D756C74695265734269746D61700E01000005416C69676E07044C
+          6566740748697454657374080C4D617267696E732E4C65667405000000000000
+          008001400D4D617267696E732E526967687405000000000000008001C00A506F
+          736974696F6E2E5805000000000000008001400A53697A652E57696474680500
+          0000000000008004400B53697A652E4865696768740500000000000000C00440
+          1453697A652E506C6174666F726D44656661756C740800000654476C79706800
+          095374796C654E616D65060A676C7970687374796C650C4D617267696E732E4C
+          65667405000000000000008001400D4D617267696E732E526967687405000000
+          000000008001C005416C69676E07044C6566740A53697A652E57696474680500
+          0000000000008004400B53697A652E4865696768740500000000000000800440
+          1453697A652E506C6174666F726D44656661756C740800001354546162537479
+          6C65546578744F626A65637400095374796C654E616D6506047465787405416C
+          69676E0706436C69656E74064C6F636B6564090C4D617267696E732E4C656674
+          05000000000000008002400B4D617267696E732E546F70050000000000000080
+          00400D4D617267696E732E526967687405000000000000008002400E4D617267
+          696E732E426F74746F6D05000000000000008000400A53697A652E5769647468
+          05000000000000008000400B53697A652E4865696768740500000000000000B0
+          04401453697A652E506C6174666F726D44656661756C74081554657874536574
+          74696E67732E576F726457726170080D536861646F7756697369626C65080D41
+          637469766554726967676572070853656C65637465640B416374697665436F6C
+          6F720708636C61426C61636B08486F74436F6C6F720708636C61426C61636B00
+          00000007544C61796F757400095374796C654E616D650606626F74746F6D0541
+          6C69676E0708436F6E74656E7473064C6F636B6564090A53697A652E57696474
+          6805000000000000009005400B53697A652E4865696768740500000000000000
+          C004401453697A652E506C6174666F726D44656661756C7408000E5452656374
+          416E696D6174696F6E00084475726174696F6E050000000000ACC5A7EE3F0C50
+          726F70657274794E616D6506074D617267696E730F537461727456616C75652E
+          4C656674050000000000000080FFBF10537461727456616C75652E5269676874
+          050000000000000080FFBF11537461727456616C75652E426F74746F6D050000
+          00000000008000400E53746F7056616C75652E4C656674050000000000000080
+          FFBF0D53746F7056616C75652E546F7005000000000000008000C00F53746F70
+          56616C75652E5269676874050000000000000080FFBF0754726967676572060F
+          497353656C65637465643D547275650E54726967676572496E76657273650610
+          497353656C65637465643D66616C736500000F545461625374796C654F626A65
+          63740005416C69676E0708436F6E74656E7473064C6F636B6564090C536F7572
+          63654C6F6F6B7570061B57696E646F7773203130204465736B746F707374796C
+          652E706E670D526F746174696F6E416E676C650500000000000000B406400A53
+          697A652E576964746805000000000000009005400B53697A652E486569676874
+          0500000000000000C004401453697A652E506C6174666F726D44656661756C74
+          080D41637469766554726967676572070853656C65637465640A416374697665
+          4C696E6B0E010E436170496E736574732E4C6566740500000000000000800140
+          0D436170496E736574732E546F7005000000000000008001400F436170496E73
+          6574732E5269676874050000000000000080014010436170496E736574732E42
+          6F74746F6D05000000000000008001400F536F75726365526563742E4C656674
+          0500000000000000DC04400E536F75726365526563742E546F70050000000000
+          0000B4054010536F75726365526563742E52696768740500000000000000C205
+          4011536F75726365526563742E426F74746F6D0500000000000000E405400001
+          0E436170496E736574732E4C6566740500000000000000C001400D436170496E
+          736574732E546F700500000000000000C001400F436170496E736574732E5269
+          6768740500000000000000C0014010436170496E736574732E426F74746F6D05
+          00000000000000C00140055363616C650500000000000000C0FF3F0F536F7572
+          6365526563742E4C6566740500000000000000A405400E536F75726365526563
+          742E546F70050000000000000087064010536F75726365526563742E52696768
+          74050000000000000091064011536F75726365526563742E426F74746F6D0500
+          000000000000AA064000010E436170496E736574732E4C656674050000000000
+          00008002400D436170496E736574732E546F7005000000000000008002400F43
+          6170496E736574732E5269676874050000000000000080024010436170496E73
+          6574732E426F74746F6D0500000000000000800240055363616C650500000000
+          0000008000400F536F75726365526563742E4C6566740500000000000000DC05
+          400E536F75726365526563742E546F700500000000000000B4064010536F7572
+          6365526563742E52696768740500000000000000C2064011536F757263655265
+          63742E426F74746F6D0500000000000000E4064000000A536F757263654C696E
+          6B0E010E436170496E736574732E4C65667405000000000000008001400D4361
+          70496E736574732E546F7005000000000000008001400F436170496E73657473
+          2E5269676874050000000000000080014010436170496E736574732E426F7474
+          6F6D05000000000000008001400F536F75726365526563742E4C656674050000
+          0000000000A001400E536F75726365526563742E546F700500000000000000B4
+          054010536F75726365526563742E52696768740500000000000000BC04401153
+          6F75726365526563742E426F74746F6D0500000000000000E2054000010E4361
+          70496E736574732E4C6566740500000000000000C001400D436170496E736574
+          732E546F700500000000000000C001400F436170496E736574732E5269676874
+          0500000000000000C0014010436170496E736574732E426F74746F6D05000000
+          00000000C00140055363616C650500000000000000C0FF3F0F536F7572636552
+          6563742E4C6566740500000000000000E001400E536F75726365526563742E54
+          6F70050000000000000087064010536F75726365526563742E52696768740500
+          0000000000008C054011536F75726365526563742E426F74746F6D0500000000
+          000000A9064000010E436170496E736574732E4C656674050000000000000080
+          02400D436170496E736574732E546F7005000000000000008002400F43617049
+          6E736574732E5269676874050000000000000080024010436170496E73657473
+          2E426F74746F6D0500000000000000800240055363616C650500000000000000
+          8000400F536F75726365526563742E4C6566740500000000000000A002400E53
+          6F75726365526563742E546F700500000000000000B4064010536F7572636552
+          6563742E52696768740500000000000000BC054011536F75726365526563742E
+          426F74746F6D0500000000000000E20640000007486F744C696E6B0E010E4361
+          70496E736574732E4C65667405000000000000008001400D436170496E736574
+          732E546F7005000000000000008001400F436170496E736574732E5269676874
+          050000000000000080014010436170496E736574732E426F74746F6D05000000
+          000000008001400F536F75726365526563742E4C6566740500000000000000D2
+          05400E536F75726365526563742E546F700500000000000000B4054010536F75
+          726365526563742E5269676874050000000000000093064011536F7572636552
+          6563742E426F74746F6D0500000000000000E2054000010E436170496E736574
+          732E4C6566740500000000000000C001400D436170496E736574732E546F7005
+          00000000000000C001400F436170496E736574732E5269676874050000000000
+          0000C0014010436170496E736574732E426F74746F6D0500000000000000C001
+          40055363616C650500000000000000C0FF3F0F536F75726365526563742E4C65
+          667405000000000000009D06400E536F75726365526563742E546F7005000000
+          0000000087064010536F75726365526563742E52696768740500000000000000
+          DC064011536F75726365526563742E426F74746F6D0500000000000000A90640
+          00010E436170496E736574732E4C65667405000000000000008002400D436170
+          496E736574732E546F7005000000000000008002400F436170496E736574732E
+          5269676874050000000000000080024010436170496E736574732E426F74746F
+          6D0500000000000000800240055363616C6505000000000000008000400F536F
+          75726365526563742E4C6566740500000000000000D206400E536F7572636552
+          6563742E546F700500000000000000B4064010536F75726365526563742E5269
+          676874050000000000000093074011536F75726365526563742E426F74746F6D
+          0500000000000000E2064000000D416374697665486F744C696E6B0E010E4361
+          70496E736574732E4C65667405000000000000008001400D436170496E736574
+          732E546F7005000000000000008001400F436170496E736574732E5269676874
+          050000000000000080014010436170496E736574732E426F74746F6D05000000
+          000000008001400F536F75726365526563742E4C6566740500000000000000DC
+          04400E536F75726365526563742E546F700500000000000000B4054010536F75
+          726365526563742E52696768740500000000000000C2054011536F7572636552
+          6563742E426F74746F6D0500000000000000E4054000010E436170496E736574
+          732E4C6566740500000000000000C001400D436170496E736574732E546F7005
+          00000000000000C001400F436170496E736574732E5269676874050000000000
+          0000C0014010436170496E736574732E426F74746F6D0500000000000000C001
+          40055363616C650500000000000000C0FF3F0F536F75726365526563742E4C65
+          66740500000000000000A405400E536F75726365526563742E546F7005000000
+          0000000087064010536F75726365526563742E52696768740500000000000000
+          91064011536F75726365526563742E426F74746F6D0500000000000000AA0640
+          00010E436170496E736574732E4C65667405000000000000008002400D436170
+          496E736574732E546F7005000000000000008002400F436170496E736574732E
+          5269676874050000000000000080024010436170496E736574732E426F74746F
+          6D0500000000000000800240055363616C6505000000000000008000400F536F
+          75726365526563742E4C6566740500000000000000DC05400E536F7572636552
+          6563742E546F700500000000000000B4064010536F75726365526563742E5269
+          6768740500000000000000C2064011536F75726365526563742E426F74746F6D
+          0500000000000000E4064000000B466F63757365644C696E6B0E010E43617049
+          6E736574732E4C65667405000000000000008001400D436170496E736574732E
+          546F7005000000000000008001400F436170496E736574732E52696768740500
+          00000000000080014010436170496E736574732E426F74746F6D050000000000
+          00008001400F536F75726365526563742E4C6566740500000000000000A00140
+          0E536F75726365526563742E546F700500000000000000B4054010536F757263
+          65526563742E52696768740500000000000000BC044011536F75726365526563
+          742E426F74746F6D0500000000000000E2054000010E436170496E736574732E
+          4C6566740500000000000000C001400D436170496E736574732E546F70050000
+          0000000000C001400F436170496E736574732E52696768740500000000000000
+          C0014010436170496E736574732E426F74746F6D0500000000000000C0014005
+          5363616C650500000000000000C0FF3F0F536F75726365526563742E4C656674
+          0500000000000000E001400E536F75726365526563742E546F70050000000000
+          000087064010536F75726365526563742E526967687405000000000000008C05
+          4011536F75726365526563742E426F74746F6D0500000000000000A906400001
+          0E436170496E736574732E4C65667405000000000000008002400D436170496E
+          736574732E546F7005000000000000008002400F436170496E736574732E5269
+          676874050000000000000080024010436170496E736574732E426F74746F6D05
+          00000000000000800240055363616C6505000000000000008000400F536F7572
+          6365526563742E4C6566740500000000000000A002400E536F75726365526563
+          742E546F700500000000000000B4064010536F75726365526563742E52696768
+          740500000000000000BC054011536F75726365526563742E426F74746F6D0500
+          000000000000E20640000011416374697665466F63757365644C696E6B0E010E
+          436170496E736574732E4C65667405000000000000008001400D436170496E73
+          6574732E546F7005000000000000008001400F436170496E736574732E526967
+          6874050000000000000080014010436170496E736574732E426F74746F6D0500
+          0000000000008001400F536F75726365526563742E4C65667405000000000000
+          00D205400E536F75726365526563742E546F700500000000000000EC05401053
+          6F75726365526563742E5269676874050000000000000093064011536F757263
+          65526563742E426F74746F6D05000000000000008E064000010E436170496E73
+          6574732E4C6566740500000000000000C001400D436170496E736574732E546F
+          700500000000000000C001400F436170496E736574732E526967687405000000
+          00000000C0014010436170496E736574732E426F74746F6D0500000000000000
+          C00140055363616C650500000000000000C0FF3F0F536F75726365526563742E
+          4C65667405000000000000009D06400E536F75726365526563742E546F700500
+          000000000000B1064010536F75726365526563742E5269676874050000000000
+          0000DC064011536F75726365526563742E426F74746F6D0500000000000000D4
+          064000010E436170496E736574732E4C65667405000000000000008002400D43
+          6170496E736574732E546F7005000000000000008002400F436170496E736574
+          732E5269676874050000000000000080024010436170496E736574732E426F74
+          746F6D0500000000000000800240055363616C6505000000000000008000400F
+          536F75726365526563742E4C6566740500000000000000D206400E536F757263
+          65526563742E546F700500000000000000EC064010536F75726365526563742E
+          5269676874050000000000000093074011536F75726365526563742E426F7474
+          6F6D05000000000000008E07400000000007544C61796F757400095374796C65
+          4E616D65060B6C61796F75747374796C6505416C69676E070A486F727A43656E
+          7465720A506F736974696F6E2E580500000000000000B002400A53697A652E57
+          696474680500000000000000C804400B53697A652E4865696768740500000000
+          000000C004401453697A652E506C6174666F726D44656661756C740800065449
+          6D61676500095374796C654E616D65060469636F6E0E4D756C74695265734269
+          746D61700E01000005416C69676E07044C6566740748697454657374080C4D61
+          7267696E732E4C65667405000000000000008001400D4D617267696E732E5269
+          67687405000000000000008001C00A506F736974696F6E2E5805000000000000
+          008001400A53697A652E576964746805000000000000008004400B53697A652E
+          4865696768740500000000000000C004401453697A652E506C6174666F726D44
+          656661756C740800000654476C79706800095374796C654E616D65060A676C79
+          70687374796C650C4D617267696E732E4C65667405000000000000008001400D
+          4D617267696E732E526967687405000000000000008001C005416C69676E0704
+          4C6566740A53697A652E576964746805000000000000008004400B53697A652E
+          48656967687405000000000000008004401453697A652E506C6174666F726D44
+          656661756C7408000013545461625374796C65546578744F626A656374000953
+          74796C654E616D6506047465787405416C69676E0706436C69656E74064C6F63
+          6B6564090C4D617267696E732E4C65667405000000000000008002400B4D6172
+          67696E732E546F7005000000000000008000400D4D617267696E732E52696768
+          7405000000000000008002400E4D617267696E732E426F74746F6D0500000000
+          0000008000400A53697A652E576964746805000000000000008000400B53697A
+          652E4865696768740500000000000000B004401453697A652E506C6174666F72
+          6D44656661756C74080454657874060454657874155465787453657474696E67
+          732E576F726457726170080D536861646F7756697369626C65080D4163746976
+          6554726967676572070853656C65637465640B416374697665436F6C6F720708
+          636C61426C61636B08486F74436F6C6F720708636C61426C61636B0000000000}
+      end>
+    Left = 832
+    Top = 8
+  end
+end

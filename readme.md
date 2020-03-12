@@ -10,6 +10,8 @@ It was inspired by the tool that Antonio Savona released to incorporate a dancin
 
 The app is currently not finished and in fact doesn't even quite exist.  The only apps that are present are tools to manipulate frames and basic animation steps and to convert from data formats supplied by Antonio.
 
+_**Please Note:**  The app previously called "StepsBuilder" is now called "StepsLibrarian".  The _src_ folder has been flattened._
+
 
 ## Download and Installation
 
@@ -22,8 +24,9 @@ The tool apps are written using Delphi FMX.  You should find all you need in the
 
 A variety of systems should be supported including MacOS, Win32/Win64 and Linux (assuming compiler feature availability).  Android and iOS are currently unsupported due to feature utilisation.
 
+## Applications
 
-## CharsetChk
+### CharsetChk
 
 This tool can convert the optimised charsets output by Antonio's tool into fully specified charsets with all combinations.  
 
@@ -32,13 +35,11 @@ You can also convert frame files into a "normalised" charset utilisation in orde
 The files supplied by Antonio are in the _data/org_ folder.
 
 
-## StepsBuilder
+### StepsLibrarian
 
 _**Important:**  There has been a change in the file format used for libraries since the first version.  This notice will be removed at next milestone release and updated if necessary in between.  The change is quite simple and a fix is easy to apply.  Please contact me for further information._
 
-_**Note:**  Previously, the StepsBuilder created files called "projects" but now these files are known as "libraries"._
-
-With this tool, you can create animation frames and logical, repeatable sequences called steps.  These frames and steps are saved together to form an animation "library".  The final animation app will allow you to link sequences of these steps or individual frames from a library to form an animation proper.
+With this app, you can create animation frames and logical, repeatable sequences called steps.  These frames and steps are saved together to form an animation "library".  The final animation app will allow you to link sequences of these steps or individual frames from a library to form an animation proper.
 
 You start with an empty library.  The blank frame and colour palette are defaulted the ones used in the Karateka dance.  You can change the colour palette and blank frame only while the background frame is the only frame in the library.
 
