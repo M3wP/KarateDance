@@ -8,14 +8,14 @@ I am developing an animation editor for the C64 that will allow you to build an 
 
 It was inspired by the tool that Antonio Savona released to incorporate a dancing Karateka character with a SID tune.
 
-The app is currently not finished and in fact doesn't even quite exist.  The only apps that are present are tools to manipulate frames and basic animation steps and to convert from data formats supplied by Antonio.
+The DanceAnimator app has been added now to the suite.  You can use the libraries created by the StepsLibrarian to construct your very own karate dance or any other animation that uses the same technique.
 
 _**Please Note:**  The app previously called "StepsBuilder" is now called "StepsLibrarian".  The _src_ folder has been flattened._
 
 
 ## Download and Installation
 
-The Windows x64 (64 bit) binaries are available in the _bin_ folder as a compressed file.  You will need to decompress them before you can run them.
+The Windows x64 (64 bit) binaries are available in the _bin_ folder as a compressed file.  You will need to decompress them before you can run them.  The apps have now been built to require "run-time packages".  This decreases the total size of the installation but increases the number of files to include.
 
 
 ## Compiling
@@ -37,7 +37,7 @@ The files supplied by Antonio are in the _data/org_ folder.
 
 ### StepsLibrarian
 
-_**Important:**  There has been a change in the file format used for libraries since the first version.  This notice will be removed at next milestone release and updated if necessary in between.  The change is quite simple and a fix is easy to apply.  Please contact me for further information._
+_**Important:**  There has been a change in the file format used for libraries since the first version.  This notice will be removed at next milestone release and updated if necessary in between.  The change is quite simple and a fix is easy to apply.  Please contact me for further information.  A further, non-breaking change is planned to decrease the size of generated library files._
 
 With this app, you can create animation frames and logical, repeatable sequences called steps.  These frames and steps are saved together to form an animation "library".  The final animation app will allow you to link sequences of these steps or individual frames from a library to form an animation proper.
 
@@ -56,6 +56,18 @@ The key points in a frame are tracked.  These are the outside edges of the frame
 Once you have frames, you can create animation steps on the Steps tab.  Add frames and play the sequence with a variety of options.
 
 You can save your changes on the Project tab or load a previous session.
+
+### DanceAnimator
+
+The functionality is very limited and the overall quality quite crude but the goal of producing a custom dance animation can be achieved.
+
+The app cannot export to a C64 compatible animation at this time, nor can it play music with auditions.
+
+To operate the app, first link to a library on the Animation tab.  Now you can construct an animation on the Sequence tab by adding the steps in the order you want them to appear.  Linkage method and offset handling may or may not function correctly at this time except for in the case of linking position by frames and possibly smart linking.  Individual frames cannot yet be added to the animation, either.
+
+Once you have constructed a sequence, you must "compile" or build the animation sequence data.  Do this on the Data tab.  Some statistics are shown.
+
+You may now audition the animation on the Audition tab.
 
 
 ## Future Development

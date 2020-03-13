@@ -433,6 +433,7 @@
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <Icon_MainIcon>KarateDance Librarian.ico</Icon_MainIcon>
         <DCC_UsePackage>rtl;fmx</DCC_UsePackage>
+        <UsePackages>true</UsePackages>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">

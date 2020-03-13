@@ -72,6 +72,7 @@ type
 	TC64Frames = array of TC64Frame;
 
 	TC64CellKind = (cckFrame, cckStep);
+	TC64CellLink = (cclFromFrames, cclSmartLink, cclHardCentre, cclCustom);
 
 	TC64FrameKind = (cfkRaw, cfkDiffRLE);
 
@@ -81,6 +82,9 @@ type
 		Index: Integer;
 		Offset: Integer;
 		View: TBitmap;
+		Link: TC64CellLink;
+		StartX,
+		EndX: Integer;
 
 		constructor Create;
 		destructor  Destroy; override;
@@ -90,6 +94,8 @@ type
 
 	TC64Step = TList<TC64Cell>;
 	TC64Steps = array of TC64Step;
+
+	TC64Nodes = TList<TC64Cell>;
 
 	TC64Bytes = array of Byte;
 
@@ -127,6 +133,7 @@ var
 	C64CharViews: TC64CharViews;
 	C64Frames: TC64Frames;
 	C64Steps: TC64Steps;
+	C64AnimNodes: TC64Nodes;
 	C64Palette: TC64Palette;
 
 
@@ -138,10 +145,15 @@ procedure ColoursToC64Char(const AColours: TC64Colours;
 		out AChar: TC64Char);
 
 
+procedure C64CharsetRebuild;
+
+
 procedure C64ScreenPaint(const AScreen: TC64Screen; ABitmap: TBitmap;
 		const AScale: Integer = 1);
 
 procedure C64ScreenDiff(const AScreen1, AScreen2: TC64Screen;
+		out ADiff: TC64ScreenDiff);
+procedure C64ScreenDiff2(const AScreen1, AScreen2: TC64Screen;
 		out ADiff: TC64ScreenDiff);
 
 procedure C64ScreenCopyRecMask(const ASource: TC64Screen; var ADest: TC64Screen;
@@ -151,6 +163,16 @@ procedure C64ScreenCopyRecMask(const ASource: TC64Screen; var ADest: TC64Screen;
 procedure C64ScreenDiffRLEEncode(ADiff: TC64ScreenDiff; out AData: TC64Bytes);
 procedure C64ScreenDiffRLEDecode(ASource: TC64Screen; AData: TC64Bytes;
 		const AOffset: Integer; var AScreen: TC64Screen);
+
+procedure C64ScreenDiffRLEEncode2(AScreen: TC64Screen; ADiff: TC64ScreenDiff;
+		var AData: TC64Bytes; var AData1: TC64Bytes; var AData2: TC64Bytes);
+
+
+procedure C64ScreenDiffRLEDecode3(ASource: TC64Screen; AData: TC64Bytes;
+		const AOffset: Integer; var AScreen: TC64Screen);
+procedure C64ScreenDiffRLEEncode3(ADiff: TC64ScreenDiff; out AData: TC64Bytes;
+		var AData1, AData2: TC64Bytes);
+
 
 procedure SaveLibrary(const AFileName: string);
 procedure LoadLibrary(const AFileName: string);
@@ -548,6 +570,72 @@ procedure ColoursToC64Char(const AColours: TC64Colours;
 	end;
 
 
+procedure DoDrawC64MultiChar(ABitmap: TBitmap; AX, AY: Integer;
+		const AColours: TC64Colours);
+	var
+	i: Integer;
+	p: TAlphaColor;
+
+	begin
+	if  not ABitmap.Canvas.BeginScene then
+		raise Exception.Create('Error updating bitmap!');
+	try
+		for i:= 0 to 3 do
+			begin
+			p:= TC64FrameClrs.Bkgrd0;
+			case AColours[i] of
+				TC64Colour.Multi1:
+					p:= TC64FrameClrs.Multi1;
+				TC64Colour.Multi2:
+					p:= TC64FrameClrs.Multi2;
+				TC64Colour.Frgrd3:
+					p:= TC64FrameClrs.Frgrd3;
+				end;
+
+			ABitmap.Canvas.Stroke.Color:= TAlphaColorRec.Null;
+			ABitmap.Canvas.Stroke.Dash:= TStrokeDash.Solid;
+
+			ABitmap.Canvas.Fill.Color:= p;
+			ABitmap.Canvas.Fill.Kind:= TBrushKind.Solid;
+
+			case i of
+				0:
+					ABitmap.Canvas.FillRect(RectF(0, 0, 4, 4), 0, 0, [], 1);
+				1:
+					ABitmap.Canvas.FillRect(RectF(4, 0, 8, 4), 0, 0, [], 1);
+				2:
+					ABitmap.Canvas.FillRect(RectF(0, 4, 4, 8), 0, 0, [], 1);
+				3:
+					ABitmap.Canvas.FillRect(RectF(4, 4, 8, 8), 0, 0, [], 1);
+				end;
+			end;
+
+		finally
+		ABitmap.Canvas.EndScene;
+		end;
+	end;
+
+
+procedure C64CharsetRebuild;
+	var
+	i: Integer;
+	c: TC64Colours;
+
+	begin
+	for i:= 0 to 255 do
+		begin
+		if  not Assigned(C64CharViews[i]) then
+			C64CharViews[i]:= TBitmap.Create;
+
+		C64CharViews[i].Width:= 8;
+		C64CharViews[i].Height:= 8;
+
+		IndexToC64Colours(i, c);
+		DoDrawC64MultiChar(C64CharViews[i], 0, 0, c);
+		end;
+	end;
+
+
 procedure C64ScreenPaint(const AScreen: TC64Screen; ABitmap: TBitmap;
 		const AScale: Integer);
 	var
@@ -586,7 +674,23 @@ procedure C64ScreenDiff(const AScreen1, AScreen2: TC64Screen;
 			ADiff[i]:= -1
 		else
 			ADiff[i]:= AScreen2[i];
-    end;
+	end;
+
+procedure C64ScreenDiff2(const AScreen1, AScreen2: TC64Screen;
+		out ADiff: TC64ScreenDiff);
+	var
+	i: Integer;
+
+	begin
+	for i:= 0 to High(TC64Screen) do
+		if  AScreen1[i] = AScreen2[i] then
+			if  AScreen2[i] = C64Frames[0].Screen[i] then
+				ADiff[i]:= -2
+			else
+				ADiff[i]:= -1
+		else
+			ADiff[i]:= AScreen2[i];
+	end;
 
 procedure C64ScreenCopyRecMask(const ASource: TC64Screen; var ADest: TC64Screen;
 		const AMask: TC64ScreenDiff; const ASrcRect: TRect;
@@ -651,6 +755,217 @@ procedure C64ScreenDiffRLEEncode(ADiff: TC64ScreenDiff; out AData: TC64Bytes);
 		AData[High(AData)]:= d;
 		end;
 	end;
+
+procedure C64ScreenDiffRLEEncode3(ADiff: TC64ScreenDiff; out AData: TC64Bytes;
+		var AData1, AData2: TC64Bytes);
+	var
+	c,
+	d: Byte;
+	i,
+	x,
+	y: Integer;
+
+	procedure MoveToNext;
+		begin
+		Inc(y);
+		if  y > 24 then
+			begin
+			y:= 0;
+			Inc(x);
+			end;
+		end;
+
+	begin
+	SetLength(AData, 0);
+
+	x:= 0;
+	y:= 0;
+	repeat
+		i:= y * 40 + x;
+
+		if  ADiff[i] < 0 then
+			begin
+			c:= 0;
+			d:= 0;
+
+			while (x < 40) and (d < 255) and (ADiff[i] < 0) do
+				begin
+				Inc(d);
+
+				MoveToNext;
+				i:= y * 40 + x;
+				end;
+			end
+		else
+			begin
+			c:= 1;
+			d:= ADiff[i];
+
+			MoveToNext;
+			i:= y * 40 + x;
+
+			while (x < 40) and (c < 255) and (ADiff[i] = d) do
+				begin
+				Inc(c);
+
+				MoveToNext;
+				i:= y * 40 + x;
+				end;
+			end;
+
+		SetLength(AData, Length(AData) + 2);
+		AData[Pred(High(AData))]:= c;
+		AData[High(AData)]:= d;
+
+		SetLength(AData1, Length(AData1) + 1);
+		AData1[High(AData1)]:= c;
+		SetLength(AData2, Length(AData2) + 1);
+		AData2[High(AData2)]:= d;
+		until (x > 39);
+
+	SetLength(AData, Length(AData) + 2);
+	AData[Pred(High(AData))]:= 0;
+	AData[High(AData)]:= 0;
+
+	SetLength(AData1, Length(AData1) + 1);
+	AData1[High(AData1)]:= 0;
+	SetLength(AData2, Length(AData2) + 1);
+	AData2[High(AData2)]:= 0;
+	end;
+
+procedure C64ScreenDiffRLEEncode2(AScreen: TC64Screen; ADiff: TC64ScreenDiff;
+		var AData: TC64Bytes; var AData1: TC64Bytes; var AData2: TC64Bytes);
+	var
+	c: Integer;
+	d: Byte;
+	i,
+	j,
+	x,
+	y: Integer;
+
+	procedure MoveToNext;
+		begin
+		Inc(y);
+		if  y > 24 then
+			begin
+			y:= 0;
+			Inc(x);
+			end;
+		end;
+
+	begin
+	SetLength(AData, 0);
+
+	c:= 0;
+	x:= 0;
+	y:= 0;
+	while x < 40 do
+		begin
+		i:= y * 40 + x;
+
+		if  ADiff[i] < 0 then
+			begin
+			if  c = 256 then
+				begin
+				SetLength(AData, Length(AData) + 2);
+				AData[Pred(High(AData))]:= c - 1;
+				AData[High(AData)]:= AScreen[i];
+
+				SetLength(AData1, Length(AData1) + 1);
+				AData1[High(AData1)]:= c - 1;
+				SetLength(AData2, Length(AData2) + 1);
+				AData2[High(AData2)]:= AScreen[i];
+
+				c:= 0;
+				end
+			else
+				Inc(c);
+			end
+		else
+			begin
+			SetLength(AData, Length(AData) + 2);
+			AData[Pred(High(AData))]:= c;
+			AData[High(AData)]:= ADiff[i];
+
+			SetLength(AData1, Length(AData1) + 1);
+			AData1[High(AData1)]:= c;
+			SetLength(AData2, Length(AData2) + 1);
+			AData2[High(AData2)]:= ADiff[i];
+
+			c:= 0;
+			end;
+
+		MoveToNext;
+		end;
+
+	SetLength(AData, Length(AData) + 2);
+	AData[Pred(High(AData))]:= 0;
+	AData[High(AData)]:= 0;
+
+	SetLength(AData1, Length(AData1) + 1);
+	AData1[High(AData1)]:= 0;
+	SetLength(AData2, Length(AData2) + 1);
+	AData2[High(AData2)]:= 0;
+	end;
+
+procedure C64ScreenDiffRLEDecode3(ASource: TC64Screen; AData: TC64Bytes;
+		const AOffset: Integer; var AScreen: TC64Screen);
+	var
+	i,
+	j: Integer;
+	c,
+	d: Byte;
+	x,
+	y,
+	p: Integer;
+
+	procedure MoveToNext;
+		begin
+		Inc(y);
+		if  y > 24 then
+			begin
+			y:= 0;
+			Inc(x);
+			end;
+		end;
+
+	begin
+	p:= 0;
+	i:= AOffset;
+
+	x:= 0;
+	y:= 0;
+	while (x < 40) and (i < Length(AData)) do
+		begin
+		p:= y * 40 + x;
+
+		c:= AData[i];
+		d:= AData[i + 1];
+		Inc(i, 2);
+
+		if  (c = 0)
+		and (d = 0) then
+			Exit;
+
+		if  c = 0 then
+			for j:= 0 to d - 1 do
+				begin
+				AScreen[p]:= ASource[p];
+
+				MoveToNext;
+				p:= y * 40 + x;
+				end
+		else
+			for j:= 0 to c - 1 do
+				begin
+				AScreen[p]:= d;
+
+				MoveToNext;
+				p:= y * 40 + x;
+				end;
+		end;
+	end;
+
 
 procedure C64ScreenDiffRLEDecode(ASource: TC64Screen; AData: TC64Bytes;
 		const AOffset: Integer; var AScreen: TC64Screen);
@@ -731,9 +1046,23 @@ class function TC64FrameClrs.Multi2: TAlphaColor;
 	Result:= ColourByC64Index(C64Palette[TC64Colour.Multi2]);;
 	end;
 
+procedure ClearNodes;
+	var
+	i: Integer;
+
+	begin
+	for i:= C64AnimNodes.Count - 1 downto 0 do
+		C64AnimNodes[i].Free;
+	end;
 
 initialization
 	Move(ARR_VAL_CLR_DEFC64PALETTE[0], C64Palette[TC64Colour.Bkgrd0], 4);
+	C64AnimNodes:= TC64Nodes.Create;
+
+finalization
+	ClearNodes;
+	C64AnimNodes.Free;
+
 
 
 end.

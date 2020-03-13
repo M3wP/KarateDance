@@ -33,7 +33,7 @@ type
 	private
 		{ Private declarations }
 	public
-		function ShowAddFrames(const AMove: Integer): TModalResult;
+		function ShowAddFrames(const AStep: Integer): TModalResult;
 	end;
 
 var
@@ -63,9 +63,9 @@ procedure TStepsLibStepForm.RadioButton1Change(Sender: TObject);
 	NumberBox2.Enabled:= RadioButton1.IsChecked;
 	end;
 
-function TStepsLibStepForm.ShowAddFrames(const AMove: Integer): TModalResult;
+function TStepsLibStepForm.ShowAddFrames(const AStep: Integer): TModalResult;
 	begin
-	Label9.Text:= IntToStr(AMove + 1);
+	Label9.Text:= IntToStr(AStep + 1);
 
 	NumberBox1.Min:= 1;
 	NumberBox1.Max:= High(C64Frames);
@@ -75,13 +75,13 @@ function TStepsLibStepForm.ShowAddFrames(const AMove: Integer): TModalResult;
 	NumberBox2.Min:= 1;
 	NumberBox2.Max:= High(C64Frames);
 
-	if  High(C64Steps) >= AMove then
-		Label6.Text:= IntToStr(C64Steps[AMove].Count)
+	if  High(C64Steps) >= AStep then
+		Label6.Text:= IntToStr(C64Steps[AStep].Count)
 	else
 		Label6.Text:= '0';
 
-	if  (High(C64Steps) < AMove)
-	or  (C64Steps[AMove].Count = 0) then
+	if  (High(C64Steps) < AStep)
+	or  (C64Steps[AStep].Count = 0) then
 		begin
 		RadioButton4.IsChecked:= True;
 		RadioButton2.Enabled:= False;

@@ -130,14 +130,11 @@ type
 		FStepFirst: Boolean;
 		FStpFrmDelta: Integer;
 
-		procedure DoDrawC64MultiChar(ABitmap: TBitmap; AX, AY: Integer;
-				const AColours: TC64Colours);
 		procedure DoUpdateStepsViews(AStep: Integer; AStart: Integer);
 		procedure DoAddStepFrames(AStep: Integer);
 		procedure DoUpdateFrame(AFrame: Integer; ABitmap: TBitmap;
 				const AListItem: Integer = -1);
 
-		procedure DoRebuildCharset;
 		procedure DoGenerateBkgdFrame(const AIndex: Integer);
 		procedure DoRebuildBackgroundFrame;
 
@@ -456,7 +453,7 @@ procedure TStepsLibMainForm.Button6Click(Sender: TObject);
 
 		LoadLibrary(OpenDialog2.FileName);
 
-		DoRebuildCharset;
+		C64CharsetRebuild;
 		Move(C64Frames[0].Screen[0], FBkGrnd[0], SizeOf(TC64Screen));
 
 		Panel2.Enabled:= Length(C64Frames) = 1;
@@ -561,7 +558,7 @@ procedure TStepsLibMainForm.ComboBox2Change(Sender: TObject);
 
 		C64Palette[TC64Colour(c.Tag)]:= c.ItemIndex;
 
-		DoRebuildCharset;
+		C64CharsetRebuild;
 		DoRebuildBackgroundFrame;
 		end;
 	end;
@@ -649,51 +646,6 @@ procedure TStepsLibMainForm.DoDisplayStep(AStep: Integer);
 		end;
 	end;
 
-procedure TStepsLibMainForm.DoDrawC64MultiChar(ABitmap: TBitmap; AX, AY: Integer;
-		const AColours: TC64Colours);
-	var
-	i: Integer;
-	p: TAlphaColor;
-
-	begin
-	if  not ABitmap.Canvas.BeginScene then
-		raise Exception.Create('Error updating bitmap!');
-	try
-		for i:= 0 to 3 do
-			begin
-			p:= TC64FrameClrs.Bkgrd0;
-			case AColours[i] of
-				TC64Colour.Multi1:
-					p:= TC64FrameClrs.Multi1;
-				TC64Colour.Multi2:
-					p:= TC64FrameClrs.Multi2;
-				TC64Colour.Frgrd3:
-					p:= TC64FrameClrs.Frgrd3;
-				end;
-
-			ABitmap.Canvas.Stroke.Color:= TAlphaColorRec.Null;
-			ABitmap.Canvas.Stroke.Dash:= TStrokeDash.Solid;
-
-			ABitmap.Canvas.Fill.Color:= p;
-			ABitmap.Canvas.Fill.Kind:= TBrushKind.Solid;
-
-			case i of
-				0:
-					ABitmap.Canvas.FillRect(RectF(0, 0, 4, 4), 0, 0, [], 1);
-				1:
-					ABitmap.Canvas.FillRect(RectF(4, 0, 8, 4), 0, 0, [], 1);
-				2:
-					ABitmap.Canvas.FillRect(RectF(0, 4, 4, 8), 0, 0, [], 1);
-				3:
-					ABitmap.Canvas.FillRect(RectF(4, 4, 8, 8), 0, 0, [], 1);
-				end;
-			end;
-
-		finally
-		ABitmap.Canvas.EndScene;
-		end;
-	end;
-
 procedure TStepsLibMainForm.DoGenerateBkgdFrame(const AIndex: Integer);
 	var
 	i,
@@ -747,14 +699,14 @@ procedure TStepsLibMainForm.DoLibraryNew(const ADefFrame: Boolean);
 		Image3.Bitmap.Width:= 320;
 		Image3.Bitmap.Height:= 200;
 
+		for i:= 0 to High(C64Frames) do
+			C64Frames[i].GridView.Free;
+
 		if  ADefFrame then
 			begin
 			Move(ARR_VAL_CLR_DEFC64PALETTE[0], C64Palette[TC64Colour.Bkgrd0], 4);
 
-			DoRebuildCharset;
-
-			for i:= 0 to High(C64Frames) do
-				C64Frames[i].GridView.Free;
+			C64CharsetRebuild;
 
 			SetLength(C64Frames, 1);
 
@@ -764,7 +716,9 @@ procedure TStepsLibMainForm.DoLibraryNew(const ADefFrame: Boolean);
 			b1.Free;
 
 			Image3.Bitmap.CopyFromBitmap(b2);
-			end;
+			end
+		else
+			SetLength(C64Frames, 0);
 
 		finally
 		b2.Free;
@@ -827,25 +781,6 @@ procedure TStepsLibMainForm.DoRebuildBackgroundFrame;
 
 		finally
 		b.Free;
-		end;
-	end;
-
-procedure TStepsLibMainForm.DoRebuildCharset;
-	var
-	i: Integer;
-	c: TC64Colours;
-
-	begin
-	for i:= 0 to 255 do
-		begin
-		if  not Assigned(C64CharViews[i]) then
-			C64CharViews[i]:= TBitmap.Create;
-
-		C64CharViews[i].Width:= 8;
-		C64CharViews[i].Height:= 8;
-
-		IndexToC64Colours(i, c);
-		DoDrawC64MultiChar(C64CharViews[i], 0, 0, c);
 		end;
 	end;
 
@@ -949,7 +884,7 @@ procedure TStepsLibMainForm.FormCreate(Sender: TObject);
 	FSelectedStep:= -1;
 	FStpFrmDelta:= 1;
 
-	DoRebuildCharset;
+	C64CharsetRebuild;
 
 	DoGenerateBkgdFrame(2);
 
