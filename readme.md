@@ -17,12 +17,16 @@ _**Please Note:**  The app previously called "StepsBuilder" is now called "Steps
 
 The Windows x64 (64 bit) binaries are available in the _bin_ folder as a compressed file.  You will need to decompress them before you can run them.  The apps have now been built to require "run-time packages".  This decreases the total size of the installation but increases the number of files to include.
 
+The DanceAnimator app makes use of the XSID project to produce audio during the audition.  XSID has been made into a library for this project.  The XSID library depends on the libSIDPlay and libReSID libraries I made for the XSID project.  You can find more information about XSID in that project's space.
+
 
 ## Compiling
 
-The tool apps are written using Delphi FMX.  You should find all you need in the _src_ folder.  The apps can be compiled with the latest Community Edition of Delphi.  
+The tool apps are written using Delphi FMX.  You should find all you need in the _src_ folder (except for the libSIDPlay and libReSID libraries, see below).  The apps can be compiled with the latest Community Edition of Delphi.  
 
 A variety of systems should be supported including MacOS, Win32/Win64 and Linux (assuming compiler feature availability).  Android and iOS are currently unsupported due to feature utilisation.
+
+You will require the libSIDPlay and libReSID libraries for your platform which you can build from the sources in the XSID project, available from that project's space on GitHub:  [https://github.com/M3wP/XSID](https://github.com/M3wP/XSID)
 
 ## Applications
 
@@ -61,20 +65,22 @@ You can save your changes on the Project tab or load a previous session.
 
 The functionality is very limited and the overall quality quite crude but the goal of producing a custom dance animation can be achieved.
 
-The app cannot export to a C64 compatible animation at this time, nor can it play music with auditions.
+The app cannot export to a C64 compatible animation at this time.
 
 To operate the app, first link to a library on the Animation tab.  Now you can construct an animation on the Sequence tab by adding the steps in the order you want them to appear.  Linkage method and offset handling may or may not function correctly at this time except for in the case of linking position by frames and possibly smart linking.  Individual frames cannot yet be added to the animation, either.
 
-Once you have constructed a sequence, you must "compile" or build the animation sequence data.  Do this on the Data tab.  Some statistics are shown.
+You can select a SIDTune song to play with the animation.  Select the SID file by clicking on the "Open..." button on the Audio tab.  Currently, only the default song can be played (this is an oversight, my apologies).  When you compile the animation, an XSID file will be built for the selected SIDTune song.  This will allow for playback during auditions.
+
+Once you have constructed a sequence and selected any song, you must "compile" or build the animation sequence data.  Do this on the Data tab.  Some statistics are shown.  Compiling the XSID file (a conversion of the SID file), will take some time but this is only done when the SIDTune or song is changed.
 
 You may now audition the animation on the Audition tab.
 
 
 ## Future Development
 
-- First pass animation builder will load animation projects and allow construction of final animation sequences.
-- Animation builder will build C64 launchable programs.
-- Animation builder will audition tune with animation.
+- DanceAnimator will allow project save.
+- DanceAnimator will build C64 launchable programs.
+- DanceAnimator will audition tune with animation.
 
 ## Contact
 

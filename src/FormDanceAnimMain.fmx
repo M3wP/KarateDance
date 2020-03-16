@@ -31,6 +31,8 @@ object DanceAnimMainForm: TDanceAnimMainForm
       790s
       519s
       790s
+      519s
+      790s
       519s)
     object TabItem1: TTabItem
       CustomIcon = <
@@ -44,6 +46,8 @@ object DanceAnimMainForm: TDanceAnimMainForm
       StyleLookup = 'TabItem1Style1'
       TabOrder = 0
       Text = 'Animation'
+      ExplicitSize.cx = 107.000000000000000000
+      ExplicitSize.cy = 48.000000000000000000
       object ToolBar4: TToolBar
         Size.Width = 790.000000000000000000
         Size.Height = 40.000000000000000000
@@ -99,7 +103,7 @@ object DanceAnimMainForm: TDanceAnimMainForm
         end
         object Label2: TLabel
           Position.X = 8.000000000000000000
-          Position.Y = 32.000000000000000000
+          Position.Y = 40.000000000000000000
           Text = 'File Link:'
           TabOrder = 1
         end
@@ -108,53 +112,53 @@ object DanceAnimMainForm: TDanceAnimMainForm
           TabOrder = 2
           ReadOnly = True
           Position.X = 144.000000000000000000
-          Position.Y = 32.000000000000000000
-          Size.Width = 473.000000000000000000
+          Position.Y = 40.000000000000000000
+          Size.Width = 465.000000000000000000
           Size.Height = 22.000000000000000000
           Size.PlatformDefault = False
         end
         object Button10: TButton
           Images = DanceAnimMainDMod.ImgLstStandard
           ImageIndex = 11
-          Position.X = 632.000000000000000000
-          Position.Y = 32.000000000000000000
+          Position.X = 624.000000000000000000
+          Position.Y = 40.000000000000000000
           TabOrder = 3
           Text = 'Open...'
           OnClick = Button10Click
         end
         object Label3: TLabel
           Position.X = 8.000000000000000000
-          Position.Y = 64.000000000000000000
+          Position.Y = 72.000000000000000000
           Text = 'Frame Count:'
           TabOrder = 4
         end
         object Label4: TLabel
           Position.X = 144.000000000000000000
-          Position.Y = 64.000000000000000000
+          Position.Y = 72.000000000000000000
           Text = 'Label4'
           TabOrder = 5
         end
         object Label5: TLabel
           Position.X = 8.000000000000000000
-          Position.Y = 88.000000000000000000
+          Position.Y = 96.000000000000000000
           Text = 'Step Count:'
           TabOrder = 6
         end
         object Label6: TLabel
           Position.X = 144.000000000000000000
-          Position.Y = 88.000000000000000000
+          Position.Y = 96.000000000000000000
           Text = 'Label6'
           TabOrder = 7
         end
         object Label7: TLabel
           Position.X = 8.000000000000000000
-          Position.Y = 160.000000000000000000
+          Position.Y = 168.000000000000000000
           Text = 'Label7'
           TabOrder = 8
         end
         object CheckBox1: TCheckBox
           Position.X = 144.000000000000000000
-          Position.Y = 120.000000000000000000
+          Position.Y = 128.000000000000000000
           Size.Width = 185.000000000000000000
           Size.Height = 19.000000000000000000
           Size.PlatformDefault = False
@@ -175,6 +179,68 @@ object DanceAnimMainForm: TDanceAnimMainForm
       StyleLookup = 'TabItem1Style1'
       TabOrder = 0
       Text = 'Audio'
+      ExplicitSize.cx = 84.000000000000000000
+      ExplicitSize.cy = 48.000000000000000000
+      object Panel6: TPanel
+        Align = Client
+        Size.Width = 790.000000000000000000
+        Size.Height = 519.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        object Label31: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 48.000000000000000000
+          Text = 'Source'
+          TabOrder = 0
+        end
+        object Label32: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 80.000000000000000000
+          Text = 'SID File:'
+          TabOrder = 1
+        end
+        object CheckBox3: TCheckBox
+          Position.X = 144.000000000000000000
+          Position.Y = 112.000000000000000000
+          Size.Width = 169.000000000000000000
+          Size.Height = 19.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 2
+          Text = 'Bundle with Animation'
+        end
+        object Edit4: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          TabOrder = 3
+          ReadOnly = True
+          Position.X = 144.000000000000000000
+          Position.Y = 80.000000000000000000
+          Size.Width = 465.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+        end
+        object Button15: TButton
+          Images = DanceAnimMainDMod.ImgLstStandard
+          ImageIndex = 16
+          Position.X = 624.000000000000000000
+          Position.Y = 80.000000000000000000
+          TabOrder = 4
+          Text = 'Open...'
+          OnClick = Button15Click
+        end
+        object NumberBox1: TNumberBox
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          TabOrder = 5
+          Cursor = crIBeam
+          Position.X = 144.000000000000000000
+          Position.Y = 136.000000000000000000
+        end
+        object Label38: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 136.000000000000000000
+          Text = 'Tune Number:'
+          TabOrder = 6
+        end
+      end
     end
     object TabItem2: TTabItem
       CustomIcon = <
@@ -188,6 +254,8 @@ object DanceAnimMainForm: TDanceAnimMainForm
       StyleLookup = 'TabItem1Style1'
       TabOrder = 0
       Text = 'Sequence'
+      ExplicitSize.cx = 104.000000000000000000
+      ExplicitSize.cy = 48.000000000000000000
       object ToolBar1: TToolBar
         Size.Width = 790.000000000000000000
         Size.Height = 40.000000000000000000
@@ -262,13 +330,13 @@ object DanceAnimMainForm: TDanceAnimMainForm
         object CheckBox2: TCheckBox
           Enabled = False
           Position.X = 136.000000000000000000
-          Position.Y = 56.000000000000000000
+          Position.Y = 64.000000000000000000
           TabOrder = 1
           Text = 'Is Frame Node'
         end
         object Label9: TLabel
           Position.X = 8.000000000000000000
-          Position.Y = 32.000000000000000000
+          Position.Y = 40.000000000000000000
           Text = 'Frame Count:'
           TabOrder = 2
         end
@@ -290,31 +358,31 @@ object DanceAnimMainForm: TDanceAnimMainForm
         end
         object Label11: TLabel
           Position.X = 136.000000000000000000
-          Position.Y = 32.000000000000000000
+          Position.Y = 40.000000000000000000
           Text = 'Label11'
           TabOrder = 5
         end
         object Label20: TLabel
           Position.X = 8.000000000000000000
-          Position.Y = 80.000000000000000000
+          Position.Y = 88.000000000000000000
           Text = 'Start X:'
           TabOrder = 6
         end
         object Label21: TLabel
           Position.X = 136.000000000000000000
-          Position.Y = 80.000000000000000000
+          Position.Y = 88.000000000000000000
           Text = 'Label21'
           TabOrder = 7
         end
         object Label22: TLabel
           Position.X = 8.000000000000000000
-          Position.Y = 104.000000000000000000
+          Position.Y = 112.000000000000000000
           Text = 'End X:'
           TabOrder = 8
         end
         object Label23: TLabel
           Position.X = 136.000000000000000000
-          Position.Y = 104.000000000000000000
+          Position.Y = 112.000000000000000000
           Text = 'Label23'
           TabOrder = 9
         end
@@ -326,12 +394,14 @@ object DanceAnimMainForm: TDanceAnimMainForm
         end>
       IsSelected = False
       ImageIndex = 3
-      Size.Width = 77.000000000000000000
+      Size.Width = 82.000000000000000000
       Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = 'TabItem1Style1'
       TabOrder = 0
-      Text = 'Data'
+      Text = 'Make'
+      ExplicitSize.cx = 82.000000000000000000
+      ExplicitSize.cy = 48.000000000000000000
       object ToolBar2: TToolBar
         Size.Width = 790.000000000000000000
         Size.Height = 40.000000000000000000
@@ -370,51 +440,51 @@ object DanceAnimMainForm: TDanceAnimMainForm
         TabOrder = 7
         object Label12: TLabel
           Position.X = 8.000000000000000000
-          Position.Y = 8.000000000000000000
+          Position.Y = 104.000000000000000000
           Text = 'Sequence'
           TabOrder = 0
         end
         object Label13: TLabel
           Position.X = 8.000000000000000000
-          Position.Y = 32.000000000000000000
+          Position.Y = 136.000000000000000000
           Text = 'Frame Count:'
           TabOrder = 1
         end
         object Label14: TLabel
           Position.X = 144.000000000000000000
-          Position.Y = 32.000000000000000000
+          Position.Y = 136.000000000000000000
           Text = 'Label14'
           TabOrder = 2
         end
         object Label15: TLabel
           Position.X = 8.000000000000000000
-          Position.Y = 56.000000000000000000
+          Position.Y = 160.000000000000000000
           Text = 'Data Size:'
           TabOrder = 3
         end
         object Label16: TLabel
           Position.X = 144.000000000000000000
-          Position.Y = 56.000000000000000000
+          Position.Y = 160.000000000000000000
           Text = 'Label16'
           TabOrder = 4
         end
         object Label17: TLabel
           Position.X = 8.000000000000000000
-          Position.Y = 104.000000000000000000
+          Position.Y = 200.000000000000000000
           Text = 'C64 Memory Map'
           TabOrder = 5
         end
         object Label18: TLabel
           Position.X = 8.000000000000000000
-          Position.Y = 128.000000000000000000
+          Position.Y = 232.000000000000000000
           Text = 'Segments:'
           TabOrder = 6
         end
         object ListBox2: TListBox
           Position.X = 144.000000000000000000
-          Position.Y = 136.000000000000000000
+          Position.Y = 232.000000000000000000
           Size.Width = 200.000000000000000000
-          Size.Height = 329.000000000000000000
+          Size.Height = 233.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 7
           DisableFocusEffect = True
@@ -422,55 +492,88 @@ object DanceAnimMainForm: TDanceAnimMainForm
           DefaultItemStyles.GroupHeaderStyle = ''
           DefaultItemStyles.GroupFooterStyle = ''
           Viewport.Width = 196.000000000000000000
-          Viewport.Height = 325.000000000000000000
+          Viewport.Height = 229.000000000000000000
         end
         object RadioButton1: TRadioButton
           Position.X = 368.000000000000000000
-          Position.Y = 160.000000000000000000
+          Position.Y = 256.000000000000000000
           TabOrder = 8
           Text = 'System'
         end
         object RadioButton2: TRadioButton
           Position.X = 368.000000000000000000
-          Position.Y = 184.000000000000000000
+          Position.Y = 280.000000000000000000
           TabOrder = 9
           Text = 'Driver'
         end
         object RadioButton3: TRadioButton
           Position.X = 368.000000000000000000
-          Position.Y = 136.000000000000000000
+          Position.Y = 232.000000000000000000
           TabOrder = 10
           Text = 'Empty'
         end
         object RadioButton4: TRadioButton
           Position.X = 368.000000000000000000
-          Position.Y = 208.000000000000000000
+          Position.Y = 304.000000000000000000
           TabOrder = 11
           Text = 'Audio'
         end
         object RadioButton5: TRadioButton
           Position.X = 368.000000000000000000
-          Position.Y = 232.000000000000000000
+          Position.Y = 328.000000000000000000
           TabOrder = 12
           Text = 'Sequence'
         end
         object Label19: TLabel
           Position.X = 512.000000000000000000
-          Position.Y = 136.000000000000000000
+          Position.Y = 232.000000000000000000
           Text = 'Label19'
           TabOrder = 13
         end
         object Label24: TLabel
           Position.X = 280.000000000000000000
-          Position.Y = 56.000000000000000000
+          Position.Y = 160.000000000000000000
           Text = 'Label24'
           TabOrder = 14
         end
         object Label25: TLabel
           Position.X = 416.000000000000000000
-          Position.Y = 56.000000000000000000
+          Position.Y = 160.000000000000000000
           Text = 'Label25'
           TabOrder = 15
+        end
+        object Label33: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 8.000000000000000000
+          Text = 'Audio'
+          TabOrder = 16
+        end
+        object Label34: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 40.000000000000000000
+          Text = 'XSID File:'
+          TabOrder = 17
+        end
+        object Label35: TLabel
+          Position.X = 144.000000000000000000
+          Position.Y = 40.000000000000000000
+          Size.Width = 625.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          Text = 'Label35'
+          TabOrder = 18
+        end
+        object Label36: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 64.000000000000000000
+          Text = 'File Size:'
+          TabOrder = 19
+        end
+        object Label37: TLabel
+          Position.X = 144.000000000000000000
+          Position.Y = 64.000000000000000000
+          Text = 'Label37'
+          TabOrder = 20
         end
       end
     end
@@ -486,6 +589,8 @@ object DanceAnimMainForm: TDanceAnimMainForm
       StyleLookup = 'TabItem1Style1'
       TabOrder = 0
       Text = 'Audition'
+      ExplicitSize.cx = 98.000000000000000000
+      ExplicitSize.cy = 48.000000000000000000
       object ToolBar3: TToolBar
         Size.Width = 790.000000000000000000
         Size.Height = 40.000000000000000000
@@ -545,6 +650,101 @@ object DanceAnimMainForm: TDanceAnimMainForm
           Size.Width = 320.000000000000000000
           Size.Height = 200.000000000000000000
           Size.PlatformDefault = False
+        end
+      end
+    end
+    object TabItem6: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = False
+      ImageIndex = 5
+      Size.Width = 105.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'TabItem1Style1'
+      TabOrder = 0
+      Text = 'Configure'
+      ExplicitSize.cx = 105.000000000000000000
+      ExplicitSize.cy = 48.000000000000000000
+      object Panel5: TPanel
+        Align = Client
+        Size.Width = 790.000000000000000000
+        Size.Height = 519.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        object Label26: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 80.000000000000000000
+          Text = 'HVSC Songlengths:'
+          TabOrder = 0
+        end
+        object Edit2: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          TabOrder = 1
+          ReadOnly = True
+          Position.X = 144.000000000000000000
+          Position.Y = 80.000000000000000000
+          Size.Width = 465.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+        end
+        object Label27: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 48.000000000000000000
+          Text = 'Dependencies'
+          TabOrder = 2
+        end
+        object Button13: TButton
+          Images = DanceAnimMainDMod.ImgLstStandard
+          ImageIndex = 14
+          Position.X = 624.000000000000000000
+          Position.Y = 80.000000000000000000
+          TabOrder = 3
+          Text = 'Open...'
+          OnClick = Button13Click
+        end
+        object Edit3: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          TabOrder = 4
+          Position.X = 144.000000000000000000
+          Position.Y = 112.000000000000000000
+          Size.Width = 465.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+        end
+        object Label28: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 112.000000000000000000
+          Text = 'Exomizer:'
+          TabOrder = 5
+        end
+        object Button14: TButton
+          Images = DanceAnimMainDMod.ImgLstStandard
+          ImageIndex = 15
+          Position.X = 624.000000000000000000
+          Position.Y = 112.000000000000000000
+          TabOrder = 6
+          Text = 'Locate...'
+        end
+        object Label29: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 168.000000000000000000
+          Text = 'Defaults'
+          TabOrder = 8
+        end
+        object Label30: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 200.000000000000000000
+          Text = 'Song Length:'
+          TabOrder = 9
+        end
+        object TimeEdit1: TTimeEdit
+          Format = 'NN:SS'
+          Time = 0.002106481481481481
+          Position.X = 144.000000000000000000
+          Position.Y = 200.000000000000000000
+          TabOrder = 10
         end
       end
     end
@@ -900,5 +1100,12 @@ object DanceAnimMainForm: TDanceAnimMainForm
     OnTimer = Timer1Timer
     Left = 688
     Top = 8
+  end
+  object Timer2: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = Timer2Timer
+    Left = 688
+    Top = 64
   end
 end

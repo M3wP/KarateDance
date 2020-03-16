@@ -1,11 +1,14 @@
 unit KrDnceUtilTypes;
 
 {$DEFINE DEF_LITTLE_ENDIAN}
+{$DEFINE DEF_USE_TSEARCHREC_SIZE}
+
 
 interface
 
 uses
-	System.Types, System.Generics.Collections, System.UITypes, FMX.Graphics;
+	System.Types, System.Classes, System.Generics.Collections, System.UITypes,
+	FMX.Graphics;
 
 const
 	LIT_4CC_KDNCEPROJ: AnsiString = 'KRDN';
@@ -99,6 +102,13 @@ type
 
 	TC64Bytes = array of Byte;
 
+	TBundledFile = class(TObject)
+		FileName: string;
+		TempFile: string;
+		IsBundled: Boolean;
+		Data: TMemoryStream;
+	end;
+
 	TKarateDanceLib = packed record
 		VerHi: Byte;
 		VerLo: Byte;
@@ -135,6 +145,10 @@ var
 	C64Steps: TC64Steps;
 	C64AnimNodes: TC64Nodes;
 	C64Palette: TC64Palette;
+	BundledFiles: array of TBundledFile;
+
+
+function  GetFileSize(AFileName: string): Int64;
 
 
 function  C64ColorsToIndex(const AColours: TC64Colours): Byte;
@@ -174,6 +188,13 @@ procedure C64ScreenDiffRLEEncode3(ADiff: TC64ScreenDiff; out AData: TC64Bytes;
 		var AData1, AData2: TC64Bytes);
 
 
+procedure ClearBundledFiles;
+procedure ClearBundledFile(var ABundledFile: TBundledFile);
+
+procedure BundleFile(const AFileName, AExternalFile: string;
+		var ABundledFile: TBundledFile);
+
+
 procedure SaveLibrary(const AFileName: string);
 procedure LoadLibrary(const AFileName: string);
 
@@ -181,7 +202,7 @@ procedure LoadLibrary(const AFileName: string);
 implementation
 
 uses
-	System.Classes, System.SysUtils;
+	System.SysUtils, System.IOUtils;
 
 const
 	ARR_VAL_CLR_DEFVICPALETTE: array[0..15] of TAlphaColor = (
@@ -222,6 +243,65 @@ type
 				Byte1: Byte);
 	end;
 
+
+function GetFileSize(AFileName: string): Int64;
+	var
+	sr: TSearchRec;
+
+	begin
+	if  FindFirst(AFileName, faAnyFile, sr) = 0 then
+		begin
+{$IFDEF DEF_USE_TSEARCHREC_SIZE}
+		Result:= sr.Size;
+{$ELSE}
+		Result:= (Int64(sr.FindData.nFileSizeHigh) shl 32) + sr.FindData.nFileSizeLow;
+{$ENDIF}
+		FindClose(sr);
+		end
+	else
+		 Result:= -1;
+	end;
+
+procedure ClearBundledFiles;
+	var
+	i: Integer;
+
+	begin
+	for i:= 0 to High(BundledFiles) do
+		if  Assigned(BundledFiles[i]) then
+			ClearBundledFile(BundledFiles[i]);
+	end;
+
+procedure ClearBundledFile(var ABundledFile: TBundledFile);
+	begin
+	if  Assigned(ABundledFile.Data) then
+		begin
+		ABundledFile.Data.Free;
+		ABundledFile.Data:= nil;
+		end;
+
+	if  {ABundledFile.IsBundled
+	and }(ABundledFile.TempFile <> '') then
+		begin
+		TFile.Delete(ABundledFile.TempFile);
+		ABundledFile.TempFile:= '';
+		end;
+	end;
+
+procedure BundleFile(const AFileName, AExternalFile: string;
+		var ABundledFile: TBundledFile);
+	begin
+	ABundledFile.FileName:= TPath.GetFileName(AFileName);
+	ABundledFile.TempFile:= AExternalFile;
+
+	if  not Assigned(ABundledFile.Data) then
+		ABundledFile.Data:= TMemoryStream.Create;
+
+	ABundledFile.Data.Clear;
+	ABundledFile.Data.LoadFromFile(AExternalFile);
+
+	ABundledFile.IsBundled:= True;
+	end;
 
 function ToNetworkCardinal(const AValue: Cardinal): Cardinal;
 {$IFDEF DEF_LITTLE_ENDIAN}

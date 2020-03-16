@@ -6,7 +6,9 @@ uses
 	System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
 	FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
 	FMX.Layouts, FMX.ListBox, FMX.StdCtrls, FMX.Controls.Presentation,
-	FMX.TabControl, FMX.Edit, System.Generics.Collections, KrDnceUtilTypes;
+	FMX.TabControl, FMX.Edit, System.Generics.Collections, KrDnceUtilTypes,
+	FMX.DateTimeCtrls, FMX.EditBox, FMX.NumberBox, SIDConvTypes, XSIDThread,
+	XSIDFiles;
 
 type
 	TCompiledFrame = class(TObject)
@@ -83,6 +85,32 @@ type
 		Label24: TLabel;
 		Label25: TLabel;
 		Timer1: TTimer;
+		TabItem6: TTabItem;
+		Panel5: TPanel;
+		Label26: TLabel;
+		Edit2: TEdit;
+		Label27: TLabel;
+		Button13: TButton;
+		Edit3: TEdit;
+		Label28: TLabel;
+		Button14: TButton;
+		Label29: TLabel;
+		Label30: TLabel;
+		TimeEdit1: TTimeEdit;
+		Panel6: TPanel;
+		Label31: TLabel;
+		Label32: TLabel;
+		CheckBox3: TCheckBox;
+		Edit4: TEdit;
+		Button15: TButton;
+		Label33: TLabel;
+		Label34: TLabel;
+		Label35: TLabel;
+		Label36: TLabel;
+		Label37: TLabel;
+		Timer2: TTimer;
+		NumberBox1: TNumberBox;
+		Label38: TLabel;
 		procedure Button10Click(Sender: TObject);
 		procedure Button6Click(Sender: TObject);
 		procedure ListBox1Change(Sender: TObject);
@@ -92,14 +120,30 @@ type
 		procedure Button5Click(Sender: TObject);
 		procedure Button9Click(Sender: TObject);
 		procedure Button8Click(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
+		procedure FormDestroy(Sender: TObject);
+		procedure Button13Click(Sender: TObject);
+		procedure Button15Click(Sender: TObject);
+		procedure Timer2Timer(Sender: TObject);
 	private
 		FLoading: Boolean;
 
 		FCompile: TCompiledFrames;
 
+		FXSIDFile,
+		FDumpFile: TBundledFile;
+
 		FBlankFrame: TC64Screen;
 		FCurrFrame: Integer;
+
+		FSIDFile: string;
+//		FXSIDFile: string;
+
+		FSIDData: TNodeData;
+
+		FSIDTune,
+		FConvStep: Integer;
+
+		FXSIDConfig: TXSIDFileConfig;
 
 		procedure DoLibraryNew;
 
@@ -110,6 +154,14 @@ type
 		procedure DoClearCompileNodes;
 
 		procedure DoRecalcNodeStartEnd(const ANode: Integer);
+
+		procedure DoLoadSIDFile;
+		procedure DoBuildXSIDFIle;
+
+		procedure XSIDLoadCallback(const AStage: TXSIDFileStage;
+			const APosition, ASize: Int64);
+		procedure XSIDPlayCallback(const AID: Integer;
+			const AStats: TXSIDStats);
 
 	public
 		{ Public declarations }
@@ -123,7 +175,13 @@ implementation
 {$R *.fmx}
 
 uses
-	DModDanceAnimMain, FormDanceAnimNodes;
+	System.IOUtils, SIDPlay, XSIDTypes, DModDanceAnimMain, FormDanceAnimNodes;
+
+
+const
+	ARR_LIT_TOK_CONVSTEPS: array [0..3] of string = (
+			'-', '\', '|', '/');
+
 
 { TDanceAnimMainForm }
 
@@ -148,14 +206,78 @@ procedure TDanceAnimMainForm.Button10Click(Sender: TObject);
 		end;
 	end;
 
+procedure TDanceAnimMainForm.Button13Click(Sender: TObject);
+	begin
+	if  DanceAnimMainDMod.OpenDlgSongLen.Execute then
+		begin
+		Edit2.Text:= DanceAnimMainDMod.OpenDlgSongLen.FileName;
+		DanceAnimMainDMod.Configuration.SonglenFile:=
+				DanceAnimMainDMod.OpenDlgSongLen.FileName;
+		LoadSongLengths(DanceAnimMainDMod.OpenDlgSongLen.FileName);
+		end;
+	end;
+
+procedure TDanceAnimMainForm.Button15Click(Sender: TObject);
+	begin
+	ConvCountLock.BeginRead;
+	try
+		if  ConvCount > 0 then
+			Exit;
+
+		finally
+		ConvCountLock.EndRead;
+		end;
+
+	if  Timer2.Enabled then
+		Exit;
+
+	if  DanceAnimMainDMod.OpenDlgSIDTune.Execute then
+		if  CompareText(Edit4.Text, DanceAnimMainDMod.OpenDlgSIDTune.FileName) <> 0 then
+			begin
+//			if  FXSIDFile <> '' then
+//				TFile.Delete(FXSIDFile);
+//			FXSIDFile:= '';
+			ClearBundledFile(FXSIDFile);
+			FXSIDFile.IsBundled:= False;
+
+			FSIDFile:= DanceAnimMainDMod.OpenDlgSIDTune.FileName;
+			DoLoadSIDFile;
+
+			FSIDTune:= FSIDData.header.startSong;
+
+			Edit4.Text:= FSIDFile;
+			NumberBox1.Min:= 1;
+			NumberBox1.Max:= FSIDData.header.songs;
+			NumberBox1.Value:= FSIDData.header.startSong;
+			end;
+	end;
+
 procedure TDanceAnimMainForm.Button5Click(Sender: TObject);
+	var
+	pos,
+	lastPos: Integer;
+	ctx: TXSIDContext;
+
 	begin
 	if  FCompile.Count > 0 then
 		if  not Timer1.Enabled  then
 			begin
 			FCurrFrame:= 0;
 			Timer1.Enabled:= True;
-            end;
+
+			if  FXSIDFile.IsBundled then
+				begin
+				pos:= 0;
+				lastPos:= GlobalEvents.Seek(pos, ctx);
+				GlobalXSID.RestoreContext(ctx);
+
+				if  lastPos < pos then
+					GlobalXSID.Zoom(pos - lastPos);
+
+				GlobalXSID.RunSignal.SetEvent;
+				GlobalXSID.PausedSignal.ResetEvent;
+				end;
+			end;
 	end;
 
 procedure TDanceAnimMainForm.Button6Click(Sender: TObject);
@@ -260,12 +382,29 @@ procedure TDanceAnimMainForm.Button7Click(Sender: TObject);
 
 
 	begin
+	ConvCountLock.BeginRead;
+	try
+		if  ConvCount > 0 then
+			Exit;
+
+		finally
+		ConvCountLock.EndRead;
+		end;
+
+	if  (FSIDFile <> '')
+//	and (FXSIDFIle = '') then
+	and (FXSIDFile.TempFile = '') then
+		DoBuildXSIDFIle;
+
 	SetLength(b1, 0);
 	SetLength(b2, 0);
 
+	if  Length(C64Frames) = 0 then
+		Exit;
+
 	Move(C64Frames[0].Screen[0], p[0], SizeOf(TC64Screen));
 
-    DoClearCompileNodes;
+	DoClearCompileNodes;
 
 	for i:= 0 to C64AnimNodes.Count - 1 do
 		begin
@@ -397,13 +536,32 @@ procedure TDanceAnimMainForm.Button7Click(Sender: TObject);
 procedure TDanceAnimMainForm.Button8Click(Sender: TObject);
 	begin
 	if  Timer1.Enabled then
-		Timer1.Enabled:= False
+		begin
+		if  FXSIDFile.IsBundled then
+			begin
+			GlobalXSID.RunSignal.ResetEvent;
+			GlobalXSID.PausedSignal.WaitFor;
+			end;
+
+		Timer1.Enabled:= False;
+		end
 	else if FCurrFrame > 0 then
+		begin
+		if  FXSIDFile.IsBundled then
+			begin
+			GlobalXSID.RunSignal.SetEvent;
+			GlobalXSID.PausedSignal.ResetEvent;
+			end;
+
 		Timer1.Enabled:= True;
+		end;
 	end;
 
 procedure TDanceAnimMainForm.Button9Click(Sender: TObject);
 	begin
+	if  FXSIDFile.IsBundled then
+		GlobalXSID.RunSignal.ResetEvent;
+
 	Timer1.Enabled:= False;
 	end;
 
@@ -446,6 +604,142 @@ procedure TDanceAnimMainForm.DoAddStepNodes(const AStart, AEnd: Integer;
 		ListBox1.SelectRange(ListBox1.ListItems[0], ListBox1.ListItems[0]);
 	end;
 
+procedure TDanceAnimMainForm.DoBuildXSIDFIle;
+	var
+	h,
+	m,
+	s,
+	ms: Word;
+	tf: Double;
+	ti: Cardinal;
+//	f: string;
+	i: Integer;
+
+(*
+ * Load ROM dump from file.
+ * Allocate the buffer if file exists, otherwise return 0.
+ *)
+	function DoLoadRom(path: string; romSize: Cardinal): TMemoryStream;
+		begin
+		Result:= TMemoryStream.Create;
+		Result.LoadFromFile(path);
+
+//		Result.SetSize(romSize);
+		end;
+
+	procedure DoDumpFile(ANode: PNodeData; ASong: Integer; ADumpFile: string;
+			ADuration: Cardinal);
+		var
+		play,
+		dump,
+		tune,
+		conf: Pointer;
+		kr,
+		br,
+		cr: TMemoryStream;
+		buf: array[0..15] of SmallInt;
+		i,
+		j: Cardinal;
+
+		begin
+		play:= PlayerCreate;
+
+//		Load ROM files
+		kr:= DoLoadRom('kernal', 8192);
+		br:= DoLoadRom('basic', 8192);
+		cr:= DoLoadRom('chargen', 4096);
+
+		PlayerSetROMS(play, PByte(kr.Memory), PByte(br.Memory), PByte(cr.Memory));
+
+		kr.Free;
+		br.Free;
+		cr.Free;
+
+		dump:= DumpSIDCreate(PAnsiChar('ConvertDump'), PAnsiChar(AnsiString(ADumpFile)));
+
+//		maxsids:= PlayerGetInfoMaxSIDs(play);
+		DumpSIDCreateSIDs(dump, {maxsids}1);
+
+		if  not DumpSIDGetStatus(dump) then
+			raise Exception.Create(string(DumpSIDGetError(dump)));
+
+		tune:= SIDTuneCreate(PAnsiChar(AnsiString(FSIDFile)));
+
+		if  not SIDTuneGetStatus(tune) then
+			raise Exception.Create('Tune Create Failed');
+
+		SIDTuneSelectSong(tune, ASong);
+
+		conf:= SIDConfigCreate;
+		SIDConfigSetFrequency(conf, 48000);
+		SIDConfigSetSamplingMethod(conf, 0);
+		SIDConfigSetFastSampling(conf, False);
+		SIDConfigSetPlayback(conf, 1);
+		SIDConfigSetSIDEmulation(conf, dump);
+
+		if  not PlayerSetConfig(play, conf) then
+			raise Exception.Create(string(PlayerGetError(play)));
+
+		if  not PlayerLoadTune(play, tune) then
+			raise Exception.Create(string(PlayerGetError(play)));
+
+		i:= 0;
+		while i < ADuration do
+			begin
+			j:= (i div 8) mod 4;
+
+			if  (i mod 8) = 0 then
+				begin
+				Label35.Text:= 'Converting...  ' + ARR_LIT_TOK_CONVSTEPS[j];
+				Application.ProcessMessages;
+				end;
+
+			PlayerPlay(play, @buf[0], 0);
+			i:= PlayerGetTime(play);
+			end;
+
+		PlayerDestroy(play);
+		SIDConfigDestroy(conf);
+		SIDTuneDestroy(tune);
+		DumpSIDDestroy(dump);
+		end;
+
+//	function StripChars(const ACharsToStrip, ASrc: string): string;
+//		var
+//		c: Char;
+//
+//		begin
+//		Result:= ASrc;
+//		for c in ACharsToStrip do
+//			Result:= StringReplace(Result, c, '_', [rfReplaceAll, rfIgnoreCase]);
+//		end;
+
+	begin
+//	FXSIDFile:= TPath.ChangeExtension(TPath.GetTempFileName, 'xsid');
+	FDumpFile.TempFile:= TPath.GetTempFileName;
+
+	Label35.Text:= 'Converting...';
+
+	Button3.Enabled:= False;
+
+	DecodeTime(FSIDData.lengths[FSIDTune - 1], h, m, s, ms);
+	tf:= h * 3600 + m * 60 + s + ms / 1000;
+
+	ti:= Round(tf);
+
+	FXSIDFile.TempFile:= TPath.ChangeExtension(FDumpFile.TempFile, '.xsid');
+
+	DoDumpFile(@FSIDData, FSIDTune{ + 1}, FDumpFile.TempFile, ti);
+
+//	i:= GetFileSize(f);
+
+	TSIDConvCompCntrl.Create(@FSIDData, FSidTune, scfDetermine, sctLZMA,
+			FDumpFile.TempFile);
+
+	FConvStep:= 0;
+	Timer2.Enabled:= True;
+	end;
+
 procedure TDanceAnimMainForm.DoClearCompileNodes;
 	var
 	i: Integer;
@@ -454,7 +748,7 @@ procedure TDanceAnimMainForm.DoClearCompileNodes;
 	for i:= FCompile.Count - 1 downto 0 do
 		FCompile[i].Free;
 
-    FCompile.Clear;
+	FCompile.Clear;
 	end;
 
 procedure TDanceAnimMainForm.DoLibraryNew;
@@ -494,6 +788,135 @@ procedure TDanceAnimMainForm.DoLibraryNew;
 //	CheckBox1.IsChecked:= False;
 
 	FLoading:= False;
+	end;
+
+procedure TDanceAnimMainForm.DoLoadSIDFile;
+	function  ReadWordBE(AStream: TStream): Word; inline;
+		var
+		b1,
+		b2: Byte;
+
+		begin
+		AStream.Read(b1, 1);
+		AStream.Read(b2, 1);
+		Result:= (b1 shl 8) or b2;
+		end;
+
+	function  ReadCardinalBE(AStream: TStream): Cardinal; inline;
+		var
+		b1,
+		b2,
+		b3,
+		b4: Word;
+
+		begin
+		AStream.Read(b1, 1);
+		AStream.Read(b2, 1);
+		AStream.Read(b3, 1);
+		AStream.Read(b4, 1);
+		Result:= (b1 shl 24) or (b2 shl 16) or (b3 shl 8) or b4;
+		end;
+
+	procedure DoProcessFile(const AFile: string);
+		const
+		NL: AnsiString = #13#10;
+
+		var
+		f: TFileStream;
+		s1,
+		s2: AnsiString;
+		j: Integer;
+		v: Word;
+		t: TTime;
+		i: Integer;
+
+		begin
+		FSIDData.fileIndex:= 0;
+
+		f:= TFileStream.Create(AFile, fmOpenRead);
+		try
+			f.Read(FSIDData.header.tag, 4);
+			FSIDData.header.version:= ReadWordBE(f);
+			FSIDData.header.dataOffset:= ReadWordBE(f);
+			FSIDData.header.loadAddress:= ReadWordBE(f);
+			FSIDData.header.initAddress:= ReadWordBE(f);
+			FSIDData.header.playAddress:= ReadWordBE(f);
+			FSIDData.header.songs:= ReadWordBE(f);
+			FSIDData.header.startSong:= ReadWordBE(f);
+			FSIDData.header.speedFlags:= ReadCardinalBE(f);
+
+			FSIDData.updateRate:= 4;
+
+			f.Read(FSIDData.header.name, 32);
+			f.Read(FSIDData.header.author, 32);
+			f.Read(FSIDData.header.released, 32);
+
+			if  FSIDData.header.version >= 2 then
+				FSIDData.header.flags:= ReadWordBE(f)
+			else
+				FSIDData.header.flags:= 0;
+
+			f.Seek(FSIDData.header.dataOffset + 2, soFromBeginning);
+			SIDPlayComputeStreamMD5(f, FSIDData.header, FSIDData.md5);
+
+			finally
+			f.Free;
+			end;
+
+		if  FSIDData.header.version >= 2 then
+			begin
+			v:= (FSIDData.header.flags and $30) shr 4;
+			if  v = 3 then
+				FSIDData.sidType:= 0
+			else
+				FSIDData.sidType:= v;
+			end
+		else
+			FSIDData.sidType:= 0;
+
+		FSIDData.caption:= string(FSIDData.header.author) + ' - ' +
+				string(FSIDData.header.name);
+		if  FSIDData.header.startSong > 0 then
+			Include(FSIDData.selected, FSIDData.header.startSong - 1);
+
+		if  not SongLengths.TryGetValue(FSIDData.md5, FSIDData.details) then
+			FSIDData.details:= nil;
+
+		SetLength(FSIDData.lengths, FSIDData.header.songs);
+
+
+//!!FIXME
+//		Use default value
+		t:= EncodeTime(0, 3, 0, 0);
+
+
+		for i:= 0 to FSIDData.header.songs - 1 do
+			begin
+			if  Assigned(FSIDData.details)
+			and (FSIDData.details.Count > i) then
+				FSIDData.lengths[i]:= FSIDData.details[i].time
+			else
+				FSIDData.lengths[i]:= t;
+			end;
+
+		SetLength(FSIDData.sidParams, FSIDData.header.songs);
+		SetLength(FSIDData.metaData, FSIDData.header.songs);
+
+		s1:= FSIDData.header.name + NL + FSIDData.header.author + NL +
+				FSIDData.header.name + NL;
+		s2:= Copy(FSIDData.header.released, 1, 4);
+		if  not TryStrToInt(string(s2), j) then
+			s2:= '';
+		s2:= s2 + NL + 'copyright=' + FSIDData.header.released;
+
+		for j:= 0 to FSIDData.header.songs - 1 do
+			FSIDData.metaData[j]:= string(s1) + Format('%2.2d', [j + 1]) + string(NL) +
+					string(s2);
+
+		end;
+
+	begin
+	DoProcessFile(FSIDFile);
 	end;
 
 procedure TDanceAnimMainForm.DoRecalcNodeStartEnd(const ANode: Integer);
@@ -634,10 +1057,24 @@ procedure TDanceAnimMainForm.DoShowNode(const ANode: Integer);
 procedure TDanceAnimMainForm.FormCreate(Sender: TObject);
 	begin
 	FCompile:= TCompiledFrames.Create;
+
+	FXSIDFile:= TBundledFile.Create;
+	FDumpFile:= TBundledFile.Create;
+
+	SetLength(BundledFiles, 4);
+	BundledFiles[2]:= FXSIDFile;
+	BundledFiles[3]:= FDumpFile;
+
+	Edit2.Text:= DanceAnimMainDMod.Configuration.SonglenFile;
 	end;
 
 procedure TDanceAnimMainForm.FormDestroy(Sender: TObject);
 	begin
+	ClearBundledFiles;
+
+	FXSIDFile.Free;
+	FDumpFile.Free;
+
 	DoClearCompileNodes;
 	FCompile.Free;
 	end;
@@ -684,6 +1121,103 @@ procedure TDanceAnimMainForm.Timer1Timer(Sender: TObject);
 		end;
 
 	Inc(FCurrFrame);
+	end;
+
+procedure TDanceAnimMainForm.Timer2Timer(Sender: TObject);
+	var
+	cnt: Integer;
+	f: string;
+	l: TList;
+	pos,
+	lastPos: Integer;
+	ctx: TXSIDContext;
+
+	begin
+	ConvCountLock.BeginRead;
+	try
+		cnt:= ConvPending;
+
+		finally
+		ConvCountLock.EndRead;
+		end;
+
+	if  cnt = 0 then
+		begin
+		Label35.Text:= 'Built.  ' + FXSIDFile.TempFile;
+
+		f:= TPath.GetFileNameWithoutExtension(FSIDFile) + '_' +
+				IntToStr(FSIDTune) + '.xsid';
+
+		ClearBundledFile(FDumpFile);
+		BundleFile(f, FXSIDFile.TempFile, FXSIDFile);
+
+		Label37.Text:= IntToStr(FXSIDFile.Data.Size);
+
+		if  Assigned(GlobalXSID) then
+			begin
+			GlobalXSID.RunSignal.ResetEvent;
+			GlobalXSID.PausedSignal.WaitFor(INFINITE);
+
+			GlobalXSIDStop;
+			end;
+
+		l:= TList.Create;
+		try
+			XSIDLoadFileXSID(FXSIDFile.TempFile, l, XSIDLoadCallback, FXSIDConfig);
+
+			DanceAnimMainDMod.InitConfigForXSIDFile(FXSIDConfig);
+			GlobalXSIDStart(DanceAnimMainDMod.PlayConfig, XSIDPlayCallback);
+
+			GlobalXSID.RunSignal.ResetEvent;
+			GlobalXSID.PausedSignal.WaitFor(INFINITE);
+
+			GlobalEvents.ClearEvents;
+			GlobalEvents.CopyEvents(l);
+
+//			Make sounds stop at end
+			GlobalEvents.AddEvent(2, 4, 0);
+			GlobalEvents.AddEvent(2, 11, 0);
+			GlobalEvents.AddEvent(2, 18, 0);
+
+			finally
+			l.Free;
+			end;
+
+		pos:= 0;
+		lastPos:= GlobalEvents.Seek(pos, ctx);
+		GlobalXSID.RestoreContext(ctx);
+
+		if  lastPos < pos then
+			GlobalXSID.Zoom(pos - lastPos);
+
+		Label35.Text:= 'Ready.';
+
+		Timer2.Enabled:= False;
+		end
+	else
+		begin
+		Label35.Text:= 'Processing...  ' + ARR_LIT_TOK_CONVSTEPS[FConvStep];
+
+		Inc(FConvStep);
+		if  FConvStep > High(ARR_LIT_TOK_CONVSTEPS) then
+			FConvStep:= 0;
+		end;
+	end;
+
+procedure TDanceAnimMainForm.XSIDLoadCallback(const AStage: TXSIDFileStage;
+		const APosition, ASize: Int64);
+	begin
+	Label35.Text:= 'Loading...  ' + ARR_LIT_TOK_CONVSTEPS[FConvStep];
+
+	Inc(FConvStep);
+	if  FConvStep > High(ARR_LIT_TOK_CONVSTEPS) then
+		FConvStep:= 0;
+	end;
+
+procedure TDanceAnimMainForm.XSIDPlayCallback(const AID: Integer;
+		const AStats: TXSIDStats);
+	begin
+
 	end;
 
 end.

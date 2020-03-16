@@ -13,8 +13,8 @@ uses
 
 begin
   Application.Initialize;
-  Application.CreateForm(TDanceAnimMainForm, DanceAnimMainForm);
   Application.CreateForm(TDanceAnimMainDMod, DanceAnimMainDMod);
+  Application.CreateForm(TDanceAnimMainForm, DanceAnimMainForm);
   Application.CreateForm(TDanceAnimNodesForm, DanceAnimNodesForm);
   Application.Run;
 end.

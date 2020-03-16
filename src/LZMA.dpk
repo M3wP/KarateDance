@@ -1,0 +1,48 @@
+package LZMA;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS OFF}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE RELEASE}
+{$ENDIF IMPLICITBUILDING}
+{$RUNONLY}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl;
+
+contains
+  ULZBinTree in 'XSID\LZMA.442b\compression\LZ\ULZBinTree.pas',
+  ULZInWindow in 'XSID\LZMA.442b\compression\LZ\ULZInWindow.pas',
+  ULZOutWindow in 'XSID\LZMA.442b\compression\LZ\ULZOutWindow.pas',
+  ULZMABase in 'XSID\LZMA.442b\compression\LZMA\ULZMABase.pas',
+  ULZMACommon in 'XSID\LZMA.442b\compression\LZMA\ULZMACommon.pas',
+  ULZMADecoder in 'XSID\LZMA.442b\compression\LZMA\ULZMADecoder.pas',
+  ULZMAEncoder in 'XSID\LZMA.442b\compression\LZMA\ULZMAEncoder.pas',
+  UBitTreeDecoder in 'XSID\LZMA.442b\compression\RangeCoder\UBitTreeDecoder.pas',
+  UBitTreeEncoder in 'XSID\LZMA.442b\compression\RangeCoder\UBitTreeEncoder.pas',
+  URangeDecoder in 'XSID\LZMA.442b\compression\RangeCoder\URangeDecoder.pas',
+  URangeEncoder in 'XSID\LZMA.442b\compression\RangeCoder\URangeEncoder.pas';
+
+end.
+
