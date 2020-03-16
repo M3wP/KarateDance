@@ -22,6 +22,7 @@ The DanceAnimator app makes use of the XSID project to produce audio during the 
 
 ## Compiling
 
+The tool apps are written using Delphi FMX.  You should find all you need in the _src_ folder (except for the libSIDPlay and libReSID libraries, see below).  The apps can be compiled with the latest Community Edition of Delphi 10.3.  
 
 A variety of systems should be supported including MacOS, Win32/Win64 and Linux (assuming compiler feature availability).  Android and iOS are currently unsupported due to feature utilisation.
 
